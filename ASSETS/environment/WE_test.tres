@@ -4,7 +4,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bv3vi"]
 shader = ExtResource("1_848do")
-shader_parameter/skyColor = Color(0.061017, 0.0213311, 0.197617, 1)
+shader_parameter/skyColor = Color(0.536147, 0.695313, 0.856883, 1)
 
 [sub_resource type="Sky" id="Sky_8woma"]
 sky_material = SubResource("ShaderMaterial_bv3vi")
