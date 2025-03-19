@@ -1,0 +1,15 @@
+[gd_resource type="Environment" load_steps=4 format=3 uid="uid://binlijw06k2v8"]
+
+[ext_resource type="Shader" uid="uid://blj8tol6t1k0l" path="res://ASSETS/environment/Sky_shader.gdshader" id="1_848do"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bv3vi"]
+shader = ExtResource("1_848do")
+shader_parameter/skyColor = Color(0.061017, 0.0213311, 0.197617, 1)
+
+[sub_resource type="Sky" id="Sky_8woma"]
+sky_material = SubResource("ShaderMaterial_bv3vi")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_8woma")
+sdfgi_enabled = true
