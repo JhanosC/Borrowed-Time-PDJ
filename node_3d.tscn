@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dys7ruceyw0y2"]
+[gd_scene load_steps=12 format=3 uid="uid://dys7ruceyw0y2"]
 
 [ext_resource type="PackedScene" uid="uid://bl6q374o8fjde" path="res://ASSETS/environment/WE.tscn" id="1_a0tk4"]
 [ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="1_a202f"]
 [ext_resource type="PackedScene" uid="uid://5g5pal1keh8o" path="res://ASSETS/controllers/player_controller.tscn" id="2_noarx"]
+[ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/Tiles.tres" id="4_r3fl7"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_noarx"]
 size = Vector3(30, 1, 30)
@@ -22,40 +23,102 @@ size = Vector3(10, 1, 10)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_jka67"]
 data = PackedVector3Array(-5, 0.5, 5, 5, 0.5, 5, -5, -0.5, 5, 5, 0.5, 5, 5, -0.5, 5, -5, -0.5, 5, 5, 0.5, -5, -5, 0.5, -5, 5, -0.5, -5, -5, 0.5, -5, -5, -0.5, -5, 5, -0.5, -5, 5, 0.5, 5, 5, 0.5, -5, 5, -0.5, 5, 5, 0.5, -5, 5, -0.5, -5, 5, -0.5, 5, -5, 0.5, -5, -5, 0.5, 5, -5, -0.5, -5, -5, 0.5, 5, -5, -0.5, 5, -5, -0.5, -5, 5, 0.5, 5, -5, 0.5, 5, 5, 0.5, -5, -5, 0.5, 5, -5, 0.5, -5, 5, 0.5, -5, -5, -0.5, 5, 5, -0.5, 5, -5, -0.5, -5, 5, -0.5, 5, 5, -0.5, -5, -5, -0.5, -5)
 
+[sub_resource type="BoxMesh" id="BoxMesh_r3fl7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a0tk4"]
+
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("1_a0tk4")]
 
-[node name="Floor" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_noarx")
-surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_r3fl7")
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.422618, -0.694272, 0.582563, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 0, 0)
+light_energy = 1.5
+shadow_enabled = true
+shadow_opacity = 0.75
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_noarx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-SPEED = 7.0
-JUMP_VELOCITY = 5.0
 
-[node name="PlataformaBaixa" type="MeshInstance3D" parent="."]
+[node name="Level" type="Node" parent="."]
+
+[node name="Floor" type="MeshInstance3D" parent="Level"]
+mesh = SubResource("BoxMesh_noarx")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Floor/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_r3fl7")
+
+[node name="Floor2" type="MeshInstance3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
+mesh = SubResource("BoxMesh_noarx")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Floor2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Floor2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_r3fl7")
+
+[node name="Floor3" type="MeshInstance3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -30)
+mesh = SubResource("BoxMesh_noarx")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Floor3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Floor3/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_r3fl7")
+
+[node name="Floor4" type="MeshInstance3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+mesh = SubResource("BoxMesh_noarx")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Floor4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Floor4/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_r3fl7")
+
+[node name="PlataformaBaixa" type="MeshInstance3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2.5, -10)
 mesh = SubResource("BoxMesh_a0tk4")
+skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="PlataformaBaixa"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/PlataformaBaixa"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PlataformaBaixa/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/PlataformaBaixa/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_jka67")
 
-[node name="PlataformaMuitoBaixa" type="MeshInstance3D" parent="."]
+[node name="PlataformaMuitoBaixa" type="MeshInstance3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, -10)
 mesh = SubResource("BoxMesh_a0tk4")
+skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="PlataformaMuitoBaixa"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/PlataformaMuitoBaixa"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PlataformaMuitoBaixa/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/PlataformaMuitoBaixa/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_jka67")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("BoxMesh_r3fl7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_a0tk4")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("4_r3fl7")
+data = {
+"cells": PackedInt32Array(196599, 65534, 1, 196586, 0, 1, 196581, 65525, 1, 589779, 65526, 1, 589784, 3, 1, 851942, 9, 1, 262111, 65525, 1048577, 655330, 3, 1048577, 917490, 14, 1048576, 524250, 65522, 1048577, 393181, 65530, 1048577, 786410, 0, 1048577)
+}
+metadata/_editor_floor_ = Vector3(0, 11, 0)
