@@ -104,6 +104,12 @@ func handle_controls(_delta):
 			jump_double = false
 			
 		if(jump_single): action_jump()
+	#Interact with objects
+	action_interact()
+
+func action_interact():
+#	if Input.is_action_just_pressed("interact"):
+		return
 		
 
 #Gravity
