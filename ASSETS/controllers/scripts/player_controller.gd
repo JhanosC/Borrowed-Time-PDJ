@@ -1,10 +1,22 @@
 extends CharacterBody3D
 
 @export_subgroup("Properties")
-@export var movement_speed := 10
 @export var jump_strength := 6.0
 @export var mouse_sensitivity = 700
 @export var auto_bhop := true
+const HEADBOB_MOVE_AMOUNT = 0.06
+const HEADBOB_FREQUENCY = 2.4
+var headbob_time := 0.0
+
+@export_subgroup("Movement Settings")
+@export var movement_speed := 10
+@export var ground_accel := 14.0
+@export var ground_decel := 10.0
+@export var ground_friction := 6.0
+
+@export var air_cap := 0.85
+@export var air_accel := 800.0
+@export var air_move_speed := 500.0
 
 var wish_dir := Vector3.ZERO
 
@@ -17,8 +29,6 @@ var input_mouse: Vector2
 
 var gravity := 0.0
 
-var jump_single := true
-
 @onready var camera = $CameraController/Camera3D
 @onready var raycast = $CameraController/Camera3D/RayCast3D
 
@@ -28,17 +38,51 @@ func _ready():
 		child.set_layer_mask_value(2, true)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+func _handle_air_physics(delta) -> void:
+	self.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta
+	
+	# Air movement from Source Engine
+	var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
+	var capped_speed = min((air_move_speed * wish_dir).length(), air_cap)
+	var add_speed_till_cap = capped_speed - cur_speed_in_wish_dir
+	if add_speed_till_cap > 0:
+		var accel_speed = air_accel * air_move_speed * delta
+		accel_speed = min(accel_speed, add_speed_till_cap)
+		self.velocity += accel_speed * wish_dir
+
+func _handle_ground_physics(delta) -> void:
+	var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
+	var add_speed_till_cap = movement_speed - cur_speed_in_wish_dir
+	if add_speed_till_cap > 0:
+		var accel_speed = ground_accel  * delta * movement_speed
+		accel_speed = min(accel_speed, add_speed_till_cap)
+		self.velocity += accel_speed * wish_dir
+	
+	var control = max(self.velocity.length(), ground_decel)
+	var drop = control * ground_friction * delta
+	var new_speed = max(self.velocity.length() - drop, 0.0)
+	if self.velocity.length() > 0:
+		new_speed /= self.velocity.length()
+	self.velocity *= new_speed
+	
+	_headbob_effect(delta)
+
 func _physics_process(delta):
 	#Handle functions
 	handle_controls(delta)
-	handle_gravity(delta)
+	if is_on_floor():
+		if Input.is_action_just_pressed("jump") or (auto_bhop and Input.is_action_pressed("jump")):
+			self.velocity. y = jump_strength
+		_handle_ground_physics(delta)
+	else:
+		_handle_air_physics(delta)
 	
-	#Apply movement
-	var applied_velocity: Vector3
-	movement_velocity = transform.basis * movement_velocity #Move forward
-	applied_velocity = velocity.lerp(movement_velocity, delta * 10)
-	applied_velocity.y = -gravity
-	velocity = applied_velocity
+	##Apply movement
+	#var applied_velocity: Vector3
+	#wish_dir = transform.basis * wish_dir #Move forward
+	#applied_velocity = velocity.lerp(wish_dir, delta * 10)
+	#applied_velocity.y = -gravity
+	#velocity = applied_velocity
 	
 	move_and_slide()
 	
@@ -75,33 +119,21 @@ func handle_controls(_delta):
 	rotation_target.x = clamp(rotation_target.x, deg_to_rad(-90), deg_to_rad(90))
 	
 	#Get direction
-	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	movement_velocity = Vector3(input.x, 0, input.y).normalized() * movement_speed
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
+	#movement_velocity = Vector3(input_dir.x, 0, input_dir.y) * movement_speed
+	wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y)
 	
-	#Jumping
-	if Input.is_action_just_pressed("jump"):
-		if(jump_single): action_jump()
 	#Interact with objects
 	action_interact()
 
 func action_interact():
 #	if Input.is_action_just_pressed("interact"):
 		return
-		
 
-#Gravity
-
-func handle_gravity(delta):
-	
-	gravity += 20 * delta
-	
-	if gravity > 0 and is_on_floor():
-		jump_single = true
-		gravity = 0
-
-#Jumping logic
-
-func action_jump():
-	gravity = -jump_strength
-	
-	
+func _headbob_effect(delta):
+	headbob_time += delta * self.velocity.length()
+	$CameraController/Camera3D.transform.origin = Vector3(
+		cos(headbob_time * HEADBOB_FREQUENCY * 0.5) * HEADBOB_MOVE_AMOUNT,
+		sin(headbob_time * HEADBOB_FREQUENCY) * HEADBOB_MOVE_AMOUNT,
+		0
+	)
