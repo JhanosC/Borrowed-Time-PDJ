@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 @export_subgroup("Properties")
-@export var jump_strength := 6.0
+@export var jump_strength := 7.0
 @export var mouse_sensitivity = 700
 @export var auto_bhop := true
 const HEADBOB_MOVE_AMOUNT = 0.06
@@ -14,7 +14,7 @@ var headbob_time := 0.0
 @export var ground_decel := 10.0
 @export var ground_friction := 6.0
 
-@export var air_cap := 0.85
+@export var air_cap := 1.0
 @export var air_accel := 800.0
 @export var air_move_speed := 500.0
 
@@ -27,7 +27,7 @@ var rotation_target: Vector3
 
 var input_mouse: Vector2
 
-var gravity := 0.0
+signal velocity_update
 
 @onready var camera = $CameraController/Camera3D
 @onready var raycast = $RayCast3D
@@ -50,7 +50,7 @@ func _push_away_rigid_bodies():
 			var mass_ratio = min(1., MY_APPROX_MASS_KG / c.get_collider().mass)
 			push_dir.y = 0
 			
-			var push_force = mass_ratio * 5.0
+			var push_force = mass_ratio * 3.0
 			c.get_collider().apply_impulse(
 				push_dir * velocity_diff_in_push_dir * push_force,
 				c.get_position() - c.get_collider().global_position)
@@ -71,7 +71,7 @@ func _handle_ground_physics(delta) -> void:
 	var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
 	var add_speed_till_cap = movement_speed - cur_speed_in_wish_dir
 	if add_speed_till_cap > 0:
-		var accel_speed = ground_accel  * delta * movement_speed
+		var accel_speed = ground_accel * movement_speed * delta
 		accel_speed = min(accel_speed, add_speed_till_cap)
 		self.velocity += accel_speed * wish_dir
 	
@@ -102,7 +102,7 @@ func _physics_process(delta):
 
 	#Camera bobbing when landing
 	camera.position.y = lerp(camera.position.y, 0.0, delta * 5)
-	if is_on_floor() and gravity > 1: # Landed
+	if is_on_floor(): # Landed
 		camera.position.y = -0.1
 	#Respawn
 	if position.y < -10:
@@ -132,9 +132,9 @@ func handle_controls(_delta):
 	
 	#Get direction
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
-	#movement_velocity = Vector3(input_dir.x, 0, input_dir.y) * movement_speed
 	wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y)
 	
+	velocity_update.emit(velocity.length())
 	#Interact with objects
 	action_interact()
 

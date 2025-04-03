@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dys7ruceyw0y2"]
+[gd_scene load_steps=16 format=3 uid="uid://dys7ruceyw0y2"]
 
 [ext_resource type="PackedScene" uid="uid://bl6q374o8fjde" path="res://ASSETS/environment/WE.tscn" id="1_a0tk4"]
 [ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="1_a202f"]
 [ext_resource type="PackedScene" uid="uid://5g5pal1keh8o" path="res://ASSETS/controllers/player_controller.tscn" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://rigid_box.tscn" id="4_jka67"]
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/Tiles.tres" id="4_r3fl7"]
+[ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://debug_info.gd" id="6_wc5p8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_noarx"]
 size = Vector3(30, 1, 30)
@@ -30,12 +31,20 @@ size = Vector3(10, 1, 10)
 [sub_resource type="BoxMesh" id="BoxMesh_i5arm"]
 size = Vector3(10, 1, 10)
 
-[node name="Node3D" type="Node3D"]
+[sub_resource type="SystemFont" id="SystemFont_i5arm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4arys"]
+font = SubResource("SystemFont_i5arm")
+font_size = 36
+outline_size = 12
+outline_color = Color(0, 0, 0, 0.470588)
+
+[node name="Main" type="Node3D"]
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("1_a0tk4")]
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.422618, -0.694272, 0.582563, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 0, 0)
+transform = Transform3D(-0.422618, -0.694272, 0.582564, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 13, 0)
 light_energy = 1.5
 shadow_enabled = true
 shadow_opacity = 0.75
@@ -266,3 +275,19 @@ data = {
 "cells": PackedInt32Array(196599, 65534, 1, 196586, 0, 1, 196581, 65525, 1, 589779, 65526, 1, 589784, 3, 1, 851942, 9, 1, 262111, 65525, 1048577, 655330, 3, 1048577, 917490, 14, 1048576, 524250, 65522, 1048577, 393181, 65530, 1048577, 786410, 0, 1048577, 30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504)
 }
 metadata/_editor_floor_ = Vector3(0, 2, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("6_wc5p8")
+
+[node name="Velocity" type="Label" parent="CanvasLayer"]
+offset_left = 41.0
+offset_top = 584.0
+offset_right = 131.0
+offset_bottom = 633.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "1000"
+label_settings = SubResource("LabelSettings_4arys")
+vertical_alignment = 2
+
+[connection signal="velocity_update" from="CharacterBody3D" to="CanvasLayer" method="_on_velocity_update"]
