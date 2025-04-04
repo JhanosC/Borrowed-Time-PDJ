@@ -7,6 +7,14 @@
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/Tiles.tres" id="4_r3fl7"]
 [ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://debug_info.gd" id="6_wc5p8"]
 
+[sub_resource type="SystemFont" id="SystemFont_i5arm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4arys"]
+font = SubResource("SystemFont_i5arm")
+font_size = 36
+outline_size = 12
+outline_color = Color(0, 0, 0, 0.470588)
+
 [sub_resource type="BoxMesh" id="BoxMesh_noarx"]
 size = Vector3(30, 1, 30)
 
@@ -31,14 +39,6 @@ size = Vector3(10, 1, 10)
 [sub_resource type="BoxMesh" id="BoxMesh_i5arm"]
 size = Vector3(10, 1, 10)
 
-[sub_resource type="SystemFont" id="SystemFont_i5arm"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_4arys"]
-font = SubResource("SystemFont_i5arm")
-font_size = 36
-outline_size = 12
-outline_color = Color(0, 0, 0, 0.470588)
-
 [node name="Main" type="Node3D"]
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("1_a0tk4")]
@@ -53,6 +53,20 @@ shadow_opacity = 0.75
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 platform_on_leave = 2
 platform_floor_layers = 4294967292
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("6_wc5p8")
+
+[node name="Velocity" type="Label" parent="UI"]
+offset_left = 41.0
+offset_top = 584.0
+offset_right = 131.0
+offset_bottom = 633.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "1000"
+label_settings = SubResource("LabelSettings_4arys")
+vertical_alignment = 2
 
 [node name="Level" type="Node" parent="."]
 
@@ -272,22 +286,8 @@ operation = 2
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("4_r3fl7")
 data = {
-"cells": PackedInt32Array(196599, 65534, 1, 196586, 0, 1, 196581, 65525, 1, 589779, 65526, 1, 589784, 3, 1, 851942, 9, 1, 262111, 65525, 1048577, 655330, 3, 1048577, 917490, 14, 1048576, 524250, 65522, 1048577, 393181, 65530, 1048577, 786410, 0, 1048577, 30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504)
+"cells": PackedInt32Array(196599, 65534, 1, 196586, 0, 1, 196581, 65525, 1, 589784, 3, 1, 851942, 9, 1, 262111, 65525, 1048577, 655330, 3, 1048577, 917490, 14, 1048576, 393181, 65530, 1048577, 786410, 0, 1048577, 30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 196594, 6, 1, 262116, 65533, 1, 589786, 65530, 1, 327646, 65521, 1, 458713, 65523, 1048577, 524241, 65526, 1, 524232, 65529, 1, 524225, 65523, 1, 524218, 65530, 1, 524213, 2, 1, 524216, 9, 1, 524224, 12, 1, 524230, 8, 1, 524234, 0, 1)
 }
-metadata/_editor_floor_ = Vector3(0, 2, 0)
+metadata/_editor_floor_ = Vector3(0, 7, 0)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-script = ExtResource("6_wc5p8")
-
-[node name="Velocity" type="Label" parent="CanvasLayer"]
-offset_left = 41.0
-offset_top = 584.0
-offset_right = 131.0
-offset_bottom = 633.0
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "1000"
-label_settings = SubResource("LabelSettings_4arys")
-vertical_alignment = 2
-
-[connection signal="velocity_update" from="CharacterBody3D" to="CanvasLayer" method="_on_velocity_update"]
+[connection signal="velocity_update" from="CharacterBody3D" to="UI" method="_on_velocity_update"]
