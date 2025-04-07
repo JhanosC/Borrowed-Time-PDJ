@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 @export_subgroup("Properties")
-@export var jump_strength := 6.0
+@export var jump_strength := 8.0
 @export var mouse_sensitivity = 700
 const HEADBOB_MOVE_AMOUNT = 0.06
 const HEADBOB_FREQUENCY = 2.4
@@ -16,7 +16,6 @@ var sliding_height := 0.75
 @export_subgroup("Movement Settings")
 @export var movement_speed := 10.0
 var wish_dir := Vector3.ZERO
-var slide_dir := Vector2.ZERO
 var start_slide_speed := 10.0
 
 var mouse_captured := true
@@ -33,7 +32,6 @@ signal velocity_update
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
 @onready var sliding_collision_shape: CollisionShape3D = $SlidingCollisionShape
 
-
 func _ready():
 	for child in $WorldModel.find_children("*", "VisualInstance3D"):
 		child.set_layer_mask_value(1, false)
@@ -48,11 +46,11 @@ func _push_away_rigid_bodies():
 			var velocity_diff_in_push_dir = self.velocity.dot(push_dir) - c.get_collider().linear_velocity.dot(push_dir)
 			velocity_diff_in_push_dir = max(0., velocity_diff_in_push_dir)
 			
-			const MY_APPROX_MASS_KG = 80.0
+			const MY_APPROX_MASS_KG = 60.0
 			var mass_ratio = min(1., MY_APPROX_MASS_KG / c.get_collider().mass)
 			push_dir.y = 0
 			
-			var push_force = mass_ratio * 2.0
+			var push_force = mass_ratio
 			c.get_collider().apply_impulse(
 				push_dir * velocity_diff_in_push_dir * push_force,
 				c.get_position() - c.get_collider().global_position)
@@ -105,12 +103,12 @@ func handle_controls(_delta):
 	
 	if Input.is_action_pressed("crouch"):
 		_slide(_delta)
-	elif !raycast.is_colliding():
+	elif !raycast.is_colliding() and is_on_floor():
 		_stop_slide(_delta)
 	#Get direction
-	if !sliding:
+	if !sliding and is_on_floor():
 		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
-		wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y),_delta * lerp_speed)
+		wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y)
 	if wish_dir:
 		velocity.x = wish_dir.x * movement_speed
 		velocity.z = wish_dir.z * movement_speed
@@ -122,8 +120,6 @@ func handle_controls(_delta):
 	velocity_update.emit(velocity.length())
 
 func _slide(delta):
-	if !sliding:
-		slide_dir = input_dir
 	head.position.y = lerp(head.position.y, sliding_height, delta * lerp_speed)
 	sliding = true
 	standing_collision_shape.disabled = true
