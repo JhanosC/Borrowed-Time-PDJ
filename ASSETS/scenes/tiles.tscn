@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://dly7pkesupsvn"]
 
-[ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="1_7h0kd"]
+[ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="1_uoiar"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_k6t24"]
 size = Vector3(30, 1, 30)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d6bvg"]
-albedo_texture = ExtResource("1_7h0kd")
+albedo_texture = ExtResource("1_uoiar")
 uv1_triplanar = true
 uv2_triplanar = true
 uv2_world_triplanar = true
@@ -18,7 +18,7 @@ data = PackedVector3Array(-15, 0.5, 15, 15, 0.5, 15, -15, -0.5, 15, 15, 0.5, 15,
 size = Vector3(10, 1, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xlp04"]
-albedo_texture = ExtResource("1_7h0kd")
+albedo_texture = ExtResource("1_uoiar")
 uv1_triplanar = true
 uv2_triplanar = true
 uv2_world_triplanar = true

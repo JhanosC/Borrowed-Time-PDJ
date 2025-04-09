@@ -1,18 +1,18 @@
 [gd_scene load_steps=16 format=3 uid="uid://dys7ruceyw0y2"]
 
-[ext_resource type="PackedScene" uid="uid://bl6q374o8fjde" path="res://ASSETS/environment/WE.tscn" id="1_a0tk4"]
+[ext_resource type="PackedScene" uid="uid://bl6q374o8fjde" path="res://ASSETS/scenes/WE.tscn" id="1_a0tk4"]
 [ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="1_a202f"]
-[ext_resource type="PackedScene" uid="uid://5g5pal1keh8o" path="res://ASSETS/controllers/player_controller.tscn" id="2_noarx"]
-[ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://rigid_box.tscn" id="4_jka67"]
-[ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/Tiles.tres" id="4_r3fl7"]
+[ext_resource type="PackedScene" uid="uid://5g5pal1keh8o" path="res://ASSETS/scenes/player_controller.tscn" id="2_noarx"]
+[ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://ASSETS/scenes/rigid_box.tscn" id="4_jka67"]
+[ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/environment/Tiles.tres" id="4_r3fl7"]
 [ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://debug_info.gd" id="6_wc5p8"]
 
 [sub_resource type="SystemFont" id="SystemFont_i5arm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4arys"]
 font = SubResource("SystemFont_i5arm")
-font_size = 36
-outline_size = 12
+font_size = 24
+outline_size = 5
 outline_color = Color(0, 0, 0, 0.470588)
 
 [sub_resource type="BoxMesh" id="BoxMesh_noarx"]
@@ -58,10 +58,32 @@ platform_floor_layers = 4294967292
 script = ExtResource("6_wc5p8")
 
 [node name="Velocity" type="Label" parent="UI"]
-offset_left = 41.0
-offset_top = 584.0
-offset_right = 131.0
-offset_bottom = 633.0
+offset_left = 21.0
+offset_top = 25.0
+offset_right = 111.0
+offset_bottom = 59.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "1000"
+label_settings = SubResource("LabelSettings_4arys")
+vertical_alignment = 2
+
+[node name="FOV" type="Label" parent="UI"]
+offset_left = 21.0
+offset_top = 59.0
+offset_right = 111.0
+offset_bottom = 93.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "1000"
+label_settings = SubResource("LabelSettings_4arys")
+vertical_alignment = 2
+
+[node name="Camera_Distortion" type="Label" parent="UI"]
+offset_left = 21.0
+offset_top = 93.0
+offset_right = 111.0
+offset_bottom = 127.0
 size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "1000"
@@ -286,8 +308,10 @@ operation = 2
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("4_r3fl7")
 data = {
-"cells": PackedInt32Array(196599, 65534, 1, 196586, 0, 1, 196581, 65525, 1, 589784, 3, 1, 851942, 9, 1, 262111, 65525, 1048577, 655330, 3, 1048577, 917490, 14, 1048576, 393181, 65530, 1048577, 786410, 0, 1048577, 30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 196594, 6, 1, 262116, 65533, 1, 589786, 65530, 1, 327646, 65521, 1, 458713, 65523, 1048577, 524241, 65526, 1, 524232, 65529, 1, 524225, 65523, 1, 524218, 65530, 1, 524213, 2, 1, 524216, 9, 1, 524224, 12, 1, 524230, 8, 1, 524234, 0, 1)
+"cells": PackedInt32Array(196599, 65534, 1, 196586, 0, 1, 196581, 65525, 1, 589784, 3, 1, 851942, 9, 1, 262111, 65525, 1048577, 655330, 3, 1048577, 917490, 14, 1048576, 393181, 65530, 1048577, 786410, 0, 1048577, 30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 196594, 6, 1, 262116, 65533, 1, 589786, 65530, 1, 327646, 65521, 1, 458713, 65523, 1048577, 524241, 65526, 1, 524232, 65529, 1, 524225, 65523, 1, 524218, 65530, 1, 524213, 2, 1, 524216, 9, 1, 524224, 12, 1, 524230, 8, 1, 524234, 0, 1, 524298, 65523, 262144)
 }
-metadata/_editor_floor_ = Vector3(0, 7, 0)
+metadata/_editor_floor_ = Vector3(0, 8, 0)
 
+[connection signal="camera_distortion_update" from="CharacterBody3D" to="UI" method="_on_camera_distortion_update"]
+[connection signal="fov_update" from="CharacterBody3D" to="UI" method="_on_fov_update"]
 [connection signal="velocity_update" from="CharacterBody3D" to="UI" method="_on_velocity_update"]
