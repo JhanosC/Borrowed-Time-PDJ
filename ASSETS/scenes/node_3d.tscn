@@ -305,12 +305,32 @@ use_collision = true
 transform = Transform3D(1.83643e-08, -0.7, 0, 1.54, 8.34742e-09, 0, 0, 0, 0.7, 0.126408, -0.323529, -0.014013)
 operation = 2
 
+[node name="CSGBox3D18" type="CSGBox3D" parent="Level/CSGObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53, 10.9493, -9)
+use_collision = true
+size = Vector3(9, 7, 9)
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="Level/CSGObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65.5, 10.9493, -12)
+use_collision = true
+size = Vector3(14, 7, 9)
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="Level/CSGObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.5, 7.94934, -29)
+use_collision = true
+size = Vector3(14, 7, 9)
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="Level/CSGObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -101.5, 18.9493, -23)
+use_collision = true
+size = Vector3(14, 7, 12)
+
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("4_r3fl7")
 data = {
-"cells": PackedInt32Array(196599, 65534, 1, 196586, 0, 1, 196581, 65525, 1, 589784, 3, 1, 851942, 9, 1, 262111, 65525, 1048577, 655330, 3, 1048577, 917490, 14, 1048576, 393181, 65530, 1048577, 786410, 0, 1048577, 30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 196594, 6, 1, 262116, 65533, 1, 589786, 65530, 1, 327646, 65521, 1, 458713, 65523, 1048577, 524241, 65526, 1, 524232, 65529, 1, 524225, 65523, 1, 524218, 65530, 1, 524213, 2, 1, 524216, 9, 1, 524224, 12, 1, 524230, 8, 1, 524234, 0, 1, 524298, 65523, 262144)
+"cells": PackedInt32Array(196586, 0, 1, 851942, 9, 1, 262111, 65525, 1048577, 655330, 3, 1048577, 917490, 14, 1048576, 393181, 65530, 1048577, 786410, 0, 1048577, 30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 327646, 65521, 1, 524298, 65523, 262144, 196581, 0, 524289, 196581, 65531, 524289, 196581, 65526, 524289, 458708, 65524, 524289, 458703, 65524, 524289, 458698, 65524, 524289, 458693, 65524, 524289, 65452, 65523, 524289, 65447, 65523, 524289, 65442, 65523, 524289, 65437, 65523, 524289, 65432, 65523, 524289, 655295, 65521, 262145, 655287, 65526, 262145, 655292, 65526, 262145, 655283, 65521, 262145, 393177, 65524, 524289, 262127, 65534, 786433, 196600, 0, 1, 262140, 65530, 262145, 262131, 65534, 262145, 262128, 3, 262145, 262132, 3, 262145)
 }
-metadata/_editor_floor_ = Vector3(0, 8, 0)
+metadata/_editor_floor_ = Vector3(0, 3, 0)
 
 [connection signal="camera_distortion_update" from="CharacterBody3D" to="UI" method="_on_camera_distortion_update"]
 [connection signal="fov_update" from="CharacterBody3D" to="UI" method="_on_fov_update"]
