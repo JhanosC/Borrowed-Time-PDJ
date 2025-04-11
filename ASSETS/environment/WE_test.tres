@@ -13,6 +13,7 @@ radiance_size = 0
 background_mode = 2
 background_color = Color(0.715663, 0.502034, 0.87004, 1)
 sky = SubResource("Sky_8woma")
+sky_rotation = Vector3(1.39626, 0, 3.14159)
 ambient_light_color = Color(0.752941, 0.545098, 0.752941, 1)
 ambient_light_sky_contribution = 0.7
 ambient_light_energy = 1.15
