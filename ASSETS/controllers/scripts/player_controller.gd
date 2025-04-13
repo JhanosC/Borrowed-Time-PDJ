@@ -213,6 +213,6 @@ func _distort_camera(_delta):
 			if camera_distortion >= 1.0:
 				get_tree().call_deferred("reload_current_scene")
 	elif !slaming:
-		camera_new_fov = min(camera_default_fov + (velocity.length()*0.7),camera_default_fov * 1.3)
+		camera_new_fov = min(camera_default_fov + (Vector3(velocity.x,0.,velocity.z).length()*0.7),camera_default_fov * 1.3)
 		camera_distortion = -1.0
 	camera.fov = lerp(camera.fov, camera_new_fov, _delta * lerp_speed)
