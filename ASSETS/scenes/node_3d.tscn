@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bl6q374o8fjde" path="res://ASSETS/scenes/WE.tscn" id="1_a0tk4"]
 [ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="1_a202f"]
-[ext_resource type="PackedScene" uid="uid://5g5pal1keh8o" path="res://ASSETS/scenes/player_controller.tscn" id="2_noarx"]
+[ext_resource type="PackedScene" uid="uid://dul2pititpkcb" path="res://ASSETS/scenes/player_controller.tscn" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://ASSETS/scenes/rigid_box.tscn" id="4_jka67"]
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/environment/Tiles.tres" id="4_r3fl7"]
 [ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://ASSETS/controllers/scripts/debug_info.gd" id="6_wc5p8"]
