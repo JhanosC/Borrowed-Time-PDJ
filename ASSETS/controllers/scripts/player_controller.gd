@@ -34,11 +34,11 @@ var crawling := false
 @export var air_accel := 800.0
 @export var air_move_speed := 500.0
 @export var desired_velocity := Vector3.ZERO
-@export var air_control := 2.0
+@export var air_control := 0.5
 @export var ground_accel := 11.0
 @export var ground_decel := 7.0
 @export var ground_friction := 3.5
-var wish_dir := Vector3.ZERO
+var direction := Vector3.ZERO
 var start_slide_speed := 15.0
 var wall_jump_counter := 0
 
@@ -55,13 +55,17 @@ signal position_update(x,y,z: float)
 
 @onready var camera = $CameraController/Camera3D
 @onready var head: Node3D = $CameraController
-@onready var raycast = $RayCast3D
+@onready var ceilingCheck = $Raycasts/CeilingCheck
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
 @onready var sliding_collision_shape: CollisionShape3D = $SlidingCollisionShape
 
 var debug_mode = true
-
+var dashing_timer = 0.0
+var dashing = false
+var dash_cooldown = 0.0
 func get_move_speed() -> float:
+	if dashing:
+		return movement_speed * 2.0
 	if crawling:
 		return movement_speed * 0.6
 	return movement_speed
@@ -78,7 +82,7 @@ func _emit_debug_info():
 	camera_distortion_update.emit(camera_distortion)
 	position_update.emit(position.x,position.y,position.z)
 	states_update.emit(
-		can_crouch,slaming,sliding,wall_running,is_on_floor(),is_on_wall(),wish_dir
+		can_crouch,slaming,sliding,wall_running,is_on_floor(),is_on_wall(),direction
 		)
 
 func _push_away_rigid_bodies():
@@ -91,13 +95,16 @@ func _push_away_rigid_bodies():
 			
 			const MY_APPROX_MASS_KG = 60.0
 			var mass_ratio = min(1., MY_APPROX_MASS_KG / c.get_collider().mass)
-			push_dir.y = 0
 			
+			if mass_ratio < 0.25:
+				continue
+			push_dir.y = 0
 			var push_force = mass_ratio
 			push_force = clamp(push_force, 0.0, 10.0)
 			c.get_collider().apply_impulse(
 				push_dir * velocity_diff_in_push_dir * push_force,
-				c.get_position() - c.get_collider().global_position)
+				c.get_position() - c.get_collider().global_position
+				)
 
 func _process_camera(_delta):
 	# Smooth camera movement
@@ -114,24 +121,26 @@ func _process_gravity(_delta):
 		self.velocity.y -= gravity * _delta
 
 func _handle_ground_physics(_delta):
-	self.velocity.x = wish_dir.x * get_move_speed()
-	self.velocity.z = wish_dir.z * get_move_speed()
-	if !sliding:
+	if input_dir:
+		self.velocity.x = direction.x * get_move_speed()
+		self.velocity.z = direction.z * get_move_speed()
+	else:
+		self.velocity.x = move_toward(self.velocity.x, 0., movement_speed)
+		self.velocity.z = move_toward(self.velocity.z, 0., movement_speed)
+	if !dashing:
 		_headbob_effect(_delta)
 
 func _handle_air_physics(_delta):
 	_process_gravity(_delta)
-	if wish_dir:
-		self.velocity.x = wish_dir.x * get_move_speed()
-		self.velocity.z = wish_dir.z * get_move_speed()
+	if input_dir:
+		desired_velocity.x = direction.x * get_move_speed()
+		desired_velocity.z = direction.z * get_move_speed()
+		self.velocity.x = move_toward(self.velocity.x, desired_velocity.x, air_control)
+		self.velocity.z = move_toward(self.velocity.z, desired_velocity.z, air_control)
 	if is_on_wall():
 		_wall_run(_delta)
 	else:
 		_stop_wall_run()
-
-
-func is_surface_too_steep(normal : Vector3) -> bool:
-	return normal.angle_to(Vector3.UP) > self.floor_max_angle
 
 func _physics_process(_delta):
 	# Handle functions
@@ -139,10 +148,8 @@ func _physics_process(_delta):
 	if is_on_floor():
 		wall_jump_counter = 0
 		if !sliding or crawling:
-			wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * lerp_speed)
-		_handle_ground_physics(_delta)
+			_handle_ground_physics(_delta)
 	else:
-		wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * air_control)
 		_handle_air_physics(_delta)
 	
 	_process_camera(_delta)
@@ -161,7 +168,8 @@ func _unhandled_input(event):
 func handle_controls(_delta):
 	# Get direction
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
-	
+	direction = lerp(direction, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * lerp_speed)
+		
 	# Reload scene
 	if Input.is_action_just_pressed("reload"):
 		get_tree().call_deferred("reload_current_scene")
@@ -181,7 +189,17 @@ func handle_controls(_delta):
 		if Input.is_action_just_pressed("jump") or (auto_bhop and Input.is_action_pressed("jump")):
 			self.velocity.y = jump_strength
 		
-	
+	if Input.is_action_just_pressed("dash") and !dashing and !sliding and dash_cooldown <= 0.0:
+		dashing = true
+		dashing_timer = 0.2
+		dash_cooldown = 0.5
+	if dashing_timer > 0.0:
+		self.velocity.y = 0.0
+		dashing_timer -= _delta
+	else:
+		if dash_cooldown >= 0.0:
+			dash_cooldown -= _delta
+		dashing = false
 	# Sliding and slam control
 	if Input.is_action_pressed("crouch") and can_crouch:
 		if is_on_floor() and input_dir:
@@ -190,10 +208,10 @@ func handle_controls(_delta):
 			self.velocity.y -= gravity * slam_strength
 			slaming = true
 			can_crouch = false
-	elif !raycast.is_colliding() and is_on_floor():
+	elif !ceilingCheck.is_colliding() and is_on_floor():
 		slaming = false
 		_stop_slide(_delta)
-	elif raycast.is_colliding() and velocity.length() <= 2.0:
+	elif ceilingCheck.is_colliding() and velocity.length() <= 2.0:
 		crawling = true
 	if Input.is_action_just_released("crouch"):
 		can_crouch = true
@@ -211,12 +229,12 @@ func _stop_slide(_delta):
 	sliding_collision_shape.disabled = true
 
 func _wall_run(_delta):
-	if is_on_wall() and !sliding and !is_on_floor():
+	if !sliding:
 		wall_running = true
 		if Input.is_action_just_pressed("jump") and wall_jump_counter < possible_wall_jumps:
 			wall_normal = get_wall_normal()
 			wall_jump_counter += 1
-			wish_dir = wall_normal
+			direction = wall_normal
 			self.velocity.y = jump_strength
 			can_wall_run = false
 func _stop_wall_run():
