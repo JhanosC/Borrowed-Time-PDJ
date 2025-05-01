@@ -29,7 +29,7 @@ var can_wall_run := true
 @export var movement_speed := 15.0
 @export var desired_velocity := 0.0
 @export var air_control := 2.0
-@export var max_speed := 80.0
+@export var max_speed := 25.0
 @export var hitGroundCooldown := 0.2
 @export var desiredMoveSpeedCurve : Curve
 @export var inAirMoveSpeedCurve : Curve
@@ -37,13 +37,14 @@ var hitGroundCooldownRef : float
 var ground_decel := 10.0
 var direction := Vector3.ZERO
 var wall_jump_counter := 0
+var wall_run_cooldown := 0.0
 var possible_wall_jumps := 3.0
 
 var rotation_target: Vector3
 var input_mouse: Vector2
 var input_dir: Vector2
 
-signal velocity_update(velocity: Vector3)
+signal velocity_update(velocity: Vector3, desired_velocity: float)
 signal fov_update(fov: float)
 signal camera_distortion_update(distortion: float)
 signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3)
@@ -62,7 +63,7 @@ var debug_mode = true
 
 func update_signals():
 	states_update.emit(can_crouch,slaming,sliding,wall_running,is_on_floor(),is_touching_wall(),direction)
-	velocity_update.emit(Vector3(velocity.x,0.0,velocity.z).length())
+	velocity_update.emit(Vector3(velocity.x,0.0,velocity.z).length(), desired_velocity)
 
 func get_move_speed() -> float:
 	return movement_speed
@@ -72,7 +73,6 @@ func is_touching_wall() -> bool:
 		if abs(wall_check_l.get_collision_normal().y) < 0.1 or abs(wall_check_r.get_collision_normal().y) < 0.1:
 			return true
 	return false
-
 
 func _ready():
 	sliding_collision_shape.disabled = true
@@ -110,10 +110,11 @@ func _process_gravity(delta):
 	if is_on_floor():
 		return
 	if wall_running and self.velocity.y <= 0.0:
-		self.velocity.y += 0.7
+		self.velocity.y *= 0.7
 	self.velocity.y -= gravity * delta
 
 func _physics_process(delta):
+	if wall_run_cooldown >= 0.0: wall_run_cooldown -= delta
 	if !is_on_floor():
 		if hitGroundCooldown != hitGroundCooldownRef: hitGroundCooldown = hitGroundCooldownRef
 	if is_on_floor():
@@ -124,6 +125,8 @@ func _physics_process(delta):
 	_process_camera(delta)
 	_distort_camera(delta)
 	_push_away_rigid_bodies()
+	if wall_run_cooldown <= 0.0:
+		can_wall_run = true
 	_wall_run(delta)
 	move_and_slide()
 	update_signals()
@@ -212,12 +215,14 @@ func move(delta):
 
 func jump(strength_value : float):
 	if wall_running:
-		velocity = get_wall_normal() * 20.0
-		wall_running = false
+		velocity = get_wall_normal() * 90.0
+		wall_run_cooldown = 0.5
+		can_wall_run = false
+		
 	self.velocity.y = jump_strength + strength_value
 
 func _wall_run(_delta):
-	if !is_on_floor() and is_touching_wall():
+	if !is_on_floor() and is_touching_wall() and can_wall_run:
 		wall_running = true
 		if Input.is_action_just_pressed("jump") and wall_jump_counter < possible_wall_jumps:
 			wall_jump_counter += 1
