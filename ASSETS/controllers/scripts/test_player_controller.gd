@@ -14,6 +14,7 @@ var camera_distortion := -1.0
 var camera_distortion_strength := 0.6
 var camera_default_fov := 0.0
 var camera_new_fov := camera_default_fov
+var last_wall_normal := Vector3.ZERO
 
 @export_subgroup("States")
 @export var auto_bhop := true
@@ -32,8 +33,7 @@ var can_wall_run := true
 @export var max_speed := 80.0
 @export var hitGroundCooldown := 0.2
 @export var desiredMoveSpeedCurve : Curve
-@export var inAirMoveSpeedCurve : Curve
-var hitGroundCooldownRef : float
+var hitGroundCooldownRef := hitGroundCooldown
 var ground_decel := 10.0
 var direction := Vector3.ZERO
 var wall_jump_counter := 0
@@ -46,38 +46,27 @@ var input_dir: Vector2
 signal velocity_update(velocity: Vector3)
 signal fov_update(fov: float)
 signal camera_distortion_update(distortion: float)
-signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3)
+signal states_update(can_crouch,slaming,sliding: bool)
 signal position_update(x,y,z: float)
 
 @onready var camera = $CameraController/Camera3D
 @onready var head: Node3D = $CameraController
 @onready var ceilingCheck = $Raycasts/CeilingCheck
-@onready var wall_check_r: RayCast3D = $Raycasts/WallCheckR
-@onready var wall_check_l: RayCast3D = $Raycasts/WallCheckL
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
 @onready var sliding_collision_shape: CollisionShape3D = $SlidingCollisionShape
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
 
+
 var debug_mode = true
 
 func update_signals():
-	states_update.emit(can_crouch,slaming,sliding,wall_running,is_on_floor(),is_touching_wall(),direction)
+	states_update.emit(can_crouch,slaming,sliding,wall_running,is_on_floor(),is_on_wall(),direction)
 	velocity_update.emit(Vector3(velocity.x,0.0,velocity.z).length())
 
 func get_move_speed() -> float:
 	return movement_speed
 
-func is_touching_wall() -> bool:
-	if wall_check_l.is_colliding() or wall_check_r.is_colliding():
-		if abs(wall_check_l.get_collision_normal().y) < 0.1 or abs(wall_check_r.get_collision_normal().y) < 0.1:
-			return true
-	return false
-
-
 func _ready():
-	sliding_collision_shape.disabled = true
-	standing_collision_shape.disabled = false
-	hitGroundCooldownRef = hitGroundCooldown
 	gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 	camera_default_fov = camera.fov
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -110,22 +99,28 @@ func _process_gravity(delta):
 	if is_on_floor():
 		return
 	if wall_running and self.velocity.y <= 0.0:
-		self.velocity.y += 0.7
-	self.velocity.y -= gravity * delta
+		self.velocity.y -= gravity * delta * 0.1
+	else:
+		self.velocity.y -= gravity * delta
 
 func _physics_process(delta):
-	if !is_on_floor():
-		if hitGroundCooldown != hitGroundCooldownRef: hitGroundCooldown = hitGroundCooldownRef
 	if is_on_floor():
+		if hitGroundCooldown != hitGroundCooldownRef: hitGroundCooldown = hitGroundCooldownRef
+	if !is_on_floor():
 		if hitGroundCooldown >= 0: hitGroundCooldown -= delta
+	else:
+		if is_on_wall():
+			last_wall_normal = get_wall_normal()
+			can_wall_run = true
+		else:
+			can_wall_run = false
 	# Handle functions
 	handle_controls(delta)
 	move(delta)
-	_process_camera(delta)
-	_distort_camera(delta)
-	_push_away_rigid_bodies()
-	_wall_run(delta)
 	move_and_slide()
+	_wall_run(delta)
+	_process_camera(delta)
+	_push_away_rigid_bodies()
 	update_signals()
 	
 func _unhandled_input(event):
@@ -154,19 +149,6 @@ func handle_controls(delta):
 	if is_on_floor() and !sliding:
 		if Input.is_action_just_pressed("jump") or (auto_bhop and Input.is_action_pressed("jump")):
 			jump(0.0)
-	
-	# Sliding and slam control
-	if Input.is_action_pressed("crouch") and can_crouch:
-		if !is_on_floor():
-			self.velocity.y -= gravity * slam_strength
-			slaming = true
-			can_crouch = false
-	elif !ceilingCheck.is_colliding() and is_on_floor():
-		slaming = false
-	elif ceilingCheck.is_colliding() and velocity.length() <= 2.0:
-		crawling = true
-	if Input.is_action_just_released("crouch"):
-		can_crouch = true
 
 func move(delta):
 	# Get direction
@@ -186,22 +168,21 @@ func move(delta):
 			self.velocity.x = lerp(velocity.x, 0.0, ground_decel * delta)
 			self.velocity.z = lerp(velocity.z, 0.0, ground_decel * delta)
 			desired_velocity = velocity.length()
-		_headbob_effect(delta)
 
 	if !is_on_floor():
 		_process_gravity(delta)
 		if direction:
-			if desired_velocity < max_speed: desired_velocity += 1.5 * delta
-			
+			if desired_velocity < max_speed:
+				desired_velocity += 1.5 * delta
 			var contrdDesMoveSpeed : float = desiredMoveSpeedCurve.sample(desired_velocity/100)
 			var contrdInAirMoveSpeed : float = inAirMoveSpeedCurve.sample(desired_velocity)
 		
-			velocity.x = lerp(velocity.x, direction.x * contrdDesMoveSpeed, contrdInAirMoveSpeed * delta)
-			velocity.z = lerp(velocity.z, direction.z * contrdDesMoveSpeed, contrdInAirMoveSpeed * delta)
+			velocity.x = lerp(velocity.x, moveDirection.x * contrdDesMoveSpeed, contrdInAirMoveSpeed * delta)
+			velocity.z = lerp(velocity.z, moveDirection.z * contrdDesMoveSpeed, contrdInAirMoveSpeed * delta)
 				
 		else:
 			desired_velocity = velocity.length()
-	if is_touching_wall():
+	if is_on_wall():
 		if wall_running:
 			if direction:
 				desired_velocity += 1.0 * delta
@@ -211,38 +192,18 @@ func move(delta):
 	if desired_velocity >= max_speed: desired_velocity = max_speed #set to ensure the character don't exceed the max speed authorized
 
 func jump(strength_value : float):
-	if wall_running:
-		velocity = get_wall_normal() * 20.0
-		wall_running = false
 	self.velocity.y = jump_strength + strength_value
+	if is_on_wall() and can_wall_run:
+		wall_running = false
+		velocity += last_wall_normal * 20.0
 
 func _wall_run(_delta):
-	if !is_on_floor() and is_touching_wall():
+	if !is_on_floor() and is_on_wall():
 		wall_running = true
 		if Input.is_action_just_pressed("jump") and wall_jump_counter < possible_wall_jumps:
 			wall_jump_counter += 1
 			jump(5)
 			self.velocity.y = jump_strength
+			can_wall_run = false
 	else:
 		wall_running = false
-
-func _headbob_effect(delta):
-	headbob_time += delta * self.velocity.length()
-	camera.transform.origin = Vector3(
-		cos(headbob_time * HEADBOB_FREQUENCY * 0.5) * HEADBOB_MOVE_AMOUNT,
-		sin(headbob_time * HEADBOB_FREQUENCY) * HEADBOB_MOVE_AMOUNT,
-		0
-	)
-
-# FOV when running or standing still for too long
-func _distort_camera(delta):
-	if mouse_captured and (velocity.length() <= 0.0 and !debug_mode) or position.y < -350.0:
-		camera_distortion += camera_distortion_strength * delta
-		if camera_distortion >= 0.0:
-			camera_new_fov += camera_distortion
-			if camera_distortion >= 1.0:
-				get_tree().call_deferred("reload_current_scene")
-	elif !slaming:
-		camera_new_fov = min(camera_default_fov + (Vector3(velocity.x,0.,velocity.z).length()*0.7),camera_default_fov * 1.3)
-		camera_distortion = -1.0
-	camera.fov = lerp(camera.fov, camera_new_fov, delta * lerp_speed)

@@ -7,11 +7,11 @@
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/environment/Tiles.tres" id="4_r3fl7"]
 [ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://ASSETS/controllers/scripts/debug_info.gd" id="6_wc5p8"]
 
-[sub_resource type="SystemFont" id="SystemFont_i5arm"]
+[sub_resource type="SystemFont" id="SystemFont_juo0p"]
 subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_4arys"]
-font = SubResource("SystemFont_i5arm")
+font = SubResource("SystemFont_juo0p")
 outline_size = 3
 outline_color = Color(0, 0, 0, 0.470588)
 
@@ -41,17 +41,9 @@ size = Vector3(10, 1, 10)
 
 [node name="Main" type="Node3D"]
 
-[node name="WorldEnvironment" parent="." instance=ExtResource("1_a0tk4")]
-
-[node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.422618, -0.694272, 0.582564, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 13, 0)
-shadow_enabled = true
-shadow_opacity = 0.75
-
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_noarx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 platform_on_leave = 2
-platform_floor_layers = 4294967292
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("6_wc5p8")
@@ -109,6 +101,13 @@ size_flags_vertical = 8
 text = "1000"
 label_settings = SubResource("LabelSettings_4arys")
 vertical_alignment = 2
+
+[node name="WorldEnvironment" parent="." instance=ExtResource("1_a0tk4")]
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.422618, -0.694272, 0.582564, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 13, 0)
+shadow_enabled = true
+shadow_opacity = 0.75
 
 [node name="Level" type="Node" parent="."]
 
@@ -1177,12 +1176,9 @@ size = Vector3(110, 8, 8)
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("4_r3fl7")
 data = {
-"cells": PackedInt32Array(30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 524298, 65523, 262144, 262140, 65530, 262145, -524227, 0, 1, -655290, 65533, 1, -655282, 2, 1, -524203, 5, 786433, -524199, 0, 786433, -524194, 4, 786433, -917404, 2, 524289, -917399, 65532, 524289, -917403, 65525, 524289, -1048480, 65519, 524289, -1245097, 65508, 524288, -1245097, 65493, 524288, -1245099, 65479, 524289, -1245093, 65471, 524289, -1245092, 65466, 1376257, -1245096, 65462, 1376257, -1441701, 65456, 1310721, -1441706, 65446, 1310721)
+"cells": PackedInt32Array(30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 524298, 65523, 262144, 262140, 65530, 262145, -524227, 0, 1, -655290, 65533, 1, -655282, 2, 1, -524203, 5, 786433, -524199, 0, 786433, -524194, 4, 786433, -917404, 2, 524289, -917399, 65532, 524289, -917403, 65525, 524289, -1048480, 65519, 524289, -1245097, 65508, 524288, -1245097, 65493, 524288, -1245099, 65479, 524289, -1245093, 65471, 524289, -1245092, 65466, 1376257, -1245096, 65462, 1376257, -1441701, 65456, 1310721, -1441706, 65446, 1310721, 524313, 65526, 393216, 524313, 65523, 393216, 524328, 65523, 393216, 524328, 65526, 393216)
 }
-metadata/_editor_floor_ = Vector3(0, -22, 0)
+metadata/_editor_floor_ = Vector3(0, 8, 0)
 
-[connection signal="camera_distortion_update" from="CharacterBody3D" to="UI" method="_on_camera_distortion_update"]
-[connection signal="fov_update" from="CharacterBody3D" to="UI" method="_on_fov_update"]
-[connection signal="position_update" from="CharacterBody3D" to="UI" method="_on_position_update"]
-[connection signal="states_update" from="CharacterBody3D" to="UI" method="_on_states_update"]
+[connection signal="states_update" from="CharacterBody3D" to="UI" method="_on_character_body_3d_states_update"]
 [connection signal="velocity_update" from="CharacterBody3D" to="UI" method="_on_velocity_update"]
