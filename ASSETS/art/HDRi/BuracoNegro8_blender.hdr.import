@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnjy6ycx15f30"
-path.bptc="res://.godot/imported/BuracoNegro10_blender.hdr-f5f1ff73189480b13186b74a5a642356.bptc.ctex"
+uid="uid://c6ijga4me4gc2"
+path.bptc="res://.godot/imported/BuracoNegro8_blender.hdr-38674d906b5167761e5efa105cf9c1ac.bptc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://ASSETS/HDRi/BuracoNegro10_blender.hdr"
-dest_files=["res://.godot/imported/BuracoNegro10_blender.hdr-f5f1ff73189480b13186b74a5a642356.bptc.ctex"]
+source_file="res://ASSETS/art/HDRi/BuracoNegro8_blender.hdr"
+dest_files=["res://.godot/imported/BuracoNegro8_blender.hdr-38674d906b5167761e5efa105cf9c1ac.bptc.ctex"]
 
 [params]
 

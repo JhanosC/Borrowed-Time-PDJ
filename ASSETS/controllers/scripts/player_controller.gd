@@ -7,7 +7,7 @@ extends CharacterBody3D
 const HEADBOB_MOVE_AMOUNT = 0.05
 const HEADBOB_FREQUENCY = 2.0
 var headbob_time := 0.0
-var lerp_speed := 20.0
+var lerp_speed := 10.0
 var sliding_height := 0.75
 var gravity := 0.0
 var camera_distortion := -1.0
@@ -26,15 +26,16 @@ var crawling := false
 var can_wall_run := true
 
 @export_subgroup("Movement Settings")
-@export var movement_speed := 15.0
-@export var desired_velocity := 0.0
-@export var air_control := 2.0
-@export var max_speed := 25.0
+@export var movement_speed : float
+@export var max_speed : float
 @export var hitGroundCooldown := 0.2
+@export var ground_decel := 10.0
+@export var acceleration := 10.0
 @export var desiredMoveSpeedCurve : Curve
 @export var inAirMoveSpeedCurve : Curve
+var desired_velocity := 0.0
 var hitGroundCooldownRef : float
-var ground_decel := 10.0
+
 var direction := Vector3.ZERO
 var wall_jump_counter := 0
 var wall_run_cooldown := 0.0
@@ -58,6 +59,7 @@ signal position_update(x,y,z: float)
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
 @onready var sliding_collision_shape: CollisionShape3D = $SlidingCollisionShape
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
+@onready var hud = $HUD
 
 var debug_mode = true
 
@@ -70,8 +72,10 @@ func get_move_speed() -> float:
 
 func is_touching_wall() -> bool:
 	if wall_check_l.is_colliding() or wall_check_r.is_colliding():
-		if abs(wall_check_l.get_collision_normal().y) < 0.1 or abs(wall_check_r.get_collision_normal().y) < 0.1:
-			return true
+		if !(wall_check_l.get_collider() is RigidBody3D or wall_check_r.get_collider() is RigidBody3D):
+			if !(wall_check_l.get_collider() is CharacterBody3D or wall_check_r.get_collider() is CharacterBody3D):
+				if abs(wall_check_l.get_collision_normal().y) < 0.1 or abs(wall_check_r.get_collision_normal().y) < 0.1:
+					return true
 	return false
 
 func _ready():
@@ -94,7 +98,7 @@ func _push_away_rigid_bodies():
 			var mass_ratio = min(1., MY_APPROX_MASS_KG / c.get_collider().mass)
 			push_dir.y = 0
 			
-			var push_force = mass_ratio
+			var push_force = mass_ratio * 5.0
 			push_force = clamp(push_force, 0.0, 10.0)
 			c.get_collider().apply_impulse(
 				push_dir * velocity_diff_in_push_dir * push_force,
@@ -107,26 +111,25 @@ func _process_camera(delta):
 	rotation.y = lerp_angle(rotation.y, rotation_target.y, delta * 25)
 
 func _process_gravity(delta):
-	if is_on_floor():
-		return
 	if wall_running and self.velocity.y <= 0.0:
 		self.velocity.y *= 0.7
 	self.velocity.y -= gravity * delta
 
 func _physics_process(delta):
 	if wall_run_cooldown >= 0.0: wall_run_cooldown -= delta
+	if wall_run_cooldown <= 0.0:
+		can_wall_run = true
 	if !is_on_floor():
 		if hitGroundCooldown != hitGroundCooldownRef: hitGroundCooldown = hitGroundCooldownRef
 	if is_on_floor():
 		if hitGroundCooldown >= 0: hitGroundCooldown -= delta
+	hud.display_speed_lines(self.velocity.length(), movement_speed)
 	# Handle functions
 	handle_controls(delta)
 	move(delta)
 	_process_camera(delta)
 	_distort_camera(delta)
 	_push_away_rigid_bodies()
-	if wall_run_cooldown <= 0.0:
-		can_wall_run = true
 	_wall_run(delta)
 	move_and_slide()
 	update_signals()
@@ -174,6 +177,7 @@ func handle_controls(delta):
 func move(delta):
 	# Get direction
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	if desired_velocity < get_move_speed(): desired_velocity = velocity.length()
 	if wall_running:
 		direction = velocity.normalized()
 	else:
@@ -182,8 +186,8 @@ func move(delta):
 	if is_on_floor():
 		wall_jump_counter = 0
 		if direction:
-			self.velocity.x = lerp(velocity.x, direction.x * get_move_speed(), lerp_speed * delta)
-			self.velocity.z = lerp(velocity.z, direction.z * get_move_speed(), lerp_speed * delta)
+			self.velocity.x = lerp(velocity.x, direction.x * get_move_speed(), acceleration * delta)
+			self.velocity.z = lerp(velocity.z, direction.z * get_move_speed(), acceleration * delta)
 			if hitGroundCooldown <= 0: desired_velocity = velocity.length()
 		else:
 			self.velocity.x = lerp(velocity.x, 0.0, ground_decel * delta)
@@ -194,35 +198,41 @@ func move(delta):
 	if !is_on_floor():
 		_process_gravity(delta)
 		if direction:
-			if desired_velocity < max_speed: desired_velocity += 1.5 * delta
+			if desired_velocity < max_speed: desired_velocity += 1.0 * delta
 			
+			# Curves for air acceleration
 			var contrdDesMoveSpeed : float = desiredMoveSpeedCurve.sample(desired_velocity/100)
 			var contrdInAirMoveSpeed : float = inAirMoveSpeedCurve.sample(desired_velocity)
 		
 			velocity.x = lerp(velocity.x, direction.x * contrdDesMoveSpeed, contrdInAirMoveSpeed * delta)
 			velocity.z = lerp(velocity.z, direction.z * contrdDesMoveSpeed, contrdInAirMoveSpeed * delta)
-				
 		else:
 			desired_velocity = velocity.length()
 	if is_touching_wall():
 		if wall_running:
 			if direction:
-				desired_velocity += 1.0 * delta
+				desired_velocity += 0.5 * delta
 				velocity.x = direction.x * desired_velocity
 				velocity.z = direction.z * desired_velocity
 				
-	if desired_velocity >= max_speed: desired_velocity = max_speed #set to ensure the character don't exceed the max speed authorized
+	if desired_velocity >= max_speed: desired_velocity = max_speed
 
 func jump(strength_value : float):
 	if wall_running:
-		velocity = get_wall_normal() * 90.0
-		wall_run_cooldown = 0.5
+		wall_running = false
 		can_wall_run = false
+		if wall_check_l.is_colliding():
+			velocity = wall_check_l.get_collision_normal() * 20.0
+		else:
+			velocity = wall_check_r.get_collision_normal() * 20.0
+		wall_run_cooldown = 0.5
 		
 	self.velocity.y = jump_strength + strength_value
 
 func _wall_run(_delta):
 	if !is_on_floor() and is_touching_wall() and can_wall_run:
+		print("R: "+ str(wall_check_r.get_collision_normal()))
+		print("L: "+ str(wall_check_l.get_collision_normal()))
 		wall_running = true
 		if Input.is_action_just_pressed("jump") and wall_jump_counter < possible_wall_jumps:
 			wall_jump_counter += 1

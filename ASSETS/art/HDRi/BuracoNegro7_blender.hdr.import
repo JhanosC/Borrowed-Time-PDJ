@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbwewxjropx3g"
-path.bptc="res://.godot/imported/Blackhole_Sunset-1.hdr-574798c16ed6ae10736a8d8fd1fe6cfd.bptc.ctex"
+uid="uid://dyydggpxsbar1"
+path.bptc="res://.godot/imported/BuracoNegro7_blender.hdr-4807df82c5dd9fd01bf4b62728905616.bptc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://ASSETS/HDRi/Blackhole_Pack/Blackhole_Sunset-1.hdr"
-dest_files=["res://.godot/imported/Blackhole_Sunset-1.hdr-574798c16ed6ae10736a8d8fd1fe6cfd.bptc.ctex"]
+source_file="res://ASSETS/art/HDRi/BuracoNegro7_blender.hdr"
+dest_files=["res://.godot/imported/BuracoNegro7_blender.hdr-4807df82c5dd9fd01bf4b62728905616.bptc.ctex"]
 
 [params]
 

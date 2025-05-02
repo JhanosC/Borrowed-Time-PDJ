@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c578gxpf7gfwt"
-path.bptc="res://.godot/imported/Blackhole_Day-1.hdr-c7fb1751f1f8237e59fa1b6bbb773daa.bptc.ctex"
+uid="uid://sq6mc0elqlqv"
+path.bptc="res://.godot/imported/BuracoNegroTESTE_blender.hdr-2032cec68a9c490f293a3d74f2f27e13.bptc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://ASSETS/HDRi/Blackhole_Pack/Blackhole_Day-1.hdr"
-dest_files=["res://.godot/imported/Blackhole_Day-1.hdr-c7fb1751f1f8237e59fa1b6bbb773daa.bptc.ctex"]
+source_file="res://ASSETS/art/HDRi/BuracoNegroTESTE_blender.hdr"
+dest_files=["res://.godot/imported/BuracoNegroTESTE_blender.hdr-2032cec68a9c490f293a3d74f2f27e13.bptc.ctex"]
 
 [params]
 

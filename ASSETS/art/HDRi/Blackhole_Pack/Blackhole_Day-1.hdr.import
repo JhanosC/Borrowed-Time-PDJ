@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5gkva5q73ax4"
-path.bptc="res://.godot/imported/Estrelas_blender copiar.hdr-2dc7c37115f6d266d3b585f3cef94ce9.bptc.ctex"
+uid="uid://c578gxpf7gfwt"
+path.bptc="res://.godot/imported/Blackhole_Day-1.hdr-04bb20e995758b5a065f0d76c2a18864.bptc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://ASSETS/HDRi/Estrelas_blender copiar.hdr"
-dest_files=["res://.godot/imported/Estrelas_blender copiar.hdr-2dc7c37115f6d266d3b585f3cef94ce9.bptc.ctex"]
+source_file="res://ASSETS/art/HDRi/Blackhole_Pack/Blackhole_Day-1.hdr"
+dest_files=["res://.godot/imported/Blackhole_Day-1.hdr-04bb20e995758b5a065f0d76c2a18864.bptc.ctex"]
 
 [params]
 
