@@ -7,7 +7,7 @@ func _ready():
 	speed_lines.visible = false
 
 func display_speed_lines(current_velocity, base_velocity):
-	if current_velocity > base_velocity * 1.5:
+	if current_velocity > base_velocity * 1.3:
 		speed_lines.visible = true
 		speed_lines.set_instance_shader_parameter("animation_speed", current_velocity)
 	else:

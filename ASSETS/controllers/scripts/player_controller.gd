@@ -198,7 +198,7 @@ func move(delta):
 	if !is_on_floor():
 		_process_gravity(delta)
 		if direction:
-			if desired_velocity < max_speed: desired_velocity += 1.0 * delta
+			if desired_velocity < max_speed: desired_velocity += 0.2 * delta
 			
 			# Curves for air acceleration
 			var contrdDesMoveSpeed : float = desiredMoveSpeedCurve.sample(desired_velocity/100)
@@ -211,7 +211,7 @@ func move(delta):
 	if is_touching_wall():
 		if wall_running:
 			if direction:
-				desired_velocity += 0.5 * delta
+				desired_velocity += 1.5 * delta
 				velocity.x = direction.x * desired_velocity
 				velocity.z = direction.z * desired_velocity
 				

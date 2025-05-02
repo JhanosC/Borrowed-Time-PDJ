@@ -6,7 +6,7 @@
 
 [sub_resource type="Curve" id="Curve_rnlsj"]
 _limits = [0.0, 100.0, 0.0, 1.0]
-_data = [Vector2(0.183521, 17.7344), 0.0, 0.0, 0, 0, Vector2(0.277154, 23.8281), 0.0, 0.0, 0, 0, Vector2(0.535581, 60.3906), 0.0, 0.0, 0, 0, Vector2(0.842697, 100), 0.0, 0.0, 0, 0]
+_data = [Vector2(0.149813, 15.7031), 0.0, 0.0, 0, 0, Vector2(0.337079, 26.875), 0.0, 0.0, 0, 0, Vector2(0.617977, 57.3437), 0.0, 0.0, 0, 0, Vector2(0.842697, 100), 0.0, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="Curve" id="Curve_qwx0b"]
@@ -42,7 +42,7 @@ shader_parameter/animation_speed = 20.0
 collision_mask = 3
 script = ExtResource("1_dk88v")
 movement_speed = 15.0
-max_speed = 30.0
+max_speed = 25.0
 ground_decel = 8.0
 acceleration = 8.0
 desiredMoveSpeedCurve = SubResource("Curve_rnlsj")
