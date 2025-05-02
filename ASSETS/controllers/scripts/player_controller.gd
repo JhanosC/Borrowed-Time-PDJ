@@ -115,7 +115,14 @@ func _push_away_rigid_bodies():
 				c.get_position() - c.get_collider().global_position)
 
 func _process_camera(delta):
-	# Smooth camera movement
+	if wall_running:
+		if wall_check_l.is_colliding():
+			head.rotation.z = lerp(head.rotation.z, deg_to_rad(20.0) * -(wall_check_l.get_collision_normal().length()), lerp_speed * delta)
+		else:
+			head.rotation.z = lerp(head.rotation.z, deg_to_rad(20.0) * wall_check_r.get_collision_normal().length(), lerp_speed * delta)
+	else:
+		# Smooth camera movement
+		head.rotation.z = lerp(head.rotation.z, deg_to_rad(0.0), lerp_speed * delta)
 	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * delta, delta * 5)	
 	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, delta * 50)
 	rotation.y = lerp_angle(rotation.y, rotation_target.y, delta * 25)
@@ -289,8 +296,6 @@ func jump(strength_value : float):
 
 func _wall_run(_delta):
 	if !is_on_floor() and is_touching_wall() and can_wall_run:
-		print("R: "+ str(wall_check_r.get_collision_normal()))
-		print("L: "+ str(wall_check_l.get_collision_normal()))
 		wall_running = true
 		if Input.is_action_just_pressed("jump") and wall_jump_counter < possible_wall_jumps:
 			wall_jump_counter += 1
