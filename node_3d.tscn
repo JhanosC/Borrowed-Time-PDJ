@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dys7ruceyw0y2"]
+[gd_scene load_steps=9 format=3 uid="uid://dys7ruceyw0y2"]
 
 [ext_resource type="PackedScene" uid="uid://bl6q374o8fjde" path="res://ASSETS/environment/WE.tscn" id="1_a0tk4"]
 [ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="1_a202f"]
@@ -16,12 +16,17 @@ uv2_world_triplanar = true
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_r3fl7"]
 data = PackedVector3Array(-15, 0.5, 15, 15, 0.5, 15, -15, -0.5, 15, 15, 0.5, 15, 15, -0.5, 15, -15, -0.5, 15, 15, 0.5, -15, -15, 0.5, -15, 15, -0.5, -15, -15, 0.5, -15, -15, -0.5, -15, 15, -0.5, -15, 15, 0.5, 15, 15, 0.5, -15, 15, -0.5, 15, 15, 0.5, -15, 15, -0.5, -15, 15, -0.5, 15, -15, 0.5, -15, -15, 0.5, 15, -15, -0.5, -15, -15, 0.5, 15, -15, -0.5, 15, -15, -0.5, -15, 15, 0.5, 15, -15, 0.5, 15, 15, 0.5, -15, -15, 0.5, 15, -15, 0.5, -15, 15, 0.5, -15, -15, -0.5, 15, 15, -0.5, 15, -15, -0.5, -15, 15, -0.5, 15, 15, -0.5, -15, -15, -0.5, -15)
 
+[sub_resource type="BoxMesh" id="BoxMesh_a0tk4"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_jka67"]
+data = PackedVector3Array(-5, 0.5, 5, 5, 0.5, 5, -5, -0.5, 5, 5, 0.5, 5, 5, -0.5, 5, -5, -0.5, 5, 5, 0.5, -5, -5, 0.5, -5, 5, -0.5, -5, -5, 0.5, -5, -5, -0.5, -5, 5, -0.5, -5, 5, 0.5, 5, 5, 0.5, -5, 5, -0.5, 5, 5, 0.5, -5, 5, -0.5, -5, 5, -0.5, 5, -5, 0.5, -5, -5, 0.5, 5, -5, -0.5, -5, -5, 0.5, 5, -5, -0.5, 5, -5, -0.5, -5, 5, 0.5, 5, -5, 0.5, 5, 5, 0.5, -5, -5, 0.5, 5, -5, 0.5, -5, 5, 0.5, -5, -5, -0.5, 5, 5, -0.5, 5, -5, -0.5, -5, 5, -0.5, 5, 5, -0.5, -5, -5, -0.5, -5)
+
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("1_a0tk4")]
 
 [node name="Floor" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("BoxMesh_noarx")
 surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
 
@@ -31,6 +36,26 @@ surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
 shape = SubResource("ConcavePolygonShape3D_r3fl7")
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_noarx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 SPEED = 7.0
 JUMP_VELOCITY = 5.0
+
+[node name="PlataformaBaixa" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2.5, -10)
+mesh = SubResource("BoxMesh_a0tk4")
+surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PlataformaBaixa"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlataformaBaixa/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_jka67")
+
+[node name="PlataformaMuitoBaixa" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, -10)
+mesh = SubResource("BoxMesh_a0tk4")
+surface_material_override/0 = SubResource("StandardMaterial3D_a0tk4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PlataformaMuitoBaixa"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlataformaMuitoBaixa/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_jka67")

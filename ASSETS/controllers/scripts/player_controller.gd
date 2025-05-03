@@ -8,6 +8,8 @@ const TILT_LOWER_LIMIT := deg_to_rad(-90.0)
 const TILT_UPPER_LIMIT := deg_to_rad(90.0)
 @export var MOUSE_SENSITIVITY : float = 0.6
 @export var CAMERA_CONTROLLER : Camera3D
+@export var ANIMATIONPLAYER : AnimationPlayer
+@export_range(5, 10, 0.1) var CROUCH_SPEED : float = 7.0
 
 var _mouse_input : bool = false
 var _mouse_rotation : Vector3
@@ -16,9 +18,13 @@ var _tilt_input : float
 var _player_rotation : Vector3
 var _camera_rotation : Vector3
 
+var _is_crouching : bool = false
+
 func _input(event):
 	if event.is_action_pressed("exit"):
 		get_tree().quit()
+	if event.is_action_pressed("crouch"):
+		toggle_crouch()
 
 func _unhandled_input(event):
 	_mouse_input = event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
@@ -69,3 +75,10 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+	
+func toggle_crouch():
+	if(_is_crouching):
+		ANIMATIONPLAYER.play("Crouch", -1, -CROUCH_SPEED)
+	elif (!_is_crouching):
+		ANIMATIONPLAYER.play("Crouch", -1, CROUCH_SPEED)
+	_is_crouching = !_is_crouching
