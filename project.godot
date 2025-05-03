@@ -14,6 +14,10 @@ config/name="Trabalho-PDJ"
 run/main_scene="uid://dys7ruceyw0y2"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
+[autoload]
+
+AudioPlayer="*res://ASSETS/scenes/audio_player.tscn"
+
 [input]
 
 move_forward={

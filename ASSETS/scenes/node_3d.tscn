@@ -5,9 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://5g5pal1keh8o" path="res://ASSETS/scenes/player_controller.tscn" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://ASSETS/scenes/rigid_box.tscn" id="4_jka67"]
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/environment/Tiles.tres" id="4_r3fl7"]
-[ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://debug_info.gd" id="6_wc5p8"]
+[ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://ASSETS/controllers/scripts/debug_info.gd" id="6_wc5p8"]
 
 [sub_resource type="SystemFont" id="SystemFont_i5arm"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_4arys"]
 font = SubResource("SystemFont_i5arm")
@@ -240,124 +241,844 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5, 6)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 5, 6)
 
 [node name="RigidBody3D22" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 14, -23.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -18, 0)
 
 [node name="RigidBody3D23" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 14, -24.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -18, 1)
 
 [node name="RigidBody3D24" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 14, -25.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -18, 2)
 
 [node name="RigidBody3D25" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 14, -26.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -18, 3)
 
 [node name="RigidBody3D26" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 14, -27.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -18, 4)
 
 [node name="RigidBody3D27" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 15, -23.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -17, 0)
 
 [node name="RigidBody3D28" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 15, -24.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -17, 1)
 
 [node name="RigidBody3D29" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 15, -25.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -17, 2)
 
 [node name="RigidBody3D30" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 15, -26.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -17, 3)
 
 [node name="RigidBody3D31" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 15, -27.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -17, 4)
 
 [node name="RigidBody3D32" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 16, -23.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -16, 0)
 
 [node name="RigidBody3D33" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 16, -24.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -16, 1)
 
 [node name="RigidBody3D34" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 16, -25.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -16, 2)
 
 [node name="RigidBody3D35" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 16, -26.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -16, 3)
 
 [node name="RigidBody3D36" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 16, -27.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -16, 4)
 
 [node name="RigidBody3D37" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 17, -23.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -15, 0)
 
 [node name="RigidBody3D38" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 17, -24.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -15, 1)
 
 [node name="RigidBody3D39" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 17, -25.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -15, 2)
 
 [node name="RigidBody3D40" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 17, -26.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -15, 3)
 
 [node name="RigidBody3D41" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 17, -27.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -15, 4)
 
 [node name="RigidBody3D42" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 14, -18.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -18, 5)
 
 [node name="RigidBody3D43" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 14, -19.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -18, 6)
 
 [node name="RigidBody3D44" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 14, -20.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -18, 7)
 
 [node name="RigidBody3D45" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 14, -21.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -18, 8)
 
 [node name="RigidBody3D46" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 14, -22.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -18, 9)
 
 [node name="RigidBody3D47" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 15, -18.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -17, 5)
 
 [node name="RigidBody3D48" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 15, -19.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -17, 6)
 
 [node name="RigidBody3D49" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 15, -20.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -17, 7)
 
 [node name="RigidBody3D50" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 15, -21.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -17, 8)
 
 [node name="RigidBody3D51" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 15, -22.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -17, 9)
 
 [node name="RigidBody3D52" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 16, -18.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -16, 5)
 
 [node name="RigidBody3D53" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 16, -19.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -16, 6)
 
 [node name="RigidBody3D54" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 16, -20.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -16, 7)
 
 [node name="RigidBody3D55" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 16, -21.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -16, 8)
 
 [node name="RigidBody3D56" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 16, -22.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -16, 9)
 
 [node name="RigidBody3D57" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 17, -18.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -15, 5)
 
 [node name="RigidBody3D58" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 17, -19.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -15, 6)
 
 [node name="RigidBody3D59" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 17, -20.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -15, 7)
 
 [node name="RigidBody3D60" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 17, -21.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -15, 8)
 
 [node name="RigidBody3D61" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -114, 17, -22.6173)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 158, -15, 9)
+
+[node name="RigidBody3D62" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 164, -36, -62)
+
+[node name="RigidBody3D63" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 163, -36, -62)
+
+[node name="RigidBody3D64" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 162, -36, -62)
+
+[node name="RigidBody3D65" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 161, -36, -62)
+
+[node name="RigidBody3D66" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 160, -36, -62)
+
+[node name="RigidBody3D67" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 164, -35, -62)
+
+[node name="RigidBody3D68" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 163, -35, -62)
+
+[node name="RigidBody3D69" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 162, -35, -62)
+
+[node name="RigidBody3D70" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 161, -35, -62)
+
+[node name="RigidBody3D71" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 160, -35, -62)
+
+[node name="RigidBody3D72" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 164, -34, -62)
+
+[node name="RigidBody3D73" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 163, -34, -62)
+
+[node name="RigidBody3D74" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 162, -34, -62)
+
+[node name="RigidBody3D75" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 161, -34, -62)
+
+[node name="RigidBody3D76" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 160, -34, -62)
+
+[node name="RigidBody3D77" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 164, -33, -62)
+
+[node name="RigidBody3D78" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 163, -33, -62)
+
+[node name="RigidBody3D79" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 162, -33, -62)
+
+[node name="RigidBody3D80" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 161, -33, -62)
+
+[node name="RigidBody3D81" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 160, -33, -62)
+
+[node name="RigidBody3D82" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 169, -36, -62)
+
+[node name="RigidBody3D83" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 168, -36, -62)
+
+[node name="RigidBody3D84" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 167, -36, -62)
+
+[node name="RigidBody3D85" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 166, -36, -62)
+
+[node name="RigidBody3D86" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 165, -36, -62)
+
+[node name="RigidBody3D87" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 169, -35, -62)
+
+[node name="RigidBody3D88" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 168, -35, -62)
+
+[node name="RigidBody3D89" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 167, -35, -62)
+
+[node name="RigidBody3D90" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 166, -35, -62)
+
+[node name="RigidBody3D91" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 165, -35, -62)
+
+[node name="RigidBody3D92" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 169, -34, -62)
+
+[node name="RigidBody3D93" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 168, -34, -62)
+
+[node name="RigidBody3D94" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 167, -34, -62)
+
+[node name="RigidBody3D95" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 166, -34, -62)
+
+[node name="RigidBody3D96" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 165, -34, -62)
+
+[node name="RigidBody3D97" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 169, -33, -62)
+
+[node name="RigidBody3D98" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 168, -33, -62)
+
+[node name="RigidBody3D99" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 167, -33, -62)
+
+[node name="RigidBody3D100" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 166, -33, -62)
+
+[node name="RigidBody3D101" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 165, -33, -62)
+
+[node name="RigidBody3D102" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 174, -36, -62)
+
+[node name="RigidBody3D103" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 173, -36, -62)
+
+[node name="RigidBody3D104" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 172, -36, -62)
+
+[node name="RigidBody3D105" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 171, -36, -62)
+
+[node name="RigidBody3D106" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 170, -36, -62)
+
+[node name="RigidBody3D107" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 174, -35, -62)
+
+[node name="RigidBody3D108" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 173, -35, -62)
+
+[node name="RigidBody3D109" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 172, -35, -62)
+
+[node name="RigidBody3D110" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 171, -35, -62)
+
+[node name="RigidBody3D111" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 170, -35, -62)
+
+[node name="RigidBody3D112" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 174, -34, -62)
+
+[node name="RigidBody3D113" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 173, -34, -62)
+
+[node name="RigidBody3D114" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 172, -34, -62)
+
+[node name="RigidBody3D115" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 171, -34, -62)
+
+[node name="RigidBody3D116" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 170, -34, -62)
+
+[node name="RigidBody3D117" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 174, -33, -62)
+
+[node name="RigidBody3D118" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 173, -33, -62)
+
+[node name="RigidBody3D119" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 172, -33, -62)
+
+[node name="RigidBody3D120" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 171, -33, -62)
+
+[node name="RigidBody3D121" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 170, -33, -62)
+
+[node name="RigidBody3D122" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 179, -36, -62)
+
+[node name="RigidBody3D123" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 178, -36, -62)
+
+[node name="RigidBody3D124" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 177, -36, -62)
+
+[node name="RigidBody3D125" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 176, -36, -62)
+
+[node name="RigidBody3D126" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 175, -36, -62)
+
+[node name="RigidBody3D127" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 179, -35, -62)
+
+[node name="RigidBody3D128" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 178, -35, -62)
+
+[node name="RigidBody3D129" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 177, -35, -62)
+
+[node name="RigidBody3D130" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 176, -35, -62)
+
+[node name="RigidBody3D131" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 175, -35, -62)
+
+[node name="RigidBody3D132" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 179, -34, -62)
+
+[node name="RigidBody3D133" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 178, -34, -62)
+
+[node name="RigidBody3D134" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 177, -34, -62)
+
+[node name="RigidBody3D135" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 176, -34, -62)
+
+[node name="RigidBody3D136" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 175, -34, -62)
+
+[node name="RigidBody3D137" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 179, -33, -62)
+
+[node name="RigidBody3D138" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 178, -33, -62)
+
+[node name="RigidBody3D139" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 177, -33, -62)
+
+[node name="RigidBody3D140" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 176, -33, -62)
+
+[node name="RigidBody3D141" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 175, -33, -62)
+
+[node name="RigidBody3D142" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 184, -36, -62)
+
+[node name="RigidBody3D143" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 183, -36, -62)
+
+[node name="RigidBody3D144" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 182, -36, -62)
+
+[node name="RigidBody3D145" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 181, -36, -62)
+
+[node name="RigidBody3D146" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 180, -36, -62)
+
+[node name="RigidBody3D147" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 184, -35, -62)
+
+[node name="RigidBody3D148" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 183, -35, -62)
+
+[node name="RigidBody3D149" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 182, -35, -62)
+
+[node name="RigidBody3D150" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 181, -35, -62)
+
+[node name="RigidBody3D151" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 180, -35, -62)
+
+[node name="RigidBody3D152" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 184, -34, -62)
+
+[node name="RigidBody3D153" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 183, -34, -62)
+
+[node name="RigidBody3D154" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 182, -34, -62)
+
+[node name="RigidBody3D155" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 181, -34, -62)
+
+[node name="RigidBody3D156" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 180, -34, -62)
+
+[node name="RigidBody3D157" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 184, -33, -62)
+
+[node name="RigidBody3D158" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 183, -33, -62)
+
+[node name="RigidBody3D159" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 182, -33, -62)
+
+[node name="RigidBody3D160" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 181, -33, -62)
+
+[node name="RigidBody3D161" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 180, -33, -62)
+
+[node name="RigidBody3D162" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 189, -36, -62)
+
+[node name="RigidBody3D163" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 188, -36, -62)
+
+[node name="RigidBody3D164" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 187, -36, -62)
+
+[node name="RigidBody3D165" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 186, -36, -62)
+
+[node name="RigidBody3D166" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 185, -36, -62)
+
+[node name="RigidBody3D167" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 189, -35, -62)
+
+[node name="RigidBody3D168" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 188, -35, -62)
+
+[node name="RigidBody3D169" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 187, -35, -62)
+
+[node name="RigidBody3D170" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 186, -35, -62)
+
+[node name="RigidBody3D171" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 185, -35, -62)
+
+[node name="RigidBody3D172" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 189, -34, -62)
+
+[node name="RigidBody3D173" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 188, -34, -62)
+
+[node name="RigidBody3D174" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 187, -34, -62)
+
+[node name="RigidBody3D175" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 186, -34, -62)
+
+[node name="RigidBody3D176" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 185, -34, -62)
+
+[node name="RigidBody3D177" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 189, -33, -62)
+
+[node name="RigidBody3D178" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 188, -33, -62)
+
+[node name="RigidBody3D179" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 187, -33, -62)
+
+[node name="RigidBody3D180" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 186, -33, -62)
+
+[node name="RigidBody3D181" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 185, -33, -62)
+
+[node name="RigidBody3D182" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 189, -32, -62)
+
+[node name="RigidBody3D183" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 188, -32, -62)
+
+[node name="RigidBody3D184" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 187, -32, -62)
+
+[node name="RigidBody3D185" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 186, -32, -62)
+
+[node name="RigidBody3D186" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 185, -32, -62)
+
+[node name="RigidBody3D187" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 189, -31, -62)
+
+[node name="RigidBody3D188" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 188, -31, -62)
+
+[node name="RigidBody3D189" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 187, -31, -62)
+
+[node name="RigidBody3D190" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 186, -31, -62)
+
+[node name="RigidBody3D191" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 185, -31, -62)
+
+[node name="RigidBody3D192" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 189, -30, -62)
+
+[node name="RigidBody3D193" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 188, -30, -62)
+
+[node name="RigidBody3D194" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 187, -30, -62)
+
+[node name="RigidBody3D195" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 186, -30, -62)
+
+[node name="RigidBody3D196" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 185, -30, -62)
+
+[node name="RigidBody3D197" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 189, -29, -62)
+
+[node name="RigidBody3D198" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 188, -29, -62)
+
+[node name="RigidBody3D199" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 187, -29, -62)
+
+[node name="RigidBody3D200" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 186, -29, -62)
+
+[node name="RigidBody3D201" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 185, -29, -62)
+
+[node name="RigidBody3D202" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 184, -32, -62)
+
+[node name="RigidBody3D203" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 183, -32, -62)
+
+[node name="RigidBody3D204" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 182, -32, -62)
+
+[node name="RigidBody3D205" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 181, -32, -62)
+
+[node name="RigidBody3D206" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 180, -32, -62)
+
+[node name="RigidBody3D207" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 184, -31, -62)
+
+[node name="RigidBody3D208" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 183, -31, -62)
+
+[node name="RigidBody3D209" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 182, -31, -62)
+
+[node name="RigidBody3D210" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 181, -31, -62)
+
+[node name="RigidBody3D211" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 180, -31, -62)
+
+[node name="RigidBody3D212" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 184, -30, -62)
+
+[node name="RigidBody3D213" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 183, -30, -62)
+
+[node name="RigidBody3D214" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 182, -30, -62)
+
+[node name="RigidBody3D215" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 181, -30, -62)
+
+[node name="RigidBody3D216" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 180, -30, -62)
+
+[node name="RigidBody3D217" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 184, -29, -62)
+
+[node name="RigidBody3D218" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 183, -29, -62)
+
+[node name="RigidBody3D219" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 182, -29, -62)
+
+[node name="RigidBody3D220" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 181, -29, -62)
+
+[node name="RigidBody3D221" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 180, -29, -62)
+
+[node name="RigidBody3D222" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 179, -32, -62)
+
+[node name="RigidBody3D223" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 178, -32, -62)
+
+[node name="RigidBody3D224" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 177, -32, -62)
+
+[node name="RigidBody3D225" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 176, -32, -62)
+
+[node name="RigidBody3D226" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 175, -32, -62)
+
+[node name="RigidBody3D227" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 179, -31, -62)
+
+[node name="RigidBody3D228" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 178, -31, -62)
+
+[node name="RigidBody3D229" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 177, -31, -62)
+
+[node name="RigidBody3D230" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 176, -31, -62)
+
+[node name="RigidBody3D231" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 175, -31, -62)
+
+[node name="RigidBody3D232" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 179, -30, -62)
+
+[node name="RigidBody3D233" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 178, -30, -62)
+
+[node name="RigidBody3D234" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 177, -30, -62)
+
+[node name="RigidBody3D235" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 176, -30, -62)
+
+[node name="RigidBody3D236" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 175, -30, -62)
+
+[node name="RigidBody3D237" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 179, -29, -62)
+
+[node name="RigidBody3D238" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 178, -29, -62)
+
+[node name="RigidBody3D239" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 177, -29, -62)
+
+[node name="RigidBody3D240" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 176, -29, -62)
+
+[node name="RigidBody3D241" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 175, -29, -62)
+
+[node name="RigidBody3D242" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 174, -32, -62)
+
+[node name="RigidBody3D243" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 173, -32, -62)
+
+[node name="RigidBody3D244" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 172, -32, -62)
+
+[node name="RigidBody3D245" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 171, -32, -62)
+
+[node name="RigidBody3D246" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 170, -32, -62)
+
+[node name="RigidBody3D247" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 174, -31, -62)
+
+[node name="RigidBody3D248" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 173, -31, -62)
+
+[node name="RigidBody3D249" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 172, -31, -62)
+
+[node name="RigidBody3D250" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 171, -31, -62)
+
+[node name="RigidBody3D251" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 170, -31, -62)
+
+[node name="RigidBody3D252" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 174, -30, -62)
+
+[node name="RigidBody3D253" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 173, -30, -62)
+
+[node name="RigidBody3D254" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 172, -30, -62)
+
+[node name="RigidBody3D255" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 171, -30, -62)
+
+[node name="RigidBody3D256" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 170, -30, -62)
+
+[node name="RigidBody3D257" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 174, -29, -62)
+
+[node name="RigidBody3D258" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 173, -29, -62)
+
+[node name="RigidBody3D259" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 172, -29, -62)
+
+[node name="RigidBody3D260" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 171, -29, -62)
+
+[node name="RigidBody3D261" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 170, -29, -62)
+
+[node name="RigidBody3D262" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 169, -32, -62)
+
+[node name="RigidBody3D263" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 168, -32, -62)
+
+[node name="RigidBody3D264" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 167, -32, -62)
+
+[node name="RigidBody3D265" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 166, -32, -62)
+
+[node name="RigidBody3D266" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 165, -32, -62)
+
+[node name="RigidBody3D267" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 169, -31, -62)
+
+[node name="RigidBody3D268" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 168, -31, -62)
+
+[node name="RigidBody3D269" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 167, -31, -62)
+
+[node name="RigidBody3D270" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 166, -31, -62)
+
+[node name="RigidBody3D271" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 165, -31, -62)
+
+[node name="RigidBody3D272" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 169, -30, -62)
+
+[node name="RigidBody3D273" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 168, -30, -62)
+
+[node name="RigidBody3D274" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 167, -30, -62)
+
+[node name="RigidBody3D275" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 166, -30, -62)
+
+[node name="RigidBody3D276" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 165, -30, -62)
+
+[node name="RigidBody3D277" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 169, -29, -62)
+
+[node name="RigidBody3D278" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 168, -29, -62)
+
+[node name="RigidBody3D279" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 167, -29, -62)
+
+[node name="RigidBody3D280" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 166, -29, -62)
+
+[node name="RigidBody3D281" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 165, -29, -62)
+
+[node name="RigidBody3D282" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 164, -32, -62)
+
+[node name="RigidBody3D283" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 163, -32, -62)
+
+[node name="RigidBody3D284" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 162, -32, -62)
+
+[node name="RigidBody3D285" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 161, -32, -62)
+
+[node name="RigidBody3D286" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 160, -32, -62)
+
+[node name="RigidBody3D287" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 164, -31, -62)
+
+[node name="RigidBody3D288" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 163, -31, -62)
+
+[node name="RigidBody3D289" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 162, -31, -62)
+
+[node name="RigidBody3D290" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 161, -31, -62)
+
+[node name="RigidBody3D291" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 160, -31, -62)
+
+[node name="RigidBody3D292" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 164, -30, -62)
+
+[node name="RigidBody3D293" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 163, -30, -62)
+
+[node name="RigidBody3D294" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 162, -30, -62)
+
+[node name="RigidBody3D295" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 161, -30, -62)
+
+[node name="RigidBody3D296" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 160, -30, -62)
+
+[node name="RigidBody3D297" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 164, -29, -62)
+
+[node name="RigidBody3D298" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 163, -29, -62)
+
+[node name="RigidBody3D299" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 162, -29, -62)
+
+[node name="RigidBody3D300" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 161, -29, -62)
+
+[node name="RigidBody3D301" parent="Level/RigidBodies" instance=ExtResource("4_jka67")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 160, -29, -62)
 
 [node name="RigidBody3D21" type="RigidBody3D" parent="Level/RigidBodies"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 13)
@@ -445,31 +1166,20 @@ transform = Transform3D(1.83643e-08, -0.7, 0, 1.54, 8.34742e-09, 0, 0, 0, 0.7, 0
 operation = 2
 
 [node name="CSGBox3D18" type="CSGBox3D" parent="Level/CSGObjects"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53, 10.9493, -9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63, 5, 0)
 use_collision = true
-size = Vector3(9, 7, 9)
+size = Vector3(100, 10, 10)
 
-[node name="CSGBox3D19" type="CSGBox3D" parent="Level/CSGObjects"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65.5, 10.9493, -12)
-use_collision = true
-size = Vector3(14, 7, 9)
-
-[node name="CSGBox3D20" type="CSGBox3D" parent="Level/CSGObjects"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.5, 7.94934, -29)
-use_collision = true
-size = Vector3(14, 7, 9)
-
-[node name="CSGBox3D21" type="CSGBox3D" parent="Level/CSGObjects"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -101.5, 18.9493, -23)
-use_collision = true
-size = Vector3(14, 7, 12)
+[node name="CSGBox3D19" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D18"]
+operation = 2
+size = Vector3(110, 8, 8)
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("4_r3fl7")
 data = {
-"cells": PackedInt32Array(196586, 0, 1, 851942, 9, 1, 262111, 65525, 1048577, 655330, 3, 1048577, 917490, 14, 1048576, 393181, 65530, 1048577, 786410, 0, 1048577, 30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 327646, 65521, 1, 524298, 65523, 262144, 196581, 0, 524289, 196581, 65531, 524289, 196581, 65526, 524289, 458708, 65524, 524289, 458703, 65524, 524289, 458698, 65524, 524289, 458693, 65524, 524289, 65452, 65523, 524289, 65447, 65523, 524289, 65442, 65523, 524289, 65437, 65523, 524289, 65432, 65523, 524289, 655295, 65521, 262145, 655287, 65526, 262145, 655292, 65526, 262145, 655283, 65521, 262145, 393177, 65524, 524289, 262127, 65534, 786433, 196600, 0, 1, 262140, 65530, 262145, 262131, 65534, 262145, 262128, 3, 262145, 262132, 3, 262145)
+"cells": PackedInt32Array(30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 524298, 65523, 262144, 262140, 65530, 262145, -524227, 0, 1, -655290, 65533, 1, -655282, 2, 1, -524203, 5, 786433, -524199, 0, 786433, -524194, 4, 786433, -917404, 2, 524289, -917399, 65532, 524289, -917403, 65525, 524289, -1048480, 65519, 524289, -1245097, 65508, 524288, -1245097, 65493, 524288, -1245099, 65479, 524289, -1245093, 65471, 524289, -1245092, 65466, 1376257, -1245096, 65462, 1376257, -1441701, 65456, 1310721, -1441706, 65446, 1310721)
 }
-metadata/_editor_floor_ = Vector3(0, 3, 0)
+metadata/_editor_floor_ = Vector3(0, -22, 0)
 
 [connection signal="camera_distortion_update" from="CharacterBody3D" to="UI" method="_on_camera_distortion_update"]
 [connection signal="fov_update" from="CharacterBody3D" to="UI" method="_on_fov_update"]
