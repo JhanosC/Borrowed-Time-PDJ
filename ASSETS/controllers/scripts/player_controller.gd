@@ -30,8 +30,14 @@ var crawling := false
 
 @export_subgroup("Movement Settings")
 @export var movement_speed := 15.0
+@export var air_cap := 0.85
+@export var air_accel := 800.0
+@export var air_move_speed := 500.0
 @export var desired_velocity := Vector3.ZERO
 @export var air_control := 2.0
+@export var ground_accel := 11.0
+@export var ground_decel := 7.0
+@export var ground_friction := 3.5
 var wish_dir := Vector3.ZERO
 var start_slide_speed := 15.0
 var wall_jump_counter := 0
@@ -44,7 +50,7 @@ var wall_normal: Vector3
 signal velocity_update(velocity: Vector3)
 signal fov_update(fov: float)
 signal camera_distortion_update(distortion: float)
-signal states_update(can_crouch,slaming,sliding,wall_running: bool)
+signal states_update(can_crouch,slaming,sliding,wall_running,on_floor: bool)
 signal position_update(x,y,z: float)
 
 @onready var camera = $CameraController/Camera3D
@@ -70,8 +76,10 @@ func _emit_debug_info():
 	velocity_update.emit(Vector3(velocity.x,0.,velocity.z).length())
 	fov_update.emit(camera.fov)
 	camera_distortion_update.emit(camera_distortion)
-	states_update.emit(can_crouch,slaming,sliding,wall_running)
 	position_update.emit(position.x,position.y,position.z)
+	states_update.emit(
+		can_crouch,slaming,sliding,wall_running,is_on_floor(),is_on_wall(),wish_dir
+		)
 
 func _push_away_rigid_bodies():
 	for i in get_slide_collision_count():
@@ -113,8 +121,17 @@ func _handle_ground_physics(_delta):
 
 func _handle_air_physics(_delta):
 	_process_gravity(_delta)
-	self.velocity.x = wish_dir.x * get_move_speed()
-	self.velocity.z = wish_dir.z * get_move_speed()
+	if wish_dir:
+		self.velocity.x = wish_dir.x * get_move_speed()
+		self.velocity.z = wish_dir.z * get_move_speed()
+	if is_on_wall():
+		_wall_run(_delta)
+	else:
+		_stop_wall_run()
+
+
+func is_surface_too_steep(normal : Vector3) -> bool:
+	return normal.angle_to(Vector3.UP) > self.floor_max_angle
 
 func _physics_process(_delta):
 	# Handle functions
@@ -128,7 +145,6 @@ func _physics_process(_delta):
 		wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * air_control)
 		_handle_air_physics(_delta)
 	
-	_wall_run(_delta)
 	_process_camera(_delta)
 	_distort_camera(_delta)
 	_push_away_rigid_bodies()
@@ -197,14 +213,14 @@ func _stop_slide(_delta):
 func _wall_run(_delta):
 	if is_on_wall() and !sliding and !is_on_floor():
 		wall_running = true
-		wall_normal = get_wall_normal()
 		if Input.is_action_just_pressed("jump") and wall_jump_counter < possible_wall_jumps:
+			wall_normal = get_wall_normal()
 			wall_jump_counter += 1
 			wish_dir = wall_normal
 			self.velocity.y = jump_strength
 			can_wall_run = false
-	else:
-		wall_running = false
+func _stop_wall_run():
+	wall_running = false
 
 func _headbob_effect(_delta):
 	headbob_time += _delta * self.velocity.length()
