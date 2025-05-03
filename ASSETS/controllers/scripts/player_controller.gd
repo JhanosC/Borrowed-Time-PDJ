@@ -81,7 +81,9 @@ func get_move_speed() -> float:
 	return movement_speed
 
 func is_touching_wall() -> bool:
+	# More consistent way yo check if is touching a wall
 	if wall_check_l.is_colliding() or wall_check_r.is_colliding():
+		# Ignore RigidBodies and CharacterBodies
 		if !(wall_check_l.get_collider() is RigidBody3D or wall_check_r.get_collider() is RigidBody3D):
 			if !(wall_check_l.get_collider() is CharacterBody3D or wall_check_r.get_collider() is CharacterBody3D):
 				if abs(wall_check_l.get_collision_normal().y) < 0.1 or abs(wall_check_r.get_collision_normal().y) < 0.1:
@@ -97,16 +99,18 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _push_away_rigid_bodies():
+	# Handle colision with RigidBodies
 	for i in get_slide_collision_count():
 		var c := get_slide_collision(i)
 		if c.get_collider() is RigidBody3D:
 			var push_dir = -c.get_normal()
+			push_dir.y = 0 # Do not push down or up
 			var velocity_diff_in_push_dir = self.velocity.dot(push_dir) - c.get_collider().linear_velocity.dot(push_dir)
 			velocity_diff_in_push_dir = max(0., velocity_diff_in_push_dir)
 			
 			const MY_APPROX_MASS_KG = 60.0
 			var mass_ratio = min(1., MY_APPROX_MASS_KG / c.get_collider().mass)
-			push_dir.y = 0
+			
 			
 			var push_force = mass_ratio * 5.0
 			push_force = clamp(push_force, 0.0, 10.0)
@@ -121,26 +125,34 @@ func _process_camera(delta):
 		else:
 			head.rotation.z = lerp(head.rotation.z, deg_to_rad(20.0) * wall_check_r.get_collision_normal().length(), lerp_speed * delta)
 	else:
-		# Smooth camera movement
 		head.rotation.z = lerp(head.rotation.z, deg_to_rad(0.0), lerp_speed * delta)
+	# Smooth camera movement
 	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * delta, delta * 5)	
 	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, delta * 50)
 	rotation.y = lerp_angle(rotation.y, rotation_target.y, delta * 25)
 
 func _process_gravity(delta):
+	# Slower fall while on wall
 	if wall_running and self.velocity.y <= 0.0:
 		self.velocity.y *= 0.7
+	# Apply gravity
 	self.velocity.y -= gravity * delta
 
 func _physics_process(delta):
+	# Decrease wall run cooldown
 	if wall_run_cooldown >= 0.0: wall_run_cooldown -= delta
+	# If the cooldown is down, can wall run again
 	if wall_run_cooldown <= 0.0:
 		can_wall_run = true
+	# If on air, momentum reset cooldown is up
 	if !is_on_floor():
 		if hitGroundCooldown != hitGroundCooldownRef: hitGroundCooldown = hitGroundCooldownRef
+	# If is on floor, decrease momentum reset cooldown
 	if is_on_floor():
 		if hitGroundCooldown >= 0: hitGroundCooldown -= delta
+	# Call function to display speed lines when going fast
 	hud.display_speed_lines(self.velocity.length(), movement_speed)
+	
 	# Handle functions
 	handle_controls(delta)
 	move(delta)
