@@ -26,6 +26,7 @@ var can_wall_run = true
 var can_crouch = true
 var slaming = false
 var mouse_captured := true
+var crawling := false
 
 @export_subgroup("Movement Settings")
 @export var movement_speed := 15.0
@@ -34,7 +35,6 @@ var wish_dir := Vector3.ZERO
 var start_slide_speed := 15.0
 var wall_jump_counter := 0
 
-var movement_velocity: Vector3
 var rotation_target: Vector3
 var input_mouse: Vector2
 var input_dir: Vector2
@@ -157,16 +157,18 @@ func handle_controls(_delta):
 	elif !raycast.is_colliding() and is_on_floor():
 		slaming = false
 		_stop_slide(_delta)
+	elif raycast.is_colliding() and velocity.length() <= 1.0:
+		crawling = true
 	if Input.is_action_just_released("crouch"):
 		can_crouch = true
 	
 	# Get direction
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
-	if !sliding and is_on_floor():
+	if (!sliding or crawling) and is_on_floor():
 		wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * lerp_speed)
-	elif !is_on_floor():
+	elif !sliding and !is_on_floor():
 		wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * air_control)
-	if wish_dir:
+	if wish_dir or !is_on_floor():
 		self.velocity.x = wish_dir.x * movement_speed
 		self.velocity.z = wish_dir.z * movement_speed
 	else:
@@ -181,6 +183,7 @@ func _slide(_delta):
 func _stop_slide(_delta):
 	head.position.y = lerp(head.position.y, 1.75, _delta * lerp_speed)
 	sliding = false
+	crawling = false
 	standing_collision_shape.disabled = false
 	sliding_collision_shape.disabled = true
 
