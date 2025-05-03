@@ -4,15 +4,13 @@ extends CharacterBody3D
 @export var jump_strength := 9.0
 @export var slam_strength := 3.5
 @export var mouse_sensitivity = 700
-@export var wall_jump_strength := 1.5
+var slide_vector : Vector2 = Vector2.ZERO
 const HEADBOB_MOVE_AMOUNT = 0.05
 const HEADBOB_FREQUENCY = 2.0
 var headbob_time := 0.0
-var lerp_speed := 20.0
+var lerp_speed := 10.0
 var sliding_height := 0.75
 var gravity := 0.0
-var wall_friction := 0.05
-var possible_wall_jumps := 3
 var camera_distortion := -1.0
 var camera_distortion_strength := 0.6
 var camera_default_fov := 0.0

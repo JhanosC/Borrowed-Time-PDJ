@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 [gd_scene load_steps=12 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
@@ -14,11 +13,6 @@ point_count = 4
 _limits = [0.0, 10.0, 0.0, 1.0]
 _data = [Vector2(0.284644, 9.1875), 0.0, 0.0, 0, 0, Vector2(0.588015, 7.96875), 0.0, 0.0, 0, 0, Vector2(0.891386, 7.46094), 0.0, 0.0, 0, 0]
 point_count = 3
-=======
-[gd_scene load_steps=5 format=3 uid="uid://5g5pal1keh8o"]
-
-[ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
->>>>>>> main
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dk88v"]
 height = 1.0
@@ -27,7 +21,6 @@ height = 1.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_i5arm"]
 
-<<<<<<< HEAD
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_p1wnk"]
 frequency = 0.15
 
@@ -60,10 +53,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraController"]
 cull_mask = 1048573
-=======
-[node name="CharacterBody3D" type="CharacterBody3D"]
-script = ExtResource("1_dk88v")
->>>>>>> main
 
 [node name="SlidingCollisionShape" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -79,16 +68,11 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1, 
 [node name="GroundCheck" type="RayCast3D" parent="Raycasts"]
 exclude_parent = false
 target_position = Vector3(0, 0, -1.5)
-<<<<<<< HEAD
-=======
-collide_with_areas = true
->>>>>>> main
 
 [node name="CeilingCheck" type="RayCast3D" parent="Raycasts"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
 exclude_parent = false
 target_position = Vector3(0, 0, -1.5)
-<<<<<<< HEAD
 
 [node name="WallCheckL" type="RayCast3D" parent="Raycasts"]
 transform = Transform3D(-4.37114e-08, -8.74228e-08, -1, 0, -1, 8.74228e-08, -1, 3.82137e-15, 4.37114e-08, 0, 0, 0)
@@ -99,9 +83,6 @@ target_position = Vector3(0, 0, 1)
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 exclude_parent = false
 target_position = Vector3(0, 0, 1)
-=======
-collide_with_areas = true
->>>>>>> main
 
 [node name="WorldModel" type="Node3D" parent="."]
 
@@ -110,7 +91,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_i5arm")
 skeleton = NodePath("../../StandingCollisionShape")
 
-<<<<<<< HEAD
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -134,10 +114,3 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-=======
-[node name="CameraController" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-
-[node name="Camera3D" type="Camera3D" parent="CameraController"]
-cull_mask = 1048573
->>>>>>> main

@@ -1,12 +1,7 @@
 [gd_resource type="Environment" load_steps=6 format=3 uid="uid://binlijw06k2v8"]
 
-<<<<<<< HEAD
 [ext_resource type="Texture2D" uid="uid://duifky3waqrb2" path="res://ASSETS/art/HDRi/BuracoNegro12_blender copiar.hdr" id="1_848do"]
 [ext_resource type="Texture2D" uid="uid://bq11hhgiw3wrd" path="res://ASSETS/art/HDRi/Estrelas_blender.hdr" id="2_dthgi"]
-=======
-[ext_resource type="Texture2D" uid="uid://duifky3waqrb2" path="res://ASSETS/HDRi/BuracoNegro12_blender copiar.hdr" id="1_848do"]
-[ext_resource type="Texture2D" uid="uid://bq11hhgiw3wrd" path="res://ASSETS/HDRi/Estrelas_blender.hdr" id="2_dthgi"]
->>>>>>> main
 
 [sub_resource type="Shader" id="Shader_dthgi"]
 code = "
