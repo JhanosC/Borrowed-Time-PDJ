@@ -7,8 +7,11 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_jka67"]
 
 [node name="RigidBody3D" type="RigidBody3D"]
+<<<<<<< HEAD
 collision_layer = 2
 collision_mask = 3
+=======
+>>>>>>> main
 physics_material_override = SubResource("PhysicsMaterial_jv3ii")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

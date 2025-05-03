@@ -76,10 +76,13 @@ dash={
 ]
 }
 
+<<<<<<< HEAD
 [layer_names]
 
 3d_physics/layer_2="RigidBodies"
 
+=======
+>>>>>>> main
 [physics]
 
 3d/physics_engine="Jolt Physics"
