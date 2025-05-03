@@ -14,7 +14,7 @@ var gravity := 0.0
 var wall_friction := 0.05
 var possible_wall_jumps := 3
 var camera_distortion := 0.0
-var camera_distortion_strength := 0.2
+var camera_distortion_strength := 0.4
 var camera_default_fov := 75.0
 
 @export_subgroup("States")
@@ -78,23 +78,23 @@ func _push_away_rigid_bodies():
 				push_dir * velocity_diff_in_push_dir * push_force,
 				c.get_position() - c.get_collider().global_position)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Handle functions
-	handle_controls(delta)
-	_wall_run(delta)
+	handle_controls(_delta)
+	_wall_run(_delta)
 	
 	# Smooth camera movement
-	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * delta, delta * 5)	
-	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, delta * 50)
-	rotation.y = lerp_angle(rotation.y, rotation_target.y, delta * 25)
+	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * _delta, _delta * 5)	
+	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, _delta * 50)
+	rotation.y = lerp_angle(rotation.y, rotation_target.y, _delta * 25)
 
 	#C amera bobbing when landing
-	camera.position.y = lerp(camera.position.y, 0.0, delta * 50)
+	camera.position.y = lerp(camera.position.y, 0.0, _delta * 50)
 	if is_on_floor(): # Landed
 		camera.position.y = -0.1
 		wall_jump_counter = 0
 	if mouse_captured:
-		_distort_camera(delta)
+		_distort_camera(_delta)
 	# Respawn
 	if position.y < -10:
 		get_tree().call_deferred("reload_current_scene")
@@ -131,9 +131,9 @@ func handle_controls(_delta):
 	
 	# Sliding and slam control
 	if Input.is_action_pressed("crouch") and can_crouch:
-		if is_on_floor():
+		if is_on_floor() and input_dir:
 			_slide(_delta)
-		elif !sliding:
+		elif !is_on_floor() and !sliding:
 			self.velocity.y -= gravity * slam_strength
 			can_crouch = false
 	elif !raycast.is_colliding() and is_on_floor():
@@ -154,26 +154,25 @@ func handle_controls(_delta):
 		self.velocity.x = move_toward(self.velocity.x, 0, movement_speed)
 		self.velocity.z = move_toward(self.velocity.z, 0, movement_speed)
 
-func _slide(delta):
-	head.position.y = lerp(head.position.y, sliding_height, delta * lerp_speed)
+func _slide(_delta):
+	head.position.y = lerp(head.position.y, sliding_height, _delta * lerp_speed)
 	sliding = true
 	standing_collision_shape.disabled = true
 	sliding_collision_shape.disabled = false
-func _stop_slide(delta):
-	head.position.y = lerp(head.position.y, 1.75, delta * lerp_speed)
+func _stop_slide(_delta):
+	head.position.y = lerp(head.position.y, 1.75, _delta * lerp_speed)
 	sliding = false
 	standing_collision_shape.disabled = false
 	sliding_collision_shape.disabled = true
 
-func _wall_run(delta):
+func _wall_run(_delta):
 	if is_on_wall() and !sliding and !is_on_floor():
 		wall_running = true
 		wall_normal = get_wall_normal()
-		#wish_dir = -wall_normal
 		if self.velocity.y <= 0:
-			self.velocity.y -= gravity * delta * wall_friction
+			self.velocity.y -= gravity * _delta * wall_friction
 		else:
-			self.velocity.y -= gravity * delta
+			self.velocity.y -= gravity * _delta
 		if Input.is_action_just_pressed("jump") and wall_jump_counter < possible_wall_jumps:
 			wall_jump_counter += 1
 			wish_dir = wall_normal * 1.5
@@ -182,19 +181,19 @@ func _wall_run(delta):
 	else:
 		wall_running = false
 
-func _headbob_effect(delta):
-	headbob_time += delta * self.velocity.length()
+func _headbob_effect(_delta):
+	headbob_time += _delta * self.velocity.length()
 	camera.transform.origin = Vector3(
 		cos(headbob_time * HEADBOB_FREQUENCY * 0.5) * HEADBOB_MOVE_AMOUNT,
 		sin(headbob_time * HEADBOB_FREQUENCY) * HEADBOB_MOVE_AMOUNT,
 		0
 	)
 
-func _distort_camera(delta):
-	camera_distortion += camera_distortion_strength * delta
+func _distort_camera(_delta):
+	camera_distortion += camera_distortion_strength * _delta
 	camera.fov += camera_distortion
 	if self.velocity.length() >= 2.0:
 		camera_distortion = 0.0
-		camera.fov = lerp(camera.fov, camera_default_fov, delta * lerp_speed)
+		camera.fov = lerp(camera.fov, camera_default_fov, _delta * lerp_speed)
 	if camera_distortion >= 0.7:
 		get_tree().call_deferred("reload_current_scene")
