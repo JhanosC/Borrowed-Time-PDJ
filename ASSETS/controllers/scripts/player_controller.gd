@@ -30,13 +30,30 @@ var input_mouse: Vector2
 var gravity := 0.0
 
 @onready var camera = $CameraController/Camera3D
-@onready var raycast = $CameraController/Camera3D/RayCast3D
+@onready var raycast = $RayCast3D
 
 func _ready():
 	for child in $WorldModel.find_children("*", "VisualInstance3D"):
 		child.set_layer_mask_value(1, false)
 		child.set_layer_mask_value(2, true)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _push_away_rigid_bodies():
+	for i in get_slide_collision_count():
+		var c := get_slide_collision(i)
+		if c.get_collider() is RigidBody3D:
+			var push_dir = -c.get_normal()
+			var velocity_diff_in_push_dir = self.velocity.dot(push_dir) - c.get_collider().linear_velocity.dot(push_dir)
+			velocity_diff_in_push_dir = max(0., velocity_diff_in_push_dir)
+			
+			const MY_APPROX_MASS_KG = 80.0
+			var mass_ratio = min(1., MY_APPROX_MASS_KG / c.get_collider().mass)
+			push_dir.y = 0
+			
+			var push_force = mass_ratio * 5.0
+			c.get_collider().apply_impulse(
+				push_dir * velocity_diff_in_push_dir * push_force,
+				c.get_position() - c.get_collider().global_position)
 
 func _handle_air_physics(delta) -> void:
 	self.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta
@@ -77,14 +94,6 @@ func _physics_process(delta):
 	else:
 		_handle_air_physics(delta)
 	
-	##Apply movement
-	#var applied_velocity: Vector3
-	#wish_dir = transform.basis * wish_dir #Move forward
-	#applied_velocity = velocity.lerp(wish_dir, delta * 10)
-	#applied_velocity.y = -gravity
-	#velocity = applied_velocity
-	
-	move_and_slide()
 	
 	#Smooth camera movement
 	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * delta, delta * 5)	
@@ -98,9 +107,12 @@ func _physics_process(delta):
 	#Respawn
 	if position.y < -10:
 		get_tree().reload_current_scene()
+	
+	_push_away_rigid_bodies()
+	move_and_slide()
 
-#Mouse movement
 func _unhandled_input(event):
+	#Mouse movement
 	if event is InputEventMouseMotion and mouse_captured:
 		input_mouse = event.relative / mouse_sensitivity
 		rotation_target.y -= event.relative.x / mouse_sensitivity
