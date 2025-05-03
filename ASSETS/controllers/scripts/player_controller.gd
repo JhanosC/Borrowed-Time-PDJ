@@ -6,7 +6,7 @@ extends CharacterBody3D
 @export var mouse_sensitivity = 700
 @export var wall_jump_strength := 1.5
 const HEADBOB_MOVE_AMOUNT = 0.05
-const HEADBOB_FREQUENCY = 2.5
+const HEADBOB_FREQUENCY = 2.0
 var headbob_time := 0.0
 var lerp_speed := 20.0
 var sliding_height := 0.75
@@ -30,6 +30,7 @@ var crawling := false
 
 @export_subgroup("Movement Settings")
 @export var movement_speed := 15.0
+@export var desired_velocity := Vector3.ZERO
 @export var air_control := 2.0
 var wish_dir := Vector3.ZERO
 var start_slide_speed := 15.0
@@ -53,6 +54,11 @@ signal position_update(x,y,z: float)
 @onready var sliding_collision_shape: CollisionShape3D = $SlidingCollisionShape
 
 var debug_mode = true
+
+func get_move_speed() -> float:
+	if crawling:
+		return movement_speed * 0.6
+	return movement_speed
 
 func _ready():
 	gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -87,6 +93,13 @@ func _push_away_rigid_bodies():
 			c.get_collider().apply_impulse(
 				push_dir * velocity_diff_in_push_dir * push_force,
 				c.get_position() - c.get_collider().global_position)
+
+func _process_camera(_delta):
+	# Smooth camera movement
+	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * _delta, _delta * 5)	
+	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, _delta * 50)
+	rotation.y = lerp_angle(rotation.y, rotation_target.y, _delta * 25)
+
 func _process_gravity(_delta):
 	if is_on_floor():
 		return
@@ -95,21 +108,28 @@ func _process_gravity(_delta):
 	else:
 		self.velocity.y -= gravity * _delta
 
-func _process_camera(_delta):
-	# Smooth camera movement
-	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * _delta, _delta * 5)	
-	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, _delta * 50)
-	rotation.y = lerp_angle(rotation.y, rotation_target.y, _delta * 25)
-	
-	# Camera bobbing when landing
-	camera.position.y = lerp(camera.position.y, 0.0, _delta * 50)
-	if is_on_floor(): # Landed
-		camera.position.y = -0.1
-		wall_jump_counter = 0
+func _handle_ground_physics(_delta):
+	self.velocity.x = wish_dir.x * get_move_speed()
+	self.velocity.z = wish_dir.z * get_move_speed()
+	if !sliding:
+		_headbob_effect(_delta)
+
+func _handle_air_physics(_delta):
+	_process_gravity(_delta)
+	self.velocity.x = wish_dir.x * get_move_speed()
+	self.velocity.z = wish_dir.z * get_move_speed()
 
 func _physics_process(_delta):
 	# Handle functions
 	handle_controls(_delta)
+	if is_on_floor():
+		if !sliding or crawling:
+			wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * lerp_speed)
+		_handle_ground_physics(_delta)
+	else:
+		wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * air_control)
+		_handle_air_physics(_delta)
+	
 	_wall_run(_delta)
 	_process_camera(_delta)
 	_distort_camera(_delta)
@@ -125,6 +145,10 @@ func _unhandled_input(event):
 		rotation_target.x -= event.relative.y / mouse_sensitivity
 
 func handle_controls(_delta):
+	# Get direction
+	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
+	
+	# Reload scene
 	if Input.is_action_just_pressed("reload"):
 		get_tree().call_deferred("reload_current_scene")
 	#Mouse capture/Enable cursor
@@ -142,9 +166,7 @@ func handle_controls(_delta):
 	if is_on_floor() and !sliding:
 		if Input.is_action_just_pressed("jump") or (auto_bhop and Input.is_action_pressed("jump")):
 			self.velocity.y = jump_strength
-		_headbob_effect(_delta)
-	else:
-		_process_gravity(_delta)
+		
 	
 	# Sliding and slam control
 	if Input.is_action_pressed("crouch") and can_crouch:
@@ -161,19 +183,6 @@ func handle_controls(_delta):
 		crawling = true
 	if Input.is_action_just_released("crouch"):
 		can_crouch = true
-	
-	# Get direction
-	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
-	if (!sliding or crawling) and is_on_floor():
-		wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * lerp_speed)
-	elif !sliding and !is_on_floor():
-		wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * air_control)
-	if wish_dir or !is_on_floor():
-		self.velocity.x = wish_dir.x * movement_speed
-		self.velocity.z = wish_dir.z * movement_speed
-	else:
-		self.velocity.x = move_toward(self.velocity.x, 0, movement_speed)
-		self.velocity.z = move_toward(self.velocity.z, 0, movement_speed)
 
 func _slide(_delta):
 	head.position.y = lerp(head.position.y, sliding_height, _delta * lerp_speed)
