@@ -198,11 +198,3 @@ func _distort_camera(delta):
 		camera.fov = lerp(camera.fov, camera_default_fov, delta * lerp_speed)
 	if camera_distortion >= 0.7:
 		get_tree().call_deferred("reload_current_scene")
-
-
-func _on_fov_update():
-	pass # Replace with function body.
-
-
-func _on_camera_distortion_update():
-	pass # Replace with function body.
