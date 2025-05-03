@@ -26,6 +26,7 @@ var slaming := false
 var mouse_captured := true
 var crawling := false
 var can_wall_run := true
+var on_floor := true
 
 @export_subgroup("Movement Settings")
 @export var movement_speed : float
@@ -36,6 +37,10 @@ var can_wall_run := true
 @export var desiredMoveSpeedCurve : Curve
 @export var inAirMoveSpeedCurve : Curve
 @export var dash_cooldown := 0.0
+@export var wall_jump_force := 20.0
+@export var dash_duration := 0.2
+@export var dash_speed_multiplier := 3.0
+@export var crawl_speed_multiplier := 0.7
 var dashing_timer := 0.0
 var desired_velocity := 0.0
 var hitGroundCooldownRef : float
@@ -70,14 +75,14 @@ signal position_update(x,y,z: float)
 var debug_mode = true
 
 func update_signals():
-	states_update.emit(can_crouch,slaming,sliding,wall_running,is_on_floor(),is_touching_wall(),direction)
+	states_update.emit(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction)
 	velocity_update.emit(Vector3(velocity.x,0.0,velocity.z).length(), desired_velocity)
 
 func get_move_speed() -> float:
 	if crawling:
-		return movement_speed * 0.6
+		return movement_speed * crawl_speed_multiplier
 	elif dashing:
-		return movement_speed * 3.0
+		return movement_speed * dash_speed_multiplier
 	return movement_speed
 
 func is_touching_wall() -> bool:
@@ -139,19 +144,21 @@ func _process_gravity(delta):
 	self.velocity.y -= gravity * delta
 
 func _physics_process(delta):
+	on_floor = is_on_floor()
 	# Decrease wall run cooldown
 	if wall_run_cooldown >= 0.0: wall_run_cooldown -= delta
 	# If the cooldown is down, can wall run again
 	if wall_run_cooldown <= 0.0:
 		can_wall_run = true
 	# If on air, momentum reset cooldown is up
-	if !is_on_floor():
+	if !on_floor:
 		if hitGroundCooldown != hitGroundCooldownRef: hitGroundCooldown = hitGroundCooldownRef
 	# If is on floor, decrease momentum reset cooldown
-	if is_on_floor():
+	if on_floor:
 		if hitGroundCooldown >= 0: hitGroundCooldown -= delta
+
 	# Call function to display speed lines when going fast
-	hud.display_speed_lines(self.velocity.length(), movement_speed)
+	hud.display_speed_lines(Vector3(velocity.x, 0.0, velocity.z).length(), movement_speed)
 	
 	# Handle functions
 	handle_controls(delta)
@@ -186,19 +193,19 @@ func handle_controls(delta):
 	rotation_target.x = clamp(rotation_target.x, deg_to_rad(-90), deg_to_rad(90))
 	
 	# Jumping control
-	if is_on_floor() and !sliding:
+	if on_floor and !sliding:
 		if Input.is_action_just_pressed("jump") or (auto_bhop and Input.is_action_pressed("jump")):
 			jump(0.0)
 	
 	# Sliding and slam control
 	if Input.is_action_pressed("crouch") and can_crouch:
-		if !is_on_floor() and !sliding:
+		if !on_floor and !sliding:
 			self.velocity.y -= gravity * slam_strength
 			slaming = true
 			can_crouch = false
 		else:
 			_slide(delta)
-	elif !ceilingCheck.is_colliding() and is_on_floor():
+	elif !ceilingCheck.is_colliding() and on_floor:
 		slaming = false
 		_stop_slide(delta)
 	elif ceilingCheck.is_colliding() and velocity.length() <= 2.0:
@@ -215,7 +222,7 @@ func handle_controls(delta):
 		):
 		dash_counter += 1
 		dashing = true
-		dashing_timer = 0.2
+		dashing_timer = dash_duration
 		dash_cooldown = 0.5
 	if dashing_timer > 0.0:
 		self.velocity.y = 0.0
@@ -242,7 +249,7 @@ func move(delta):
 	else:
 		direction = (self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
 	
-	if is_on_floor():
+	if on_floor:
 		wall_jump_counter = 0
 		dash_counter = 0
 		if direction:
@@ -265,10 +272,10 @@ func move(delta):
 			self.velocity.x = lerp(velocity.x, 0.0, ground_decel * delta)
 			self.velocity.z = lerp(velocity.z, 0.0, ground_decel * delta)
 			desired_velocity = velocity.length()
-		if !sliding:
+		if !sliding and !dashing:
 			_headbob_effect(delta)
 
-	if !is_on_floor():
+	if !on_floor:
 		_process_gravity(delta)
 		if direction:
 			if dashing:
@@ -299,15 +306,15 @@ func jump(strength_value : float):
 		wall_running = false
 		can_wall_run = false
 		if wall_check_l.is_colliding():
-			velocity = wall_check_l.get_collision_normal() * 20.0
+			velocity = wall_check_l.get_collision_normal() * wall_jump_force
 		else:
-			velocity = wall_check_r.get_collision_normal() * 20.0
+			velocity = wall_check_r.get_collision_normal() * wall_jump_force
 		wall_run_cooldown = 0.5
 		
 	self.velocity.y = jump_strength + strength_value
 
 func _wall_run(_delta):
-	if !is_on_floor() and is_touching_wall() and can_wall_run:
+	if !on_floor and is_touching_wall() and can_wall_run:
 		wall_running = true
 		if Input.is_action_just_pressed("jump") and wall_jump_counter < possible_wall_jumps:
 			wall_jump_counter += 1

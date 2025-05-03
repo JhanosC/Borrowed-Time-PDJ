@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
-[ext_resource type="Script" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
+[ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
 [ext_resource type="Shader" uid="uid://b2npu87wax68" path="res://ASSETS/art/shaders/SpeedLinesShader.gdshader" id="2_qwx0b"]
 
 [sub_resource type="Curve" id="Curve_rnlsj"]
