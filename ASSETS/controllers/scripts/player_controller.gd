@@ -8,7 +8,7 @@ extends CharacterBody3D
 const HEADBOB_MOVE_AMOUNT = 0.05
 const HEADBOB_FREQUENCY = 2.8
 var headbob_time := 0.0
-var lerp_speed := 20.0
+var lerp_speed := 30.0
 var sliding_height := 0.75
 var gravity := 0.0
 var wall_friction := 0.05
@@ -29,7 +29,7 @@ var mouse_captured := true
 @export var movement_speed := 15.0
 @export var air_control := 2.0
 var wish_dir := Vector3.ZERO
-var start_slide_speed := 10.0
+var start_slide_speed := 15.0
 var wall_jump_counter := 0
 
 var movement_velocity: Vector3
