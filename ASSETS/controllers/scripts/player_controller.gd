@@ -8,14 +8,15 @@ extends CharacterBody3D
 const HEADBOB_MOVE_AMOUNT = 0.05
 const HEADBOB_FREQUENCY = 2.5
 var headbob_time := 0.0
-var lerp_speed := 30.0
+var lerp_speed := 20.0
 var sliding_height := 0.75
 var gravity := 0.0
 var wall_friction := 0.05
 var possible_wall_jumps := 3
-var camera_distortion := 0.0
+var camera_distortion := -1.0
 var camera_distortion_strength := 0.6
-var camera_default_fov := 90.0
+var camera_default_fov := 75.0
+var camera_new_fov := camera_default_fov
 
 @export_subgroup("States")
 @export var auto_bhop := true
@@ -93,15 +94,14 @@ func _physics_process(_delta):
 	if is_on_floor(): # Landed
 		camera.position.y = -0.1
 		wall_jump_counter = 0
-	if mouse_captured and false:
-		_distort_camera(_delta)
 	# Respawn
-	if position.y < -10:
+	if position.y < -30:
 		get_tree().call_deferred("reload_current_scene")
-	_emit_degub_info()
+	_distort_camera(_delta)
 	_push_away_rigid_bodies()
 	move_and_slide()
-
+	_emit_degub_info()
+	
 func _unhandled_input(event):
 	# Mouse movement
 	if event is InputEventMouseMotion and mouse_captured:
@@ -191,11 +191,15 @@ func _headbob_effect(_delta):
 		0
 	)
 
+# FOV when running or standing still for too long
 func _distort_camera(_delta):
-	camera_distortion += camera_distortion_strength * _delta
-	camera.fov += camera_distortion
-	if self.velocity.length() >= 2.0:
-		camera_distortion = 0.0
-		camera.fov = lerp(camera.fov, camera_default_fov, _delta * lerp_speed)
-	if camera_distortion >= 1.0:
-		get_tree().call_deferred("reload_current_scene")
+	if mouse_captured and velocity.length() <= 0.0 and false:# False for testing
+		camera_distortion += camera_distortion_strength * _delta
+		if camera_distortion >= 0.0:
+			camera_new_fov += camera_distortion
+			if camera_distortion >= 1.0:
+				get_tree().call_deferred("reload_current_scene")
+	else:
+		camera_new_fov = camera_default_fov + (Vector3(velocity.x, 0., velocity.z).length()*0.7)
+		camera_distortion = -1.0
+	camera.fov = lerp(camera.fov, camera_new_fov, _delta * lerp_speed)
