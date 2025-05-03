@@ -1,10 +1,8 @@
 extends CharacterBody3D
 
 @export_subgroup("Properties")
-@export var jump_strength := 10.0
+@export var jump_strength := 6.0
 @export var mouse_sensitivity = 700
-@export var slide_timer := 10.0
-var slide_timer_max := slide_timer
 const HEADBOB_MOVE_AMOUNT = 0.06
 const HEADBOB_FREQUENCY = 2.4
 var headbob_time := 0.0
@@ -19,6 +17,7 @@ var sliding_height := 0.75
 @export var movement_speed := 10.0
 var wish_dir := Vector3.ZERO
 var slide_dir := Vector2.ZERO
+var start_slide_speed := 10.0
 
 var mouse_captured := true
 var movement_velocity: Vector3
@@ -105,42 +104,35 @@ func handle_controls(_delta):
 	rotation_target.x = clamp(rotation_target.x, deg_to_rad(-90), deg_to_rad(90))
 	
 	if Input.is_action_pressed("crouch"):
-		standing_collision_shape.disabled = true
-		sliding_collision_shape.disabled = false
-		head.position.y = lerp(head.position.y, sliding_height, _delta*lerp_speed)
-		if input_dir != Vector2.ZERO:
-			sliding = true
-			slide_timer = slide_timer_max
-			slide_dir = input_dir
+		_slide(_delta)
 	elif !raycast.is_colliding():
-		standing_collision_shape.disabled = false
-		sliding_collision_shape.disabled = true
-		sliding = false
-		head.position.y = lerp(head.position.y, 1.75, _delta * lerp_speed)
-	
+		_stop_slide(_delta)
 	#Get direction
-	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
-	
-	if sliding:
-		wish_dir = (transform.basis * Vector3(slide_dir.x, 0., slide_dir.y)).normalized()
-		slide_timer -= _delta * 10
-		if slide_timer <= 0:
-				sliding = false
-	else:
+	if !sliding:
+		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
 		wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y),_delta * lerp_speed)
-	
 	if wish_dir:
 		velocity.x = wish_dir.x * movement_speed
 		velocity.z = wish_dir.z * movement_speed
-		
-		if sliding:
-			velocity.x = wish_dir.x * slide_timer
-			velocity.z = wish_dir.z * slide_timer
 	else:
 		velocity.x = move_toward(velocity.x, 0, movement_speed)
 		velocity.z = move_toward(velocity.z, 0, movement_speed)
 	
+	# Emit velocity to UI
 	velocity_update.emit(velocity.length())
+
+func _slide(delta):
+	if !sliding:
+		slide_dir = input_dir
+	head.position.y = lerp(head.position.y, sliding_height, delta * lerp_speed)
+	sliding = true
+	standing_collision_shape.disabled = true
+	sliding_collision_shape.disabled = false
+func _stop_slide(delta):
+	head.position.y = lerp(head.position.y, 1.75, delta * lerp_speed)
+	sliding = false
+	standing_collision_shape.disabled = false
+	sliding_collision_shape.disabled = true
 
 func _headbob_effect(delta):
 	headbob_time += delta * self.velocity.length()
