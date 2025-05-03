@@ -24,6 +24,7 @@ var sliding = false
 var wall_running = false
 var can_wall_run = true
 var can_crouch = true
+var slaming = false
 var mouse_captured := true
 
 @export_subgroup("Movement Settings")
@@ -42,6 +43,8 @@ var wall_normal: Vector3
 signal velocity_update(velocity: Vector3)
 signal fov_update(fov: float)
 signal camera_distortion_update(distortion: float)
+signal states_update(can_crouch,slaming,sliding,wall_running: bool)
+signal position_update(x,y,z: float)
 
 @onready var camera = $CameraController/Camera3D
 @onready var head: Node3D = $CameraController
@@ -64,6 +67,8 @@ func _emit_debug_info():
 	velocity_update.emit(Vector3(velocity.x,0.,velocity.z).length())
 	fov_update.emit(camera.fov)
 	camera_distortion_update.emit(camera_distortion)
+	states_update.emit(can_crouch,slaming,sliding,wall_running)
+	position_update.emit(position.x,position.y,position.z)
 
 func _push_away_rigid_bodies():
 	for i in get_slide_collision_count():
@@ -107,9 +112,6 @@ func _physics_process(_delta):
 	handle_controls(_delta)
 	_wall_run(_delta)
 	_process_camera(_delta)
-	# Respawn
-	if position.y < -30:
-		get_tree().call_deferred("reload_current_scene")
 	_distort_camera(_delta)
 	_push_away_rigid_bodies()
 	move_and_slide()
@@ -150,8 +152,10 @@ func handle_controls(_delta):
 			_slide(_delta)
 		elif !is_on_floor() and !sliding:
 			self.velocity.y -= gravity * slam_strength
+			slaming = true
 			can_crouch = false
 	elif !raycast.is_colliding() and is_on_floor():
+		slaming = false
 		_stop_slide(_delta)
 	if Input.is_action_just_released("crouch"):
 		can_crouch = true
@@ -202,13 +206,13 @@ func _headbob_effect(_delta):
 
 # FOV when running or standing still for too long
 func _distort_camera(_delta):
-	if mouse_captured and velocity.length() <= 0.0 and !debug_mode:
+	if mouse_captured and (velocity.length() <= 0.0 and !debug_mode) or position.y < -350.0:
 		camera_distortion += camera_distortion_strength * _delta
 		if camera_distortion >= 0.0:
 			camera_new_fov += camera_distortion
 			if camera_distortion >= 1.0:
 				get_tree().call_deferred("reload_current_scene")
-	else:
-		camera_new_fov = camera_default_fov + (Vector3(velocity.x, 0., velocity.z).length()*0.7)
+	elif !slaming:
+		camera_new_fov = min(camera_default_fov + (velocity.length()*0.7),camera_default_fov * 1.3)
 		camera_distortion = -1.0
 	camera.fov = lerp(camera.fov, camera_new_fov, _delta * lerp_speed)
