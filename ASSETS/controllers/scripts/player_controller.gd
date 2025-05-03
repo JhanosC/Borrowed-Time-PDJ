@@ -6,7 +6,7 @@ extends CharacterBody3D
 @export var mouse_sensitivity = 700
 @export var wall_jump_strength := 1.5
 const HEADBOB_MOVE_AMOUNT = 0.05
-const HEADBOB_FREQUENCY = 2.8
+const HEADBOB_FREQUENCY = 2.5
 var headbob_time := 0.0
 var lerp_speed := 30.0
 var sliding_height := 0.75
@@ -14,8 +14,8 @@ var gravity := 0.0
 var wall_friction := 0.05
 var possible_wall_jumps := 3
 var camera_distortion := 0.0
-var camera_distortion_strength := 0.4
-var camera_default_fov := 75.0
+var camera_distortion_strength := 0.6
+var camera_default_fov := 90.0
 
 @export_subgroup("States")
 @export var auto_bhop := true
@@ -93,7 +93,7 @@ func _physics_process(_delta):
 	if is_on_floor(): # Landed
 		camera.position.y = -0.1
 		wall_jump_counter = 0
-	if mouse_captured:
+	if mouse_captured and false:
 		_distort_camera(_delta)
 	# Respawn
 	if position.y < -10:
@@ -110,6 +110,8 @@ func _unhandled_input(event):
 		rotation_target.x -= event.relative.y / mouse_sensitivity
 
 func handle_controls(_delta):
+	if Input.is_action_just_pressed("reload"):
+		get_tree().call_deferred("reload_current_scene")
 	#Mouse capture/Enable cursor
 	if Input.is_action_just_pressed("mouse_capture"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -175,7 +177,7 @@ func _wall_run(_delta):
 			self.velocity.y -= gravity * _delta
 		if Input.is_action_just_pressed("jump") and wall_jump_counter < possible_wall_jumps:
 			wall_jump_counter += 1
-			wish_dir = wall_normal * 1.5
+			wish_dir = wall_normal
 			self.velocity.y = jump_strength
 			can_wall_run = false
 	else:
@@ -195,5 +197,5 @@ func _distort_camera(_delta):
 	if self.velocity.length() >= 2.0:
 		camera_distortion = 0.0
 		camera.fov = lerp(camera.fov, camera_default_fov, _delta * lerp_speed)
-	if camera_distortion >= 0.7:
+	if camera_distortion >= 1.0:
 		get_tree().call_deferred("reload_current_scene")
