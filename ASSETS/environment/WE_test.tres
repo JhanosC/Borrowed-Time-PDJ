@@ -1,7 +1,7 @@
 [gd_resource type="Environment" load_steps=5 format=3 uid="uid://binlijw06k2v8"]
 
 [sub_resource type="Gradient" id="Gradient_xpw4x"]
-colors = PackedColorArray(0.0957103, 0.0980861, 0.0210799, 1, 0.0770518, 0.0581812, 0.261633, 1)
+colors = PackedColorArray(0.721917, 0.589029, 0.768874, 1, 0.746919, 0.551439, 0.450989, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_848do"]
 gradient = SubResource("Gradient_xpw4x")
@@ -27,7 +27,6 @@ ssao_radius = 0.45
 ssao_intensity = 1.0
 ssao_power = 5.0
 sdfgi_enabled = true
-glow_enabled = true
 glow_levels/2 = 0.6
 glow_levels/3 = 0.6
 glow_levels/5 = 0.0
