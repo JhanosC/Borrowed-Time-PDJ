@@ -63,9 +63,6 @@ func get_move_speed() -> float:
 func _ready():
 	gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 	camera_default_fov = camera.fov
-	for child in $WorldModel.find_children("*", "VisualInstance3D"):
-		child.set_layer_mask_value(1, false)
-		child.set_layer_mask_value(2, true)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _emit_debug_info():
@@ -123,6 +120,7 @@ func _physics_process(_delta):
 	# Handle functions
 	handle_controls(_delta)
 	if is_on_floor():
+		wall_jump_counter = 0
 		if !sliding or crawling:
 			wish_dir = lerp(wish_dir, self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y), _delta * lerp_speed)
 		_handle_ground_physics(_delta)
@@ -179,7 +177,7 @@ func handle_controls(_delta):
 	elif !raycast.is_colliding() and is_on_floor():
 		slaming = false
 		_stop_slide(_delta)
-	elif raycast.is_colliding() and velocity.length() <= 1.0:
+	elif raycast.is_colliding() and velocity.length() <= 2.0:
 		crawling = true
 	if Input.is_action_just_released("crouch"):
 		can_crouch = true
