@@ -10,7 +10,7 @@ func _on_fov_update(fov):
 func _on_camera_distortion_update(distortion):
 	$Camera_Distortion.text = "distortion: " + str(distortion).pad_decimals(2)
 
-func _on_states_update(can_crouch,slaming,sliding,wall_running,on_floor,on_wall,wish_dir):
+func _on_states_update(can_crouch,slaming,sliding,wall_running,on_floor,on_wall,direction):
 	$States.text = (
 		"Can crouch: "+str(can_crouch) 
 		+"\nSlaming: "+str(slaming)
@@ -18,7 +18,7 @@ func _on_states_update(can_crouch,slaming,sliding,wall_running,on_floor,on_wall,
 		+"\nWall running: "+str(wall_running)
 		+"\nOn floor: "+str(on_floor)
 		+"\nOn wall: "+str(on_wall)
-		+"\nWish_dir: "+str(wish_dir)
+		+"\ndirection: "+str(direction)
 		)
 
 
