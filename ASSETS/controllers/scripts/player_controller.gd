@@ -1,84 +1,130 @@
 extends CharacterBody3D
 
+@export_subgroup("Properties")
+@export var movement_speed = 10
+@export var jump_strength = 10
 
-@export var SPEED = 5.0
-@export var JUMP_VELOCITY = 4.5
+var mouse_sensitivity = 700
 
-const TILT_LOWER_LIMIT := deg_to_rad(-90.0)
-const TILT_UPPER_LIMIT := deg_to_rad(90.0)
-@export var MOUSE_SENSITIVITY : float = 0.6
-@export var CAMERA_CONTROLLER : Camera3D
-@export var ANIMATIONPLAYER : AnimationPlayer
-@export_range(5, 10, 0.1) var CROUCH_SPEED : float = 7.0
+var mouse_captured := true
 
-var _mouse_input : bool = false
-var _mouse_rotation : Vector3
-var _rotation_input : float
-var _tilt_input : float
-var _player_rotation : Vector3
-var _camera_rotation : Vector3
+var movement_velocity: Vector3
+var rotation_target: Vector3
 
-var _is_crouching : bool = false
+var input_mouse: Vector2
 
-func _input(event):
-	if event.is_action_pressed("exit"):
-		get_tree().quit()
-	if event.is_action_pressed("crouch"):
-		toggle_crouch()
+var gravity := 0.0
 
-func _unhandled_input(event):
-	_mouse_input = event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
-	if _mouse_input:
-		_rotation_input = -event.relative.x * MOUSE_SENSITIVITY
-		_tilt_input = -event.relative.y * MOUSE_SENSITIVITY
-		
+var jump_single := true
+var jump_double := true
 
-func _update_camera(delta):
-	_mouse_rotation.x += _tilt_input * delta
-	_mouse_rotation.x = clamp(_mouse_rotation.x, TILT_LOWER_LIMIT, TILT_UPPER_LIMIT)
-	_mouse_rotation.y += _rotation_input * delta
-	
-	_player_rotation = Vector3(0.0, _mouse_rotation.y, 0.0)
-	_camera_rotation = Vector3(_mouse_rotation.x, 0.0, 0.0)
-	
-	CAMERA_CONTROLLER.transform.basis = Basis.from_euler(_camera_rotation)
-	CAMERA_CONTROLLER.rotation.z = 0.0
-	
-	global_transform.basis = Basis.from_euler(_player_rotation)
-	
-	_rotation_input = 0.0
-	_tilt_input = 0.0
+@onready var camera = $CameraController/Camera3D
+@onready var raycast = $CameraController/Camera3D/RayCast3D
 
 func _ready():
+	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-		
-	_update_camera(delta)
+	
+	#Handle functions
+	handle_controls(delta)
+	handle_gravity(delta)
+	
+	#Apply movement
 
-	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
-
+	var applied_velocity: Vector3
+	
+	movement_velocity = transform.basis * movement_velocity #Move forward
+	
+	applied_velocity = velocity.lerp(movement_velocity, delta * 10)
+	applied_velocity.y = -gravity
+	
+	velocity = applied_velocity
 	move_and_slide()
 	
-func toggle_crouch():
-	if(_is_crouching):
-		ANIMATIONPLAYER.play("Crouch", -1, -CROUCH_SPEED)
-	elif (!_is_crouching):
-		ANIMATIONPLAYER.play("Crouch", -1, CROUCH_SPEED)
-	_is_crouching = !_is_crouching
+	#Smooth camera movement
+	
+	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * delta, delta * 5)	
+	
+	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, delta * 50)
+	rotation.y = lerp_angle(rotation.y, rotation_target.y, delta * 25)
+	
+
+	#Camera bobbing when landing
+	
+	camera.position.y = lerp(camera.position.y, 0.0, delta * 5)
+	
+	if is_on_floor() and gravity > 1: # Landed
+		camera.position.y = -0.1
+	
+	#Respawn
+	
+	if position.y < -10:
+		get_tree().reload_current_scene()
+
+#Mouse movement
+
+func _input(event):
+	if event is InputEventMouseMotion and mouse_captured:
+		
+		input_mouse = event.relative / mouse_sensitivity
+		
+		rotation_target.y -= event.relative.x / mouse_sensitivity
+		rotation_target.x -= event.relative.y / mouse_sensitivity
+
+func handle_controls(_delta):
+	
+	#Mouse capture/Enable cursor
+	
+	if Input.is_action_just_pressed("mouse_capture"):
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		mouse_captured = true
+	
+	if Input.is_action_just_pressed("mouse_capture_exit"):
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		mouse_captured = false
+		
+		input_mouse = Vector2.ZERO
+	rotation_target.x = clamp(rotation_target.x, deg_to_rad(-90), deg_to_rad(90))
+	
+	#Get direction
+	
+	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	
+	movement_velocity = Vector3(input.x, 0, input.y).normalized() * movement_speed
+	
+	#Jumping
+	
+	if Input.is_action_just_pressed("jump"):
+		
+		if jump_double:
+			
+			gravity = -jump_strength
+			jump_double = false
+			
+		if(jump_single): action_jump()
+		
+
+#Gravity
+
+func handle_gravity(delta):
+	
+	gravity += 20 * delta
+	
+	if gravity > 0 and is_on_floor():
+		jump_single = true
+		gravity = 0
+
+#Jumping logic
+
+func action_jump():
+	if is_on_floor():
+		jump_double = true;
+	else:
+		jump_double = false;
+	jump_single = false;
+	
+	gravity = -jump_strength
+	
+	
