@@ -6,7 +6,7 @@ extends CharacterBody3D
 
 const TILT_LOWER_LIMIT := deg_to_rad(-90.0)
 const TILT_UPPER_LIMIT := deg_to_rad(90.0)
-@export var MOUSE_SENSITIVITY : float = 0.5
+@export var MOUSE_SENSITIVITY : float = 0.6
 @export var CAMERA_CONTROLLER : Camera3D
 
 var _mouse_input : bool = false
