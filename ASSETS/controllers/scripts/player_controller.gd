@@ -1,10 +1,10 @@
 extends CharacterBody3D
 
 @export_subgroup("Properties")
-@export var jump_strength := 9.0
+@export var jump_strength := 7.0
 @export var slam_strength := 3.5
 @export var mouse_sensitivity = 700
-var slide_vector : Vector2 = Vector2.ZERO
+var move_foward_vector : Vector2 = Vector2.ZERO
 const HEADBOB_MOVE_AMOUNT = 0.05
 const HEADBOB_FREQUENCY = 2.0
 var headbob_time := 0.0
@@ -41,6 +41,9 @@ var on_floor := true
 @export var dash_duration := 0.2
 @export var dash_speed_multiplier := 3.0
 @export var crawl_speed_multiplier := 0.7
+@export var dash_refresh_rate := 2.5
+@export var max_dash_storage := 10.0
+var current_dash_storage := 0.0
 var dashing_timer := 0.0
 var desired_velocity := 0.0
 var hitGroundCooldownRef : float
@@ -49,8 +52,6 @@ var direction := Vector3.ZERO
 var wall_jump_counter := 0
 var wall_run_cooldown := 0.0
 var possible_wall_jumps := 3
-var dash_counter := 0
-var possible_dashs := 3
 
 var rotation_target: Vector3
 var input_mouse: Vector2
@@ -76,7 +77,7 @@ var debug_mode = true
 
 func update_signals():
 	states_update.emit(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction)
-	velocity_update.emit(Vector3(velocity.x,0.0,velocity.z).length(), desired_velocity)
+	velocity_update.emit(Vector3(velocity.x,0.0,velocity.z).length(), desired_velocity, current_dash_storage)
 
 func get_move_speed() -> float:
 	if crawling:
@@ -96,6 +97,7 @@ func is_touching_wall() -> bool:
 	return false
 
 func _ready():
+	current_dash_storage = max_dash_storage
 	sliding_collision_shape.disabled = true
 	standing_collision_shape.disabled = false
 	hitGroundCooldownRef = hitGroundCooldown
@@ -205,7 +207,7 @@ func handle_controls(delta):
 			can_crouch = false
 		else:
 			_slide(delta)
-	elif !ceilingCheck.is_colliding() and on_floor:
+	elif !ceilingCheck.is_colliding():
 		slaming = false
 		_stop_slide(delta)
 	elif ceilingCheck.is_colliding() and velocity.length() <= 2.0:
@@ -218,9 +220,11 @@ func handle_controls(delta):
 		Input.is_action_just_pressed("dash")
 		and !sliding
 		and dash_cooldown <= 0.0
-		and dash_counter < possible_dashs
+		and current_dash_storage >= 5.0
 		):
-		dash_counter += 1
+		if input_dir != Vector2.ZERO: move_foward_vector = input_dir
+		else: move_foward_vector = Vector2(0, -1)
+		current_dash_storage -= 5.0
 		dashing = true
 		dashing_timer = dash_duration
 		dash_cooldown = 0.5
@@ -228,6 +232,8 @@ func handle_controls(delta):
 		self.velocity.y = 0.0
 		dashing_timer -= delta
 	else:
+		if current_dash_storage < max_dash_storage:
+			current_dash_storage += dash_refresh_rate * delta
 		if dash_cooldown >= 0.0:
 			dash_cooldown -= delta
 		dashing = false
@@ -241,17 +247,16 @@ func move(delta):
 	
 	elif sliding and !crawling:
 		if direction == Vector3.ZERO:
-			direction = (self.global_transform.basis * Vector3(slide_vector.x, 0.0, slide_vector.y)).normalized()
+			direction = (self.global_transform.basis * Vector3(move_foward_vector.x, 0.0, move_foward_vector.y)).normalized()
 	
 	elif dashing:
 		if direction == Vector3.ZERO:
-			direction = (self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
+			direction = (self.global_transform.basis * Vector3(move_foward_vector.x, 0.0, move_foward_vector.y)).normalized()
 	else:
 		direction = (self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
 	
 	if on_floor:
 		wall_jump_counter = 0
-		dash_counter = 0
 		if direction:
 			if sliding:
 				if velocity.length() < get_move_speed():
@@ -326,8 +331,8 @@ func _wall_run(_delta):
 func _slide(delta):
 	head.position.y = lerp(head.position.y, sliding_height, delta * lerp_speed)
 	sliding = true
-	if input_dir != Vector2.ZERO: slide_vector = input_dir 
-	else: slide_vector = Vector2(0, -1)
+	if input_dir != Vector2.ZERO: move_foward_vector = input_dir 
+	else: move_foward_vector = Vector2(0, -1)
 	standing_collision_shape.disabled = true
 	sliding_collision_shape.disabled = false
 func _stop_slide(delta):
