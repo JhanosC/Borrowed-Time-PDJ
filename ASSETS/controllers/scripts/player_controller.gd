@@ -150,8 +150,10 @@ func _physics_process(delta):
 	# Decrease wall run cooldown
 	if wall_run_cooldown >= 0.0: wall_run_cooldown -= delta
 	# If the cooldown is down, can wall run again
-	if wall_run_cooldown <= 0.0:
+	if wall_run_cooldown <= 0.0 and Vector3(velocity.x, 0.0, velocity.z).length() > get_move_speed() * 0.5:
 		can_wall_run = true
+	else:
+		can_wall_run = false
 	# If on air, momentum reset cooldown is up
 	if !on_floor:
 		if hitGroundCooldown != hitGroundCooldownRef: hitGroundCooldown = hitGroundCooldownRef
@@ -180,8 +182,6 @@ func _unhandled_input(event):
 		rotation_target.x -= event.relative.y / mouse_sensitivity
 
 func handle_controls(delta):
-	if debug_mode and Input.is_action_just_pressed("interact"):
-		Global.game_controller.change_3d_scene("res://ASSETS/scenes/test_level_2.tscn")
 	# Reload scene
 	if Input.is_action_just_pressed("reload"):
 		get_tree().call_deferred("reload_current_scene")

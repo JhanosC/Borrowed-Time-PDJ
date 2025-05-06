@@ -1,5 +1,5 @@
 extends CanvasLayer
-
+	
 
 func _on_velocity_update(velocity, desired_velocity, current_dash_storage):
 	$Velocity.text = (

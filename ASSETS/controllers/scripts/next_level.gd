@@ -1,9 +1,9 @@
 extends Area3D
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -13,6 +13,9 @@ func _process(delta):
 
 func _on_body_entered(body):
 	if body is Player:
-		Global.game_controller.change_3d_scene("res://ASSETS/scenes/test_level_2.tscn")
-		print("O bah!")
+		_change_level()
+	queue_free()
+
+func _change_level():
+	Global.game_controller.change_3d_scene("res://ASSETS/scenes/test_level.tscn")
 	queue_free()
