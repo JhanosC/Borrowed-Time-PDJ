@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bua260c72227w"]
+
+[ext_resource type="Script" uid="uid://d1i3t20cgeo1j" path="res://ASSETS/controllers/scripts/game_controller.gd" id="1_xdi1r"]
+
+[node name="GameController" type="Node"]
+script = ExtResource("1_xdi1r")
+
+[node name="World3D" type="Node3D" parent="."]
+
+[node name="World2D" type="Node2D" parent="."]
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SplashScreenManager" type="Control" parent="GUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

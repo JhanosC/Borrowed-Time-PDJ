@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=14 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -37,6 +37,14 @@ shader_parameter/line_faloff = 1.0
 shader_parameter/mask_size = 0.1
 shader_parameter/mask_edge = 0.8
 shader_parameter/animation_speed = 20.0
+
+[sub_resource type="SystemFont" id="SystemFont_juo0p"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_p1wnk"]
+font = SubResource("SystemFont_juo0p")
+outline_size = 3
+outline_color = Color(0, 0, 0, 0.470588)
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_mask = 3
@@ -114,3 +122,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+
+[node name="Time" type="Label" parent="HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "100"
+label_settings = SubResource("LabelSettings_p1wnk")

@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 [autoload]
 
 AudioPlayer="*res://ASSETS/scenes/audio_player.tscn"
+Global="*res://ASSETS/controllers/scripts/global.gd"
 
 [input]
 
