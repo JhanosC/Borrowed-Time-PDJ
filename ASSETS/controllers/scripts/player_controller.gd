@@ -1,4 +1,4 @@
-extends CharacterBody3D
+class_name Player extends CharacterBody3D
 
 @export_subgroup("Properties")
 @export var jump_strength := 7.0
@@ -180,6 +180,8 @@ func _unhandled_input(event):
 		rotation_target.x -= event.relative.y / mouse_sensitivity
 
 func handle_controls(delta):
+	if debug_mode and Input.is_action_just_pressed("interact"):
+		Global.game_controller.change_3d_scene("res://ASSETS/scenes/test_level_2.tscn")
 	# Reload scene
 	if Input.is_action_just_pressed("reload"):
 		get_tree().call_deferred("reload_current_scene")

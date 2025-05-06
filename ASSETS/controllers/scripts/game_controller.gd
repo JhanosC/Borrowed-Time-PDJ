@@ -11,6 +11,7 @@ var current_gui_scene
 func _ready() -> void:
 	Global.game_controller = self
 	current_gui_scene = $GUI/SplashScreenManager
+	current_3d_scene = $World3D/Main
 
 func change_gui_scene(new_scene: String, delete: bool = true, keep_running: bool = false) -> void:
 	if current_gui_scene != null:
@@ -31,7 +32,8 @@ func change_3d_scene(new_scene: String, delete: bool = true, keep_running: bool 
 		elif keep_running:
 			current_3d_scene.visible = false
 		else:
-			world_3d.remove_child(current_gui_scene)
+			world_3d.remove_child(current_3d_scene)
 	var new = load(new_scene).instantiate()
 	world_3d.add_child(new)
 	current_3d_scene = new
+	
