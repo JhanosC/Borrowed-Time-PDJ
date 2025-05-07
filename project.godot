@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Trabalho-PDJ"
-run/main_scene="uid://bua260c72227w"
+run/main_scene="uid://b1ts0aiopj8aj"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]

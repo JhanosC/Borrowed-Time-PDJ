@@ -17,5 +17,5 @@ func _on_body_entered(body):
 	queue_free()
 
 func _change_level():
-	Global.game_controller.change_3d_scene("res://ASSETS/scenes/test_level.tscn")
+	Global.game_controller.change_3d_scene("res://ASSETS/scenes/test_level_2.tscn")
 	queue_free()

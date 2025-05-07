@@ -205,6 +205,7 @@ func handle_controls(delta):
 	if Input.is_action_pressed("crouch") and can_crouch:
 		if !on_floor and !sliding:
 			self.velocity.y -= gravity * slam_strength
+			global_transform
 			slaming = true
 			can_crouch = false
 		else:
