@@ -14,6 +14,12 @@ func display_speed_lines(current_velocity, base_velocity):
 	else:
 		speed_lines.visible = false
 
+func display_fall_lines(current_velocity, base_velocity):
+	if current_velocity > base_velocity * 1.3:
+		speed_lines.visible = true
+	else:
+		speed_lines.visible = false
+
 func display_time(delta):
 	time_passed += delta
 	time.text = str(time_passed).pad_decimals(2)

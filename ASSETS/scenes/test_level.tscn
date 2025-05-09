@@ -52,6 +52,13 @@ script = ExtResource("1_xx3hq")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EndLevel"]
 shape = SubResource("BoxShape3D_r6ukr")
 
+[node name="EndLevel2" type="Area3D" parent="."]
+transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 4.00157, 7.94767, 32.7442)
+script = ExtResource("1_xx3hq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EndLevel2"]
+shape = SubResource("BoxShape3D_r6ukr")
+
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_nn3ir")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 platform_on_leave = 2
@@ -1218,5 +1225,6 @@ environment = ExtResource("7_nn3ir")
 script = ExtResource("8_b0ahb")
 
 [connection signal="body_entered" from="EndLevel" to="EndLevel" method="_on_body_entered"]
+[connection signal="body_entered" from="EndLevel2" to="EndLevel2" method="_on_body_entered"]
 [connection signal="states_update" from="CharacterBody3D" to="UI" method="_on_character_body_3d_states_update"]
 [connection signal="velocity_update" from="CharacterBody3D" to="UI" method="_on_velocity_update"]

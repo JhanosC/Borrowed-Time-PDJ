@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://ASSETS/scenes/rigid_box.tscn" id="6_w1o6c"]
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/environment/Tiles.tres" id="7_55kva"]
 [ext_resource type="Texture2D" uid="uid://dyydggpxsbar1" path="res://ASSETS/art/HDRi/BuracoNegro7_blender.hdr" id="7_c7bbb"]
-[ext_resource type="Script" path="res://ASSETS/controllers/scripts/we2.gd" id="8_c7bbb"]
+[ext_resource type="Script" uid="uid://b6hni47bovn6j" path="res://ASSETS/controllers/scripts/we2.gd" id="8_c7bbb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r6ukr"]
 
@@ -105,7 +105,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.174, -3.39698, -16.5034)
 shape = SubResource("BoxShape3D_r6ukr")
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_c7bbb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.2751, 1.5, 3.57692)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15.6474, 2.1, 3.57692)
 platform_on_leave = 2
 
 [node name="UI" type="CanvasLayer" parent="."]
