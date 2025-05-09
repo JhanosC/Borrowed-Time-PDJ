@@ -77,7 +77,7 @@ signal position_update(x,y,z: float)
 @onready var hand = $CameraController/Camera3D/hand
 @onready var interaction = $CameraController/Camera3D/interaction
 
-
+var pulled = false
 var picked_object
 var holding = false
 const pull_power = 4
@@ -95,17 +95,21 @@ func pick_object():
 			print("Collided with a rigid body")
 			
 
-func move_object():
+func pull_object():
 	if picked_object != null and holding: 
 		var a = picked_object.global_transform.origin
 		var b = hand.global_transform.origin
 		
 		var direction = b - a
-		if direction.length() > 1:
+		if direction.length() > 2:
 			picked_object.linear_velocity = direction * 4.0
 		else:
 			picked_object.linear_velocity = Vector3.ZERO
 
+func manipulate_object(): 
+	if picked_object != null and holding:
+		print()
+		
 func release_object():
 	picked_object.linear_velocity = Vector3(0, 0, 0)
 	holding = false
@@ -206,7 +210,7 @@ func _physics_process(delta):
 	_wall_run(delta)
 	move_and_slide()
 	update_signals() 
-	move_object()
+	pull_object()
 
 	
 func _unhandled_input(event):
