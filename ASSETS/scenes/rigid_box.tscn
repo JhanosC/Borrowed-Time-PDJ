@@ -10,6 +10,7 @@
 collision_layer = 2
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_jv3ii")
+freeze_mode = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_r3fl7")

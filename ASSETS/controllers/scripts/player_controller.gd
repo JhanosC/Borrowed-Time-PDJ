@@ -27,6 +27,8 @@ var mouse_captured := true
 var crawling := false
 var can_wall_run := true
 var on_floor := true
+var pulled = false
+var holding = false
 
 @export_subgroup("Movement Settings")
 @export var movement_speed : float
@@ -53,6 +55,9 @@ var wall_jump_counter := 0
 var wall_run_cooldown := 0.0
 var possible_wall_jumps := 3
 
+var picked_object = null
+const pull_power := 4.0
+
 var rotation_target: Vector3
 var input_mouse: Vector2
 var input_dir: Vector2
@@ -68,6 +73,8 @@ signal position_update(x,y,z: float)
 @onready var ceilingCheck = $Raycasts/CeilingCheck
 @onready var wall_check_r: RayCast3D = $Raycasts/WallCheckR
 @onready var wall_check_l: RayCast3D = $Raycasts/WallCheckL
+@onready var aim_raycast: RayCast3D = $CameraController/Camera3D/AimRaycast
+@onready var pull_point: Marker3D = $CameraController/Camera3D/PullPoint
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
 @onready var sliding_collision_shape: CollisionShape3D = $SlidingCollisionShape
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
@@ -171,6 +178,7 @@ func _physics_process(delta):
 	_distort_camera(delta)
 	_push_away_rigid_bodies()
 	_wall_run(delta)
+	pull_object()
 	move_and_slide()
 	update_signals()
 	
@@ -186,9 +194,14 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("reload"):
 		get_tree().call_deferred("reload_current_scene")
 	#Mouse capture/Enable cursor
-	if Input.is_action_just_pressed("mouse_capture"):
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		mouse_captured = true
+	if Input.is_action_just_pressed("left_mouse"):
+		if !mouse_captured:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			mouse_captured = true
+		if !holding:
+			pick_object()
+		else:
+			release_object()
 	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -344,6 +357,37 @@ func _stop_slide(delta):
 	crawling = false
 	standing_collision_shape.disabled = false
 	sliding_collision_shape.disabled = true
+
+func pick_object():
+		var collider = aim_raycast.get_collider()
+		print(collider)
+		if collider is RigidBody3D:
+			holding = true
+			#collider.add_collision_exception_with(self)
+			collider.lock_rotation = true
+			picked_object = collider
+			print("Collided with a rigid body")
+
+func pull_object():
+	if picked_object != null and holding: 
+		var a = picked_object.global_transform.origin
+		var b = pull_point.global_position
+		
+		var direction = b - a
+		if direction.length() > 0.0:
+			picked_object.linear_velocity = direction * 10.0
+			picked_object.freeze = false
+		else:
+			picked_object.linear_velocity = Vector3.ZERO
+			picked_object.freeze = true
+
+func manipulate_object(): 
+	if picked_object != null and holding:
+		print()
+
+func release_object():
+	picked_object.linear_velocity = Vector3(0, 0, 0)
+	holding = false
 
 func _headbob_effect(delta):
 	headbob_time += delta * self.velocity.length()
