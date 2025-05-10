@@ -330,7 +330,7 @@ func jump(strength_value : float):
 			velocity = wall_check_l.get_collision_normal() * wall_jump_force
 		else:
 			velocity = wall_check_r.get_collision_normal() * wall_jump_force
-		wall_run_cooldown = 0.5
+		wall_run_cooldown = 0.2
 		
 	self.velocity.y = jump_strength + strength_value
 
