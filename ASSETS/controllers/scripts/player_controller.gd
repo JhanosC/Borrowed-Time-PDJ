@@ -206,6 +206,10 @@ func handle_controls(delta):
 		else:
 			pick_object()
 	
+	if holding:
+		if Input.is_action_just_pressed("left_mouse"):
+			throw_object()
+	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		mouse_captured = false
@@ -389,15 +393,21 @@ func pull_object():
 		
 		var direction = b - a
 		if direction.length() > 0.0:
-			picked_object.linear_velocity = direction * 10.0
+			picked_object.linear_velocity = direction * 20.0
 			picked_object.freeze = false
 		else:
 			picked_object.linear_velocity = Vector3.ZERO
 			picked_object.freeze = true
 
-func manipulate_object(): 
-	if picked_object != null and holding:
-		print()
+func throw_object():
+	var push_dir = (aim_raycast.to_global(aim_raycast.target_position) - aim_raycast.to_global(Vector3.ZERO)).normalized()
+	var push_force = 100.0
+	
+	picked_object.apply_impulse(push_dir * push_force)
+	picked_object.lock_rotation = false
+	picked_object.remove_collision_exception_with(self)
+	holding = false
+
 
 func release_object():
 	picked_object.linear_velocity = Vector3(0, 0, 0)

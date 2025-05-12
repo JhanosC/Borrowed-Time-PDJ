@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=16 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -49,6 +49,8 @@ subpixel_positioning = 0
 font = SubResource("SystemFont_juo0p")
 outline_size = 3
 outline_color = Color(0, 0, 0, 0.470588)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p1wnk"]
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_mask = 3
@@ -148,3 +150,20 @@ offset_bottom = 23.0
 grow_horizontal = 0
 text = "100"
 label_settings = SubResource("LabelSettings_p1wnk")
+
+[node name="ColorRect" type="ColorRect" parent="HUD"]
+material = SubResource("ShaderMaterial_p1wnk")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.492
+anchor_right = 0.5
+anchor_bottom = 0.492
+offset_left = -6.0
+offset_top = -5.81601
+offset_right = 18.0
+offset_bottom = 18.184
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
