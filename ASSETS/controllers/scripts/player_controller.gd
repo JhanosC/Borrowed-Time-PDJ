@@ -86,7 +86,7 @@ var debug_mode = true
 var cc = 0
 func pick_object():
 		var collider = interaction.get_collider()
-		print(collider)
+
 		if collider != null and collider is RigidBody3D:
 			cc+=1
 			collider.name = "taken " + str(cc)
@@ -102,8 +102,10 @@ func pull_object():
 		
 		var direction = b - a
 		if direction.length() > 2:
+			picked_object.freeze = false
 			picked_object.linear_velocity = direction * 4.0
 		else:
+			picked_object.freeze = true
 			picked_object.linear_velocity = Vector3.ZERO
 
 func manipulate_object(): 
