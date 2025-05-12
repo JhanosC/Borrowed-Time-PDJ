@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 [gd_scene load_steps=12 format=3 uid="uid://5g5pal1keh8o"]
+=======
+[gd_scene load_steps=16 format=3 uid="uid://dul2pititpkcb"]
+>>>>>>> main
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -13,6 +17,10 @@ point_count = 4
 _limits = [0.0, 10.0, 0.0, 1.0]
 _data = [Vector2(0.284644, 9.1875), 0.0, 0.0, 0, 0, Vector2(0.588015, 7.96875), 0.0, 0.0, 0, 0, Vector2(0.891386, 7.46094), 0.0, 0.0, 0, 0]
 point_count = 3
+
+[sub_resource type="SphereMesh" id="SphereMesh_p1wnk"]
+radius = 0.1
+height = 0.25
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dk88v"]
 height = 1.0
@@ -38,6 +46,16 @@ shader_parameter/mask_size = 0.1
 shader_parameter/mask_edge = 0.8
 shader_parameter/animation_speed = 20.0
 
+[sub_resource type="SystemFont" id="SystemFont_juo0p"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_p1wnk"]
+font = SubResource("SystemFont_juo0p")
+outline_size = 3
+outline_color = Color(0, 0, 0, 0.470588)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p1wnk"]
+
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_mask = 3
 script = ExtResource("1_dk88v")
@@ -54,12 +72,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 [node name="Camera3D" type="Camera3D" parent="CameraController"]
 cull_mask = 1048573
 
+<<<<<<< HEAD
 [node name="hand" type="Marker3D" parent="CameraController/Camera3D"]
 
 [node name="interaction" type="RayCast3D" parent="CameraController/Camera3D"]
 target_position = Vector3(0, 0, -7)
 collision_mask = 3
 
+=======
+[node name="AimRaycast" type="RayCast3D" parent="CameraController/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+target_position = Vector3(0, -7, 0)
+collision_mask = 3
+
+[node name="PullPoint" type="Marker3D" parent="CameraController/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, -2.1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CameraController/Camera3D/PullPoint"]
+mesh = SubResource("SphereMesh_p1wnk")
+
+>>>>>>> main
 [node name="SlidingCollisionShape" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape3D_dk88v")
@@ -120,3 +152,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+
+[node name="Time" type="Label" parent="HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "100"
+label_settings = SubResource("LabelSettings_p1wnk")
+
+[node name="ColorRect" type="ColorRect" parent="HUD"]
+material = SubResource("ShaderMaterial_p1wnk")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.492
+anchor_right = 0.5
+anchor_bottom = 0.492
+offset_left = -6.0
+offset_top = -5.81601
+offset_right = 18.0
+offset_bottom = 18.184
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2

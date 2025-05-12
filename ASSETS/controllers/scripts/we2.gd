@@ -9,7 +9,7 @@ func _updateRotation(_delta):
 	black_hole_rotation+= 0.01 * _delta
 	if(black_hole_rotation >= 360):
 		black_hole_rotation = 0.0
-	sky_material.sky_rotation.z = -black_hole_rotation
+	sky_material.sky_rotation.y = -black_hole_rotation
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	_updateRotation(_delta)

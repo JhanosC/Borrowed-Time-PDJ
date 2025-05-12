@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bl6q374o8fjde"]
-
-[ext_resource type="Environment" uid="uid://binlijw06k2v8" path="res://ASSETS/environment/WE_test.tres" id="1_lwv6i"]
-[ext_resource type="Script" uid="uid://bmohv7axfoxts" path="res://ASSETS/controllers/scripts/we.gd" id="2_fhqcr"]
-
-[node name="WorldEnvironment" type="WorldEnvironment"]
-environment = ExtResource("1_lwv6i")
-script = ExtResource("2_fhqcr")

@@ -1,10 +1,12 @@
 extends CanvasLayer
+	
 
-
-func _on_velocity_update(velocity, desired_velocity):
+func _on_velocity_update(velocity, desired_velocity, current_dash_storage):
 	$Velocity.text = (
-		"speed: " + str(velocity).pad_decimals(2)
-		+"\nDesired velocity: "+str(desired_velocity).pad_decimals(2))
+		"Speed: " + str(velocity).pad_decimals(2)
+		+"\nDesired Velocity: "+str(desired_velocity).pad_decimals(2)
+		+"\nCurrent Dash Storage: "+str(current_dash_storage).pad_decimals(2)
+		)
 #
 #func _on_fov_update(fov):
 	#$FOV.text = "fov: " + str(fov).pad_decimals(2)

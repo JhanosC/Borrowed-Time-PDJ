@@ -1,10 +1,10 @@
-extends CharacterBody3D
+class_name Player extends CharacterBody3D
 
 @export_subgroup("Properties")
-@export var jump_strength := 9.0
+@export var jump_strength := 7.0
 @export var slam_strength := 3.5
 @export var mouse_sensitivity = 700
-var slide_vector : Vector2 = Vector2.ZERO
+var move_foward_vector : Vector2 = Vector2.ZERO
 const HEADBOB_MOVE_AMOUNT = 0.05
 const HEADBOB_FREQUENCY = 2.0
 var headbob_time := 0.0
@@ -27,6 +27,8 @@ var mouse_captured := true
 var crawling := false
 var can_wall_run := true
 var on_floor := true
+var pulled = false
+var holding = false
 
 @export_subgroup("Movement Settings")
 @export var movement_speed : float
@@ -41,6 +43,9 @@ var on_floor := true
 @export var dash_duration := 0.2
 @export var dash_speed_multiplier := 3.0
 @export var crawl_speed_multiplier := 0.7
+@export var dash_refresh_rate := 2.5
+@export var max_dash_storage := 10.0
+var current_dash_storage := 0.0
 var dashing_timer := 0.0
 var desired_velocity := 0.0
 var hitGroundCooldownRef : float
@@ -49,8 +54,9 @@ var direction := Vector3.ZERO
 var wall_jump_counter := 0
 var wall_run_cooldown := 0.0
 var possible_wall_jumps := 3
-var dash_counter := 0
-var possible_dashs := 3
+
+var picked_object = null
+const pull_power := 4.0
 
 var rotation_target: Vector3
 var input_mouse: Vector2
@@ -67,6 +73,8 @@ signal position_update(x,y,z: float)
 @onready var ceilingCheck = $Raycasts/CeilingCheck
 @onready var wall_check_r: RayCast3D = $Raycasts/WallCheckR
 @onready var wall_check_l: RayCast3D = $Raycasts/WallCheckL
+@onready var aim_raycast: RayCast3D = $CameraController/Camera3D/AimRaycast
+@onready var pull_point: Marker3D = $CameraController/Camera3D/PullPoint
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
 @onready var sliding_collision_shape: CollisionShape3D = $SlidingCollisionShape
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
@@ -119,7 +127,7 @@ func release_object():
 
 func update_signals():
 	states_update.emit(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction)
-	velocity_update.emit(Vector3(velocity.x,0.0,velocity.z).length(), desired_velocity)
+	velocity_update.emit(Vector3(velocity.x,0.0,velocity.z).length(), desired_velocity, current_dash_storage)
 
 func get_move_speed() -> float:
 	if crawling:
@@ -139,6 +147,7 @@ func is_touching_wall() -> bool:
 	return false
 
 func _ready():
+	current_dash_storage = max_dash_storage
 	sliding_collision_shape.disabled = true
 	standing_collision_shape.disabled = false
 	hitGroundCooldownRef = hitGroundCooldown
@@ -191,8 +200,10 @@ func _physics_process(delta):
 	# Decrease wall run cooldown
 	if wall_run_cooldown >= 0.0: wall_run_cooldown -= delta
 	# If the cooldown is down, can wall run again
-	if wall_run_cooldown <= 0.0:
+	if wall_run_cooldown <= 0.0 and Vector3(velocity.x, 0.0, velocity.z).length() > get_move_speed() * 0.5:
 		can_wall_run = true
+	else:
+		can_wall_run = false
 	# If on air, momentum reset cooldown is up
 	if !on_floor:
 		if hitGroundCooldown != hitGroundCooldownRef: hitGroundCooldown = hitGroundCooldownRef
@@ -210,6 +221,7 @@ func _physics_process(delta):
 	_distort_camera(delta)
 	_push_away_rigid_bodies()
 	_wall_run(delta)
+	pull_object()
 	move_and_slide()
 	update_signals() 
 	pull_object()
@@ -227,6 +239,7 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("reload"):
 		get_tree().call_deferred("reload_current_scene")
 	#Mouse capture/Enable cursor
+<<<<<<< HEAD
 	if Input.is_action_just_pressed("mouse_capture"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		mouse_captured = true
@@ -234,6 +247,23 @@ func handle_controls(delta):
 			pick_object()
 		else:
 			release_object()
+=======
+	if Input.is_action_just_pressed("left_mouse"):
+		if !mouse_captured:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			mouse_captured = true
+		
+
+	if Input.is_action_just_pressed("interact"):
+		if holding:
+			release_object()
+		else:
+			pick_object()
+	
+	if holding:
+		if Input.is_action_just_pressed("left_mouse"):
+			throw_object()
+>>>>>>> main
 	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -250,11 +280,12 @@ func handle_controls(delta):
 	if Input.is_action_pressed("crouch") and can_crouch:
 		if !on_floor and !sliding:
 			self.velocity.y -= gravity * slam_strength
+			global_transform
 			slaming = true
 			can_crouch = false
 		else:
 			_slide(delta)
-	elif !ceilingCheck.is_colliding() and on_floor:
+	elif !ceilingCheck.is_colliding():
 		slaming = false
 		_stop_slide(delta)
 	elif ceilingCheck.is_colliding() and velocity.length() <= 2.0:
@@ -268,16 +299,17 @@ func handle_controls(delta):
 		Input.is_action_just_pressed("dash")
 		and !sliding
 		and dash_cooldown <= 0.0
-		and dash_counter < possible_dashs
+		and current_dash_storage >= 5.0
 		):
-		dash_counter += 1
-		dashing = true
-		dashing_timer = dash_duration
-		dash_cooldown = 0.5
+		_dash() # Update variables to allow to dash
+
+	# Handle dash uses and recharge
 	if dashing_timer > 0.0:
 		self.velocity.y = 0.0
 		dashing_timer -= delta
 	else:
+		if current_dash_storage < max_dash_storage:
+			current_dash_storage += dash_refresh_rate * delta
 		if dash_cooldown >= 0.0:
 			dash_cooldown -= delta
 		dashing = false
@@ -285,23 +317,22 @@ func handle_controls(delta):
 func move(delta):
 	# Get direction
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	# Desired velocity can't be lower than the actual velocity
 	if desired_velocity < get_move_speed(): desired_velocity = velocity.length()
+	# Keep on same direction when wall running
 	if wall_running:
 		direction = velocity.normalized()
-	
-	elif sliding and !crawling:
+	# If sliding or dashing, can't change direction. But if is crawling, can change
+	elif (sliding and !crawling) or dashing:
 		if direction == Vector3.ZERO:
-			direction = (self.global_transform.basis * Vector3(slide_vector.x, 0.0, slide_vector.y)).normalized()
-	
-	elif dashing:
-		if direction == Vector3.ZERO:
-			direction = (self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
+			direction = (self.global_transform.basis * Vector3(move_foward_vector.x, 0.0, move_foward_vector.y)).normalized()
+	# If not doing anything above, walks normally
 	else:
 		direction = (self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
 	
+	# Apply direction based on state
 	if on_floor:
-		wall_jump_counter = 0
-		dash_counter = 0
+		wall_jump_counter = 0 # Reset wall jump counter when hit the ground
 		if direction:
 			if sliding:
 				if velocity.length() < get_move_speed():
@@ -316,8 +347,10 @@ func move(delta):
 			else:
 				self.velocity.x = lerp(velocity.x, direction.x * get_move_speed(), acceleration * delta)
 				self.velocity.z = lerp(velocity.z, direction.z * get_move_speed(), acceleration * delta)
+				# Lose momentum when on ground
 				if hitGroundCooldown <= 0 and desired_velocity >= velocity.length():
 					desired_velocity -= ground_decel * delta
+		# Smooth slow down when not giving an input
 		else:
 			self.velocity.x = lerp(velocity.x, 0.0, ground_decel * delta)
 			self.velocity.z = lerp(velocity.z, 0.0, ground_decel * delta)
@@ -332,6 +365,7 @@ func move(delta):
 				velocity.x = direction.x * get_move_speed()
 				velocity.z = direction.z * get_move_speed()
 			else:
+				# Apply momentum when on air
 				if desired_velocity < max_speed: desired_velocity += 0.2 * delta
 				
 				# Curves for air acceleration
@@ -351,16 +385,17 @@ func move(delta):
 				
 	if desired_velocity >= max_speed: desired_velocity = max_speed
 
+# Handles jump
 func jump(strength_value : float):
 	if wall_running:
 		wall_running = false
 		can_wall_run = false
-		if wall_check_l.is_colliding():
+		if wall_check_l.is_colliding(): # Jump away from wall
 			velocity = wall_check_l.get_collision_normal() * wall_jump_force
 		else:
 			velocity = wall_check_r.get_collision_normal() * wall_jump_force
-		wall_run_cooldown = 0.5
-		
+		wall_run_cooldown = 0.2
+	
 	self.velocity.y = jump_strength + strength_value
 
 func _wall_run(_delta):
@@ -376,8 +411,10 @@ func _wall_run(_delta):
 func _slide(delta):
 	head.position.y = lerp(head.position.y, sliding_height, delta * lerp_speed)
 	sliding = true
-	if input_dir != Vector2.ZERO: slide_vector = input_dir 
-	else: slide_vector = Vector2(0, -1)
+	# If start sliding, keep on same direction the player started
+	if input_dir != Vector2.ZERO: move_foward_vector = input_dir 
+	# If try to slide while idle, slide foward
+	else: move_foward_vector = Vector2(0, -1)
 	standing_collision_shape.disabled = true
 	sliding_collision_shape.disabled = false
 func _stop_slide(delta):
@@ -386,6 +423,53 @@ func _stop_slide(delta):
 	crawling = false
 	standing_collision_shape.disabled = false
 	sliding_collision_shape.disabled = true
+
+func _dash():
+	# If start sliding, keep on same direction the player started
+	if input_dir != Vector2.ZERO: move_foward_vector = input_dir
+	# If try to dash while idle, slide foward
+	else: move_foward_vector = Vector2(0, -1)
+	current_dash_storage -= 5.0
+	dashing = true
+	dashing_timer = dash_duration
+	dash_cooldown = 0.5
+
+func pick_object():
+		var collider = aim_raycast.get_collider()
+		if collider is RigidBody3D:
+			holding = true
+			collider.lock_rotation = true
+			collider.add_collision_exception_with(self)
+			picked_object = collider
+
+func pull_object():
+	if picked_object != null and holding: 
+		var a = picked_object.global_transform.origin
+		var b = pull_point.global_position
+		
+		var direction = b - a
+		if direction.length() > 0.0:
+			picked_object.linear_velocity = direction * 20.0
+			picked_object.freeze = false
+		else:
+			picked_object.linear_velocity = Vector3.ZERO
+			picked_object.freeze = true
+
+func throw_object():
+	var push_dir = (aim_raycast.to_global(aim_raycast.target_position) - aim_raycast.to_global(Vector3.ZERO)).normalized()
+	var push_force = 100.0
+	
+	picked_object.apply_impulse(push_dir * push_force)
+	picked_object.lock_rotation = false
+	picked_object.remove_collision_exception_with(self)
+	holding = false
+
+
+func release_object():
+	picked_object.linear_velocity = Vector3(0, 0, 0)
+	picked_object.lock_rotation = false
+	picked_object.remove_collision_exception_with(self)
+	holding = false
 
 func _headbob_effect(delta):
 	headbob_time += delta * self.velocity.length()
