@@ -36,4 +36,3 @@ func change_3d_scene(new_scene: String, delete: bool = true, keep_running: bool 
 	var new = load(new_scene).instantiate()
 	world_3d.add_child(new)
 	current_3d_scene = new
-	

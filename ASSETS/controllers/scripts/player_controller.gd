@@ -44,7 +44,7 @@ var holding = false
 @export var dash_speed_multiplier := 3.0
 @export var crawl_speed_multiplier := 0.7
 @export var dash_refresh_rate := 2.5
-@export var max_dash_storage := 10.0
+@export var max_dash_storage := 5.0
 var current_dash_storage := 0.0
 var dashing_timer := 0.0
 var desired_velocity := 0.0
@@ -170,6 +170,7 @@ func _physics_process(delta):
 
 	# Call function to display speed lines when going fast
 	hud.display_speed_lines(Vector3(velocity.x, 0.0, velocity.z).length(), movement_speed)
+	hud.update_dash_storage(current_dash_storage, max_dash_storage)
 	
 	# Handle functions
 	handle_controls(delta)
@@ -199,7 +200,6 @@ func handle_controls(delta):
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			mouse_captured = true
 		
-
 	if Input.is_action_just_pressed("interact"):
 		if holding:
 			release_object()
@@ -293,7 +293,7 @@ func move(delta):
 				self.velocity.z = lerp(velocity.z, direction.z * get_move_speed(), acceleration * delta)
 				# Lose momentum when on ground
 				if hitGroundCooldown <= 0 and desired_velocity >= velocity.length():
-					desired_velocity -= ground_decel * delta
+					desired_velocity -= ground_decel * delta * 5
 		# Smooth slow down when not giving an input
 		else:
 			self.velocity.x = lerp(velocity.x, 0.0, ground_decel * delta)

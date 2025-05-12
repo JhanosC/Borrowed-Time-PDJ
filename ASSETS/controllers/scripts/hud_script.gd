@@ -2,6 +2,7 @@ extends Control
 
 @onready var speed_lines = $SpeedLines
 @onready var time: Label = $Time
+@onready var dash_storage: ProgressBar = $DashStorage
 var time_passed = 0.0
 
 # Called when the node enters the scene tree for the first time.
@@ -26,6 +27,10 @@ func display_time(delta):
 	
 func get_time():
 	return time_passed
+
+func update_dash_storage(dash_amount, max_dash_amount):
+	dash_storage.max_value = max_dash_amount
+	dash_storage.value = dash_amount
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
