@@ -198,10 +198,13 @@ func handle_controls(delta):
 		if !mouse_captured:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			mouse_captured = true
-		if !holding:
-			pick_object()
-		else:
+		
+
+	if Input.is_action_just_pressed("interact"):
+		if holding:
 			release_object()
+		else:
+			pick_object()
 	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -238,12 +241,9 @@ func handle_controls(delta):
 		and dash_cooldown <= 0.0
 		and current_dash_storage >= 5.0
 		):
-		if input_dir != Vector2.ZERO: move_foward_vector = input_dir
-		else: move_foward_vector = Vector2(0, -1)
-		current_dash_storage -= 5.0
-		dashing = true
-		dashing_timer = dash_duration
-		dash_cooldown = 0.5
+		_dash() # Update variables to allow to dash
+
+	# Handle dash uses and recharge
 	if dashing_timer > 0.0:
 		self.velocity.y = 0.0
 		dashing_timer -= delta
@@ -257,22 +257,22 @@ func handle_controls(delta):
 func move(delta):
 	# Get direction
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	# Desired velocity can't be lower than the actual velocity
 	if desired_velocity < get_move_speed(): desired_velocity = velocity.length()
+	# Keep on same direction when wall running
 	if wall_running:
 		direction = velocity.normalized()
-	
-	elif sliding and !crawling:
+	# If sliding or dashing, can't change direction. But if is crawling, can change
+	elif (sliding and !crawling) or dashing:
 		if direction == Vector3.ZERO:
 			direction = (self.global_transform.basis * Vector3(move_foward_vector.x, 0.0, move_foward_vector.y)).normalized()
-	
-	elif dashing:
-		if direction == Vector3.ZERO:
-			direction = (self.global_transform.basis * Vector3(move_foward_vector.x, 0.0, move_foward_vector.y)).normalized()
+	# If not doing anything above, walks normally
 	else:
 		direction = (self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
 	
+	# Apply direction based on state
 	if on_floor:
-		wall_jump_counter = 0
+		wall_jump_counter = 0 # Reset wall jump counter when hit the ground
 		if direction:
 			if sliding:
 				if velocity.length() < get_move_speed():
@@ -287,8 +287,10 @@ func move(delta):
 			else:
 				self.velocity.x = lerp(velocity.x, direction.x * get_move_speed(), acceleration * delta)
 				self.velocity.z = lerp(velocity.z, direction.z * get_move_speed(), acceleration * delta)
+				# Lose momentum when on ground
 				if hitGroundCooldown <= 0 and desired_velocity >= velocity.length():
 					desired_velocity -= ground_decel * delta
+		# Smooth slow down when not giving an input
 		else:
 			self.velocity.x = lerp(velocity.x, 0.0, ground_decel * delta)
 			self.velocity.z = lerp(velocity.z, 0.0, ground_decel * delta)
@@ -303,6 +305,7 @@ func move(delta):
 				velocity.x = direction.x * get_move_speed()
 				velocity.z = direction.z * get_move_speed()
 			else:
+				# Apply momentum when on air
 				if desired_velocity < max_speed: desired_velocity += 0.2 * delta
 				
 				# Curves for air acceleration
@@ -322,16 +325,17 @@ func move(delta):
 				
 	if desired_velocity >= max_speed: desired_velocity = max_speed
 
+# Handles jump
 func jump(strength_value : float):
 	if wall_running:
 		wall_running = false
 		can_wall_run = false
-		if wall_check_l.is_colliding():
+		if wall_check_l.is_colliding(): # Jump away from wall
 			velocity = wall_check_l.get_collision_normal() * wall_jump_force
 		else:
 			velocity = wall_check_r.get_collision_normal() * wall_jump_force
 		wall_run_cooldown = 0.2
-		
+	
 	self.velocity.y = jump_strength + strength_value
 
 func _wall_run(_delta):
@@ -347,7 +351,9 @@ func _wall_run(_delta):
 func _slide(delta):
 	head.position.y = lerp(head.position.y, sliding_height, delta * lerp_speed)
 	sliding = true
+	# If start sliding, keep on same direction the player started
 	if input_dir != Vector2.ZERO: move_foward_vector = input_dir 
+	# If try to slide while idle, slide foward
 	else: move_foward_vector = Vector2(0, -1)
 	standing_collision_shape.disabled = true
 	sliding_collision_shape.disabled = false
@@ -358,15 +364,23 @@ func _stop_slide(delta):
 	standing_collision_shape.disabled = false
 	sliding_collision_shape.disabled = true
 
+func _dash():
+	# If start sliding, keep on same direction the player started
+	if input_dir != Vector2.ZERO: move_foward_vector = input_dir
+	# If try to dash while idle, slide foward
+	else: move_foward_vector = Vector2(0, -1)
+	current_dash_storage -= 5.0
+	dashing = true
+	dashing_timer = dash_duration
+	dash_cooldown = 0.5
+
 func pick_object():
 		var collider = aim_raycast.get_collider()
-		print(collider)
 		if collider is RigidBody3D:
 			holding = true
-			#collider.add_collision_exception_with(self)
 			collider.lock_rotation = true
+			collider.add_collision_exception_with(self)
 			picked_object = collider
-			print("Collided with a rigid body")
 
 func pull_object():
 	if picked_object != null and holding: 
@@ -387,6 +401,8 @@ func manipulate_object():
 
 func release_object():
 	picked_object.linear_velocity = Vector3(0, 0, 0)
+	picked_object.lock_rotation = false
+	picked_object.remove_collision_exception_with(self)
 	holding = false
 
 func _headbob_effect(delta):
