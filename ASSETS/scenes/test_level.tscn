@@ -1,5 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://cmet8rmb0for5"]
+[gd_scene load_steps=20 format=3 uid="uid://cmet8rmb0for5"]
 
+[ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_b0ahb"]
 [ext_resource type="Script" uid="uid://vs1r7bmmcx71" path="res://ASSETS/controllers/scripts/next_level.gd" id="1_xx3hq"]
 [ext_resource type="PackedScene" uid="uid://dul2pititpkcb" path="res://ASSETS/scenes/player_controller.tscn" id="2_nn3ir"]
 [ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://ASSETS/controllers/scripts/debug_info.gd" id="3_b0ahb"]
@@ -43,11 +44,19 @@ size = Vector3(10, 1, 10)
 [sub_resource type="BoxMesh" id="BoxMesh_i5arm"]
 size = Vector3(10, 1, 10)
 
-[node name="Main" type="Node3D"]
+[node name="LevelTest" type="Node3D" node_paths=PackedStringArray("player", "door")]
+script = ExtResource("1_b0ahb")
+player = NodePath("CharacterBody3D")
+door = NodePath("EndLevel2")
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55561, 0)
 
 [node name="EndLevel" type="Area3D" parent="."]
 transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, -241.771, -18.1822, -205.22)
 script = ExtResource("1_xx3hq")
+path_to_new_scene = "res://ASSETS/scenes/test_level_2.tscn"
+entry_door_name = "FinalLevel1"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EndLevel"]
 shape = SubResource("BoxShape3D_r6ukr")
@@ -55,6 +64,8 @@ shape = SubResource("BoxShape3D_r6ukr")
 [node name="EndLevel2" type="Area3D" parent="."]
 transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 4.00157, 7.94767, 32.7442)
 script = ExtResource("1_xx3hq")
+path_to_new_scene = "res://ASSETS/scenes/test_level_2.tscn"
+entry_door_name = "FinalTest"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EndLevel2"]
 shape = SubResource("BoxShape3D_r6ukr")

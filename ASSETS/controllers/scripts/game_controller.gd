@@ -1,45 +1,79 @@
 class_name GameController extends Node
 
-@export var world_3d: Node3D
-@export var world_2d: Node2D
-@export var gui: Control
+signal content_finished_loading(content)
+signal content_invalid(content_path:String)
+signal content_failed_to_load(content_path:String)
 
-var current_3d_scene
-var current_2d_scene
-var current_gui_scene
-var current_3d_scene_path : String
+var _content_path:String
+var _load_progress_timer:Timer
 
 func _ready() -> void:
 	Global.game_controller = self
-	current_gui_scene = $GUI/SplashScreenManager
-	current_3d_scene = $World3D/Main
+	content_invalid.connect(on_content_invalid)
+	content_failed_to_load.connect(on_content_failed_to_load)
+	content_finished_loading.connect(on_content_finished_loading)
 
-func change_gui_scene(new_scene: String, delete: bool = true, keep_running: bool = false) -> void:
-	if current_gui_scene != null:
-		if delete:
-			current_gui_scene.queue_free()
-		elif keep_running:
-			current_gui_scene.visible = false
-		else:
-			gui.remove_child(current_gui_scene)
-	var new = load(new_scene).instantiate()
-	gui.add_child(new)
-	current_gui_scene = new
+func load_new_scene(content_path:String) -> void:
+	print("Loadando new scene")
+	_load_content(content_path)
+	
 
-func change_3d_scene(new_scene: String, delete: bool = true, keep_running: bool = false) -> void:
-	if current_3d_scene != null:
-		if delete:
-			current_3d_scene.queue_free()
-		elif keep_running:
-			current_3d_scene.visible = false
-		else:
-			world_3d.call_deferred("remove_child", current_3d_scene)
-	var new = load(new_scene).instantiate()
-	world_3d.add_child(new)
-	current_3d_scene = new
+func _load_content(content_path:String) -> void:
+	print("loadando content: "+str(content_path))
+	_content_path = content_path
+	var loader = ResourceLoader.load_threaded_request(content_path)
+	if not ResourceLoader.exists(content_path) or loader == null:
+		print("Deu merda")
+		content_invalid.emit(content_path)
+		return
+		
+	_load_progress_timer = Timer.new()
+	_load_progress_timer.wait_time = 0.1
+	_load_progress_timer.timeout.connect(monitor_load_status)
+	get_tree().root.add_child(_load_progress_timer)
+	_load_progress_timer.start()
+	print("Fim método load_content")
 
-func new_change_3d_scene(new_scene: String):
-	if(current_3d_scene_path == new_scene):
-		get_tree().call_deferred("reload_current_scene")
-	current_3d_scene_path = new_scene
-	get_tree().call_deferred("change_scene_to_file", new_scene)
+func monitor_load_status() -> void:
+	var load_progress = []
+	var load_status = ResourceLoader.load_threaded_get_status(_content_path, load_progress)
+
+	match load_status:
+		ResourceLoader.THREAD_LOAD_INVALID_RESOURCE:
+			content_invalid.emit(_content_path)
+			_load_progress_timer.stop()
+			return
+		ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			print("BAHBAHBAH")
+		ResourceLoader.THREAD_LOAD_FAILED:
+			content_failed_to_load.emit(_content_path)
+			_load_progress_timer.stop()
+			return
+		ResourceLoader.THREAD_LOAD_LOADED:
+			_load_progress_timer.stop()
+			_load_progress_timer.queue_free()
+			content_finished_loading.emit(ResourceLoader.load_threaded_get(_content_path).instantiate())
+			return # this last return isn't necessary but I like how the 3 dead ends stand out as similar
+
+func on_content_failed_to_load(path:String) -> void:
+	printerr("error: Failed to load resource: '%s'" % [path])	
+
+func on_content_invalid(path:String) -> void:
+	printerr("error: Cannot load resource: '%s'" % [path])
+
+func on_content_finished_loading(content) -> void:
+	var outgoing_scene = get_tree().current_scene
+
+	# Remove the old scene
+	outgoing_scene.queue_free()
+	
+	# Add and set the new scene to current
+	get_tree().root.call_deferred("add_child",content)
+	get_tree().set_deferred("current_scene",content)
+	print("Content is: " + str(content))
+	if content is Level:
+		content.call_deferred("enter_level")
+		
+func reload_scene():
+	on_content_finished_loading(get_tree().current_scene)
+	

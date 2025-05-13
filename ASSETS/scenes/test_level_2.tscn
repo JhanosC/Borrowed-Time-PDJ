@@ -1,6 +1,7 @@
-[gd_scene load_steps=23 format=3 uid="uid://dpkrhfy76ympk"]
+[gd_scene load_steps=24 format=3 uid="uid://dpkrhfy76ympk"]
 
 [ext_resource type="Script" uid="uid://vs1r7bmmcx71" path="res://ASSETS/controllers/scripts/next_level.gd" id="1_sxm32"]
+[ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_vmklp"]
 [ext_resource type="PackedScene" uid="uid://dul2pititpkcb" path="res://ASSETS/scenes/player_controller.tscn" id="2_c7bbb"]
 [ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://ASSETS/controllers/scripts/debug_info.gd" id="3_vmklp"]
 [ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="5_eyl1r"]
@@ -94,7 +95,13 @@ glow_levels/3 = 0.6
 glow_levels/5 = 0.0
 glow_intensity = 2.0
 
-[node name="Main" type="Node3D"]
+[node name="LevelTest2" type="Node3D" node_paths=PackedStringArray("player", "door")]
+script = ExtResource("1_vmklp")
+player = NodePath("CharacterBody3D")
+door = NodePath("Area3D")
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.8, 21.0224, 0)
 
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 2.87434, 7.06983, 31.7963)

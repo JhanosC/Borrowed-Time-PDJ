@@ -63,10 +63,7 @@ var input_mouse: Vector2
 var input_dir: Vector2
 
 signal velocity_update(velocity: Vector3, desired_velocity: float)
-signal fov_update(fov: float)
-signal camera_distortion_update(distortion: float)
 signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3)
-signal position_update(x,y,z: float)
 
 @onready var camera = $CameraController/Camera3D
 @onready var head: Node3D = $CameraController
@@ -194,6 +191,7 @@ func handle_controls(delta):
 	# Reload scene
 	if Input.is_action_just_pressed("reload"):
 		get_tree().call_deferred("reload_current_scene")
+
 	#Mouse capture/Enable cursor
 	if Input.is_action_just_pressed("left_mouse"):
 		if !mouse_captured:
@@ -225,7 +223,6 @@ func handle_controls(delta):
 	if Input.is_action_pressed("crouch") and can_crouch:
 		if !on_floor and !sliding:
 			self.velocity.y -= gravity * slam_strength
-			global_transform
 			slaming = true
 			can_crouch = false
 		else:
@@ -391,9 +388,9 @@ func pull_object():
 		var a = picked_object.global_transform.origin
 		var b = pull_point.global_position
 		
-		var direction = b - a
-		if direction.length() > 0.0:
-			picked_object.linear_velocity = direction * 20.0
+		var pull_direction = b - a
+		if pull_direction.length() > 0.0:
+			picked_object.linear_velocity = pull_direction * 20.0
 			picked_object.freeze = false
 		else:
 			picked_object.linear_velocity = Vector3.ZERO
