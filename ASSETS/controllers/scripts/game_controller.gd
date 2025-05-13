@@ -7,6 +7,7 @@ class_name GameController extends Node
 var current_3d_scene
 var current_2d_scene
 var current_gui_scene
+var current_3d_scene_path : String
 
 func _ready() -> void:
 	Global.game_controller = self
@@ -36,3 +37,9 @@ func change_3d_scene(new_scene: String, delete: bool = true, keep_running: bool 
 	var new = load(new_scene).instantiate()
 	world_3d.add_child(new)
 	current_3d_scene = new
+
+func new_change_3d_scene(new_scene: String):
+	if(current_3d_scene_path == new_scene):
+		get_tree().call_deferred("reload_current_scene")
+	current_3d_scene_path = new_scene
+	get_tree().call_deferred("change_scene_to_file", new_scene)

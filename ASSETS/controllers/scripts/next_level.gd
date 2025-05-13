@@ -14,8 +14,7 @@ func _process(delta):
 func _on_body_entered(body):
 	if body is Player:
 		_change_level()
-	queue_free()
+	
 
 func _change_level():
-	Global.game_controller.change_3d_scene("res://ASSETS/scenes/test_level_2.tscn")
-	queue_free()
+	Global.game_controller.new_change_3d_scene("res://ASSETS/scenes/test_level_2.tscn")
