@@ -4,26 +4,27 @@ signal content_finished_loading(content)
 signal content_invalid(content_path:String)
 signal content_failed_to_load(content_path:String)
 
+@onready var world_3d: Node3D = $World3D
+var current_3d_scene
+
 var _content_path:String
 var _load_progress_timer:Timer
 
 func _ready() -> void:
+	current_3d_scene = $World3D/Main
 	Global.game_controller = self
 	content_invalid.connect(on_content_invalid)
 	content_failed_to_load.connect(on_content_failed_to_load)
 	content_finished_loading.connect(on_content_finished_loading)
 
 func load_new_scene(content_path:String) -> void:
-	print("Loadando new scene")
 	_load_content(content_path)
 	
 
 func _load_content(content_path:String) -> void:
-	print("loadando content: "+str(content_path))
 	_content_path = content_path
 	var loader = ResourceLoader.load_threaded_request(content_path)
 	if not ResourceLoader.exists(content_path) or loader == null:
-		print("Deu merda")
 		content_invalid.emit(content_path)
 		return
 		
@@ -32,7 +33,6 @@ func _load_content(content_path:String) -> void:
 	_load_progress_timer.timeout.connect(monitor_load_status)
 	get_tree().root.add_child(_load_progress_timer)
 	_load_progress_timer.start()
-	print("Fim método load_content")
 
 func monitor_load_status() -> void:
 	var load_progress = []
@@ -44,7 +44,7 @@ func monitor_load_status() -> void:
 			_load_progress_timer.stop()
 			return
 		ResourceLoader.THREAD_LOAD_IN_PROGRESS:
-			print("BAHBAHBAH")
+			pass
 		ResourceLoader.THREAD_LOAD_FAILED:
 			content_failed_to_load.emit(_content_path)
 			_load_progress_timer.stop()
@@ -62,18 +62,21 @@ func on_content_invalid(path:String) -> void:
 	printerr("error: Cannot load resource: '%s'" % [path])
 
 func on_content_finished_loading(content) -> void:
-	var outgoing_scene = get_tree().current_scene
+	#var outgoing_scene = get_tree().current_scene
+	world_3d.call_deferred("remove_child", current_3d_scene)
 
 	# Remove the old scene
-	outgoing_scene.queue_free()
+	#outgoing_scene.queue_free()
 	
 	# Add and set the new scene to current
-	get_tree().root.call_deferred("add_child",content)
-	get_tree().set_deferred("current_scene",content)
+	#get_tree().root.call_deferred("add_child",content)
+	world_3d.call_deferred("add_child",content)
+	#get_tree().set_deferred("current_scene",content)
+	current_3d_scene = content
 	print("Content is: " + str(content))
 	if content is Level:
 		content.call_deferred("enter_level")
 		
 func reload_scene():
-	on_content_finished_loading(get_tree().current_scene)
+	load_new_scene(current_3d_scene.scene_file_path)
 	

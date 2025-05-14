@@ -67,6 +67,7 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 
 @onready var camera = $CameraController/Camera3D
 @onready var head: Node3D = $CameraController
+@onready var face_check: RayCast3D = $Raycasts/FaceCheck
 @onready var ceilingCheck = $Raycasts/CeilingCheck
 @onready var wall_check_r: RayCast3D = $Raycasts/WallCheckR
 @onready var wall_check_l: RayCast3D = $Raycasts/WallCheckL
@@ -92,11 +93,11 @@ func get_move_speed() -> float:
 
 func is_touching_wall() -> bool:
 	# More consistent way yo check if is touching a wall
-	if wall_check_l.is_colliding() or wall_check_r.is_colliding():
+	if wall_check_l.is_colliding() or wall_check_r.is_colliding() or face_check.is_colliding():
 		# Ignore RigidBodies and CharacterBodies
-		if !(wall_check_l.get_collider() is RigidBody3D or wall_check_r.get_collider() is RigidBody3D):
-			if !(wall_check_l.get_collider() is CharacterBody3D or wall_check_r.get_collider() is CharacterBody3D):
-				if abs(wall_check_l.get_collision_normal().y) < 0.1 or abs(wall_check_r.get_collision_normal().y) < 0.1:
+		if !(wall_check_l.get_collider() is RigidBody3D or wall_check_r.get_collider() is RigidBody3D or face_check.get_collider() is RigidBody3D):
+			if !(wall_check_l.get_collider() is CharacterBody3D or wall_check_r.get_collider() is CharacterBody3D or face_check.get_collider() is CharacterBody3D):
+				if abs(wall_check_l.get_collision_normal().y) < 0.1 or abs(wall_check_r.get_collision_normal().y) < 0.1 or abs(face_check.get_collision_normal().y) < 0.1:
 					return true
 	return false
 
@@ -130,7 +131,7 @@ func _push_away_rigid_bodies():
 				c.get_position() - c.get_collider().global_position)
 
 func _process_camera(delta):
-	if wall_running:
+	if wall_running and not face_check.is_colliding():
 		if wall_check_l.is_colliding():
 			head.rotation.z = lerp(head.rotation.z, deg_to_rad(20.0) * -(wall_check_l.get_collision_normal().length()), lerp_speed * delta)
 		else:
@@ -154,7 +155,7 @@ func _physics_process(delta):
 	# Decrease wall run cooldown
 	if wall_run_cooldown >= 0.0: wall_run_cooldown -= delta
 	# If the cooldown is down, can wall run again
-	if wall_run_cooldown <= 0.0 and Vector3(velocity.x, 0.0, velocity.z).length() > get_move_speed() * 0.5:
+	if wall_run_cooldown <= 0.0:
 		can_wall_run = true
 	else:
 		can_wall_run = false
@@ -190,7 +191,11 @@ func _unhandled_input(event):
 func handle_controls(delta):
 	# Reload scene
 	if Input.is_action_just_pressed("reload"):
-		get_tree().call_deferred("reload_current_scene")
+		if is_instance_valid(Global.game_controller):
+			Global.game_controller.reload_scene()
+		else:
+			print("GameController is no longer valid.")
+		
 
 	#Mouse capture/Enable cursor
 	if Input.is_action_just_pressed("left_mouse"):
@@ -262,7 +267,8 @@ func move(delta):
 	if desired_velocity < get_move_speed(): desired_velocity = velocity.length()
 	# Keep on same direction when wall running
 	if wall_running:
-		direction = velocity.normalized()
+		#direction = velocity.normalized()
+		direction = (self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
 	# If sliding or dashing, can't change direction. But if is crawling, can change
 	elif (sliding and !crawling) or dashing:
 		if direction == Vector3.ZERO:
@@ -320,7 +326,7 @@ func move(delta):
 	if is_touching_wall():
 		if wall_running:
 			if direction:
-				desired_velocity += 1.5 * delta
+				desired_velocity += 1.0 * delta
 				velocity.x = direction.x * desired_velocity
 				velocity.z = direction.z * desired_velocity
 				
@@ -331,7 +337,9 @@ func jump(strength_value : float):
 	if wall_running:
 		wall_running = false
 		can_wall_run = false
-		if wall_check_l.is_colliding(): # Jump away from wall
+		if face_check.is_colliding():  # Jump away from wall
+			velocity = face_check.get_collision_normal() * wall_jump_force
+		elif wall_check_l.is_colliding():
 			velocity = wall_check_l.get_collision_normal() * wall_jump_force
 		else:
 			velocity = wall_check_r.get_collision_normal() * wall_jump_force

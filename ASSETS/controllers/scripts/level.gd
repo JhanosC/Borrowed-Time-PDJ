@@ -6,10 +6,6 @@ class_name Level extends Node3D
 
 var data:LevelDataHandoff
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
-
 func enter_level() -> void:
 	init_player_location()
 	_connect_to_doors()

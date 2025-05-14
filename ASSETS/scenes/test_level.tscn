@@ -47,7 +47,7 @@ size = Vector3(10, 1, 10)
 [node name="LevelTest" type="Node3D" node_paths=PackedStringArray("player", "door")]
 script = ExtResource("1_b0ahb")
 player = NodePath("CharacterBody3D")
-door = NodePath("EndLevel2")
+door = NodePath("EndLevel")
 
 [node name="SpawnPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55561, 0)
