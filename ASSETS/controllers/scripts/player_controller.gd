@@ -339,6 +339,7 @@ func jump(strength_value : float):
 		can_wall_run = false
 		if face_check.is_colliding():  # Jump away from wall
 			velocity = face_check.get_collision_normal() * wall_jump_force
+			strength_value += 100.0
 		elif wall_check_l.is_colliding():
 			velocity = wall_check_l.get_collision_normal() * wall_jump_force
 		else:

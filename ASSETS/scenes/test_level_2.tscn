@@ -106,6 +106,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.8, 21.0224, 0)
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 2.87434, 7.06983, 31.7963)
 script = ExtResource("1_sxm32")
+path_to_new_scene = "res://ASSETS/scenes/test_level.tscn"
+entry_door_name = "LevelEnd2"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.174, -3.39698, -16.5034)

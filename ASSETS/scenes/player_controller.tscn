@@ -78,6 +78,7 @@ corner_radius_bottom_left = 10
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_mask = 3
 script = ExtResource("1_dk88v")
+jump_strength = 10.0
 movement_speed = 15.0
 max_speed = 25.0
 ground_decel = 8.0
