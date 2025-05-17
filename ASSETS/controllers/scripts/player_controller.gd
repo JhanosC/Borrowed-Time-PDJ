@@ -2,7 +2,7 @@ class_name Player extends CharacterBody3D
 
 @export_subgroup("Properties")
 @export var jump_strength := 7.0
-@export var slam_strength := 3.5
+@export var slam_strength := 7.0
 @export var mouse_sensitivity = 700
 var move_foward_vector : Vector2 = Vector2.ZERO
 const HEADBOB_MOVE_AMOUNT = 0.05
@@ -227,7 +227,7 @@ func handle_controls(delta):
 	# Sliding and slam control
 	if Input.is_action_pressed("crouch") and can_crouch:
 		if !on_floor and !sliding:
-			self.velocity.y -= gravity * slam_strength
+			self.velocity.y = -(gravity * slam_strength)
 			slaming = true
 			can_crouch = false
 		else:
@@ -267,8 +267,8 @@ func move(delta):
 	if desired_velocity < get_move_speed(): desired_velocity = velocity.length()
 	# Keep on same direction when wall running
 	if wall_running:
-		#direction = velocity.normalized()
-		direction = (self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
+		direction = velocity.normalized()
+		#direction = (self.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
 	# If sliding or dashing, can't change direction. But if is crawling, can change
 	elif (sliding and !crawling) or dashing:
 		if direction == Vector3.ZERO:
@@ -339,7 +339,6 @@ func jump(strength_value : float):
 		can_wall_run = false
 		if face_check.is_colliding():  # Jump away from wall
 			velocity = face_check.get_collision_normal() * wall_jump_force
-			strength_value += 100.0
 		elif wall_check_l.is_colliding():
 			velocity = wall_check_l.get_collision_normal() * wall_jump_force
 		else:
