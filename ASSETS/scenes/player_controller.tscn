@@ -6,7 +6,7 @@
 
 [sub_resource type="Curve" id="Curve_rnlsj"]
 _limits = [0.0, 100.0, 0.0, 1.0]
-_data = [Vector2(0.149813, 15.7031), 0.0, 0.0, 0, 0, Vector2(0.337079, 26.875), 0.0, 0.0, 0, 0, Vector2(0.617977, 57.3437), 0.0, 0.0, 0, 0, Vector2(0.842697, 100), 0.0, 0.0, 0, 0]
+_data = [Vector2(0.136364, 14.6067), 0.0, 0.0, 0, 0, Vector2(0.337079, 26.875), 0.0, 0.0, 0, 0, Vector2(0.617977, 57.3437), 0.0, 0.0, 0, 0, Vector2(0.842697, 100), 0.0, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="Curve" id="Curve_qwx0b"]

@@ -5,8 +5,8 @@ class_name Player extends CharacterBody3D
 @export var slam_strength := 7.0
 @export var mouse_sensitivity = 700
 var move_foward_vector : Vector2 = Vector2.ZERO
-const HEADBOB_MOVE_AMOUNT = 0.05
-const HEADBOB_FREQUENCY = 2.0
+const HEADBOB_MOVE_AMOUNT = 0.1
+const HEADBOB_FREQUENCY = 1.0
 var headbob_time := 0.0
 var lerp_speed := 10.0
 var sliding_height := 0.75
@@ -35,18 +35,19 @@ var holding = false
 @export var max_speed : float
 @export var hitGroundCooldown := 0.2
 @export var ground_decel := 10.0
-@export var acceleration := 10.0
+@export var acceleration := 5.0
 @export var desiredMoveSpeedCurve : Curve
 @export var inAirMoveSpeedCurve : Curve
 @export var dash_cooldown := 0.0
 @export var wall_jump_force := 20.0
-@export var dash_duration := 0.2
-@export var dash_speed_multiplier := 3.0
+@export var dash_duration := 0.05
+@export var dash_speed_multiplier := 5.0
 @export var crawl_speed_multiplier := 0.7
 @export var dash_refresh_rate := 2.5
 @export var max_dash_storage := 5.0
 var current_dash_storage := 0.0
 var dashing_timer := 0.0
+var previous_dash_velocity := 0.0
 var desired_velocity := 0.0
 var hitGroundCooldownRef : float
 
@@ -247,6 +248,7 @@ func handle_controls(delta):
 		and dash_cooldown <= 0.0
 		and current_dash_storage >= 5.0
 		):
+		previous_dash_velocity = desired_velocity
 		_dash() # Update variables to allow to dash
 
 	# Handle dash uses and recharge
@@ -258,7 +260,7 @@ func handle_controls(delta):
 			current_dash_storage += dash_refresh_rate * delta
 		if dash_cooldown >= 0.0:
 			dash_cooldown -= delta
-		dashing = false
+		_stop_dash()
 	
 func move(delta):
 	# Get direction
@@ -313,7 +315,7 @@ func move(delta):
 				velocity.z = direction.z * get_move_speed()
 			else:
 				# Apply momentum when on air
-				if desired_velocity < max_speed: desired_velocity += 0.2 * delta
+				#if desired_velocity < max_speed: desired_velocity += 0.2 * delta
 				
 				# Curves for air acceleration
 				var contrdDesMoveSpeed : float = desiredMoveSpeedCurve.sample(desired_velocity/100)
@@ -374,7 +376,7 @@ func _stop_slide(delta):
 	sliding_collision_shape.disabled = true
 
 func _dash():
-	# If start sliding, keep on same direction the player started
+	# If start dashing, keep on same direction the player started
 	if input_dir != Vector2.ZERO: move_foward_vector = input_dir
 	# If try to dash while idle, slide foward
 	else: move_foward_vector = Vector2(0, -1)
@@ -382,6 +384,11 @@ func _dash():
 	dashing = true
 	dashing_timer = dash_duration
 	dash_cooldown = 0.5
+
+func _stop_dash():
+	if dashing:
+		desired_velocity = previous_dash_velocity
+	dashing = false
 
 func pick_object():
 		var collider = aim_raycast.get_collider()
