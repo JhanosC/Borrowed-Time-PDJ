@@ -156,7 +156,7 @@ func _physics_process(delta):
 	# Decrease wall run cooldown
 	if wall_run_cooldown >= 0.0: wall_run_cooldown -= delta
 	# If the cooldown is down, can wall run again
-	if wall_run_cooldown <= 0.0:
+	if wall_run_cooldown <= 0.0 and (Vector3(velocity.x, 0.0, velocity.z).length() >= get_move_speed() * 0.7 or face_check.is_colliding()) and !on_floor and is_touching_wall():
 		can_wall_run = true
 	else:
 		can_wall_run = false
@@ -192,10 +192,7 @@ func _unhandled_input(event):
 func handle_controls(delta):
 	# Reload scene
 	if Input.is_action_just_pressed("reload"):
-		if is_instance_valid(Global.game_controller):
-			Global.game_controller.reload_scene()
-		else:
-			print("GameController is no longer valid.")
+		Global.game_controller.reload_scene()
 		
 
 	#Mouse capture/Enable cursor
@@ -336,26 +333,24 @@ func move(delta):
 
 # Handles jump
 func jump(strength_value : float):
-	if wall_running:
-		wall_running = false
-		can_wall_run = false
-		if face_check.is_colliding():  # Jump away from wall
-			velocity = face_check.get_collision_normal() * wall_jump_force
-		elif wall_check_l.is_colliding():
+	if wall_running: # Jump away from wall
+		if wall_check_l.is_colliding():
 			velocity = wall_check_l.get_collision_normal() * wall_jump_force
 		else:
 			velocity = wall_check_r.get_collision_normal() * wall_jump_force
-		wall_run_cooldown = 0.2
-	
+
 	self.velocity.y = jump_strength + strength_value
 
 func _wall_run(_delta):
-	if !on_floor and is_touching_wall() and can_wall_run:
+	if can_wall_run:
 		wall_running = true
-		if Input.is_action_just_pressed("jump") and wall_jump_counter < possible_wall_jumps:
-			wall_jump_counter += 1
-			jump(5)
-			self.velocity.y = jump_strength
+		if Input.is_action_just_pressed("jump"):
+			if wall_jump_counter < possible_wall_jumps:
+				wall_jump_counter += 1
+				jump(0)
+				self.velocity.y = jump_strength
+			wall_running = false
+			wall_run_cooldown = 0.2
 	else:
 		wall_running = false
 
@@ -413,7 +408,7 @@ func pull_object():
 
 func throw_object():
 	var push_dir = (aim_raycast.to_global(aim_raycast.target_position) - aim_raycast.to_global(Vector3.ZERO)).normalized()
-	var push_force = 100.0
+	var push_force = 70.0
 	
 	picked_object.apply_impulse(push_dir * push_force)
 	picked_object.lock_rotation = false
@@ -442,7 +437,7 @@ func _distort_camera(delta):
 		if camera_distortion >= 0.0:
 			camera_new_fov += camera_distortion
 			if camera_distortion >= 1.0:
-				get_tree().call_deferred("reload_current_scene")
+				Global.game_controller.reload_scene()
 	elif !slaming:
 		camera_new_fov = min(camera_default_fov + (Vector3(velocity.x,0.,velocity.z).length()*0.7),camera_default_fov * 1.3)
 		camera_distortion = -1.0
