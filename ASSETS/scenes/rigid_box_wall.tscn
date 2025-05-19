@@ -1,0 +1,95 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcqg05ykqpk7a"]
+
+[ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://ASSETS/scenes/rigid_box.tscn" id="1_navmx"]
+
+[node name="RigidBoxWall" type="Node3D"]
+
+[node name="RigidBody3D" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="RigidBody3D2" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0)
+
+[node name="RigidBody3D3" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 0)
+
+[node name="RigidBody3D4" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0)
+
+[node name="RigidBody3D5" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 0)
+
+[node name="RigidBody3D6" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+
+[node name="RigidBody3D7" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+
+[node name="RigidBody3D8" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 0)
+
+[node name="RigidBody3D9" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1, 0)
+
+[node name="RigidBody3D10" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1, 0)
+
+[node name="RigidBody3D11" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, 0)
+
+[node name="RigidBody3D12" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, 0)
+
+[node name="RigidBody3D13" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2, 0)
+
+[node name="RigidBody3D14" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2, 0)
+
+[node name="RigidBody3D15" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2, 0)
+
+[node name="RigidBody3D16" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2, 0)
+
+[node name="RigidBody3D17" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2, 0)
+
+[node name="RigidBody3D18" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2, 0)
+
+[node name="RigidBody3D19" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 3, 0)
+
+[node name="RigidBody3D20" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 0)
+
+[node name="RigidBody3D21" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 3, 0)
+
+[node name="RigidBody3D22" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 3, 0)
+
+[node name="RigidBody3D23" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 3, 0)
+
+[node name="RigidBody3D24" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 3, 0)
+
+[node name="RigidBody3D25" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 4, 0)
+
+[node name="RigidBody3D26" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 4, 0)
+
+[node name="RigidBody3D27" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 0)
+
+[node name="RigidBody3D28" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 4, 0)
+
+[node name="RigidBody3D29" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 4, 0)
+
+[node name="RigidBody3D30" parent="." instance=ExtResource("1_navmx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 4, 0)

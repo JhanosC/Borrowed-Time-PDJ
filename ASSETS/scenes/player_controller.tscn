@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=17 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -13,10 +13,6 @@ point_count = 4
 _limits = [0.0, 10.0, 0.0, 1.0]
 _data = [Vector2(0.284644, 9.1875), 0.0, 0.0, 0, 0, Vector2(0.588015, 7.96875), 0.0, 0.0, 0, 0, Vector2(0.891386, 7.46094), 0.0, 0.0, 0, 0]
 point_count = 3
-
-[sub_resource type="SphereMesh" id="SphereMesh_p1wnk"]
-radius = 0.1
-height = 0.25
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dk88v"]
 height = 1.0
@@ -99,9 +95,6 @@ collision_mask = 3
 
 [node name="PullPoint" type="Marker3D" parent="CameraController/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, -2.1)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CameraController/Camera3D/PullPoint"]
-mesh = SubResource("SphereMesh_p1wnk")
 
 [node name="SlidingCollisionShape" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

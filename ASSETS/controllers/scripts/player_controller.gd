@@ -408,7 +408,7 @@ func pull_object():
 
 func throw_object():
 	var push_dir = (aim_raycast.to_global(aim_raycast.target_position) - aim_raycast.to_global(Vector3.ZERO)).normalized()
-	var push_force = 70.0
+	var push_force = 100.0
 	
 	picked_object.apply_impulse(push_dir * push_force)
 	picked_object.lock_rotation = false
