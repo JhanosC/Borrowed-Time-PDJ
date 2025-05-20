@@ -122,7 +122,7 @@ func _push_away_rigid_bodies():
 			
 			const MY_APPROX_MASS_KG = 60.0
 			var mass_ratio = min(1., MY_APPROX_MASS_KG / c.get_collider().mass)
-			
+
 			
 			var push_force = mass_ratio * 5.0
 			push_force = clamp(push_force, 0.0, 10.0)
@@ -409,10 +409,14 @@ func throw_object():
 	var push_dir = (aim_raycast.to_global(aim_raycast.target_position) - aim_raycast.to_global(Vector3.ZERO)).normalized()
 	var push_force = 100.0
 	
+	picked_object.player_threw()
+	
 	picked_object.apply_impulse(push_dir * push_force)
 	picked_object.lock_rotation = false
 	picked_object.remove_collision_exception_with(self)
 	holding = false
+	picked_object.player_released()
+	
 
 
 func release_object():

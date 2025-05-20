@@ -28,7 +28,7 @@ data = PackedVector3Array(-5, 0.5, 5, 5, 0.5, 5, -5, -0.5, 5, 5, 0.5, 5, 5, -0.5
 
 [node name="Tiles" type="Node3D"]
 
-[node name="Floor" type="MeshInstance3D" parent="."]
+[node name="Floor" type="MeshInstance3D" parent="." groups=["walls"]]
 mesh = SubResource("BoxMesh_k6t24")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_d6bvg")

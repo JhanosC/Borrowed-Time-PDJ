@@ -19,6 +19,10 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 AudioPlayer="*res://ASSETS/scenes/audio_player.tscn"
 Global="*res://ASSETS/controllers/scripts/global.gd"
 
+[global_group]
+
+walls="anything that the objects we throw can stick to."
+
 [input]
 
 move_forward={
