@@ -29,6 +29,7 @@ var can_wall_run := true
 var on_floor := true
 var pulled = false
 var holding = false
+var reloading_scene = false
 
 @export_subgroup("Movement Settings")
 @export var movement_speed : float
@@ -196,9 +197,13 @@ func _unhandled_input(event):
 		rotation_target.y -= event.relative.x / mouse_sensitivity
 		rotation_target.x -= event.relative.y / mouse_sensitivity
 
+func reload_scene():
+	Global.game_controller.reload_scene()
+
 func handle_controls(delta):
 	# Reload scene
 	if Input.is_action_just_pressed("reload"):
+		reloading_scene = true
 		Global.game_controller.reload_scene()
 		
 	#Mouse capture/Enable cursor
@@ -436,13 +441,14 @@ func _headbob_effect(delta):
 		0
 	)
 
-# FOV when running or standing still for too long
+# FOV when running, standing still for too long or falling from map
 func _distort_camera(delta):
-	if mouse_captured and (velocity.length() <= 0.0 and !debug_mode) or position.y < -350.0:
+	if mouse_captured and (velocity.length() <= 0.0 and !debug_mode) or position.y < -150.0:
 		camera_distortion += camera_distortion_strength * delta
 		if camera_distortion >= 0.0:
 			camera_new_fov += camera_distortion
-			if camera_distortion >= 1.0:
+			if camera_distortion >= 1.0 and not reloading_scene:
+				reloading_scene = true
 				Global.game_controller.reload_scene()
 	elif !slaming:
 		camera_new_fov = min(camera_default_fov + (Vector3(velocity.x,0.,velocity.z).length()*0.7),camera_default_fov * 1.3)
