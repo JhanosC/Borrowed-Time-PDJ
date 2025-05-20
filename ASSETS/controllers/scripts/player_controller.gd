@@ -13,7 +13,7 @@ var sliding_height := 0.75
 var gravity := 0.0
 var camera_distortion := -1.0
 var camera_distortion_strength := 0.6
-var camera_default_fov := 0.0
+var camera_default_fov := 75.0
 var camera_new_fov := camera_default_fov
 
 @export_subgroup("States")
@@ -108,7 +108,7 @@ func _ready():
 	standing_collision_shape.disabled = false
 	hitGroundCooldownRef = hitGroundCooldown
 	gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-	camera_default_fov = camera.fov
+	camera.fov = camera_default_fov
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _push_away_rigid_bodies():
@@ -132,11 +132,18 @@ func _push_away_rigid_bodies():
 				c.get_position() - c.get_collider().global_position)
 
 func _process_camera(delta):
-	if wall_running and not face_check.is_colliding():
+	
+	if wall_running:
+		var aim = get_global_transform().basis
+		var forward = -aim.z
 		if wall_check_l.is_colliding():
-			head.rotation.z = lerp(head.rotation.z, deg_to_rad(20.0) * -(wall_check_l.get_collision_normal().length()), lerp_speed * delta)
+			var rotation_degree = PI/2.0 - forward.angle_to(wall_check_l.get_collision_normal())
+			rotation_degree = deg_to_rad(clamp(rotation_degree*20 + 20, -20.0, 30.0))
+			head.rotation.z = lerp(head.rotation.z, rotation_degree * -(wall_check_l.get_collision_normal().length()), lerp_speed * delta)
 		else:
-			head.rotation.z = lerp(head.rotation.z, deg_to_rad(20.0) * wall_check_r.get_collision_normal().length(), lerp_speed * delta)
+			var rotation_degree = PI/2.0 - forward.angle_to(wall_check_r.get_collision_normal())
+			rotation_degree = deg_to_rad(clamp(rotation_degree*20 + 10, -20.0, 30.0))
+			head.rotation.z = lerp(head.rotation.z, rotation_degree * wall_check_r.get_collision_normal().length(), lerp_speed * delta)
 	else:
 		head.rotation.z = lerp(head.rotation.z, deg_to_rad(0.0), lerp_speed * delta)
 	# Smooth camera movement
@@ -194,7 +201,6 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("reload"):
 		Global.game_controller.reload_scene()
 		
-
 	#Mouse capture/Enable cursor
 	if Input.is_action_just_pressed("left_mouse"):
 		if !mouse_captured:
@@ -240,7 +246,7 @@ func handle_controls(delta):
 	
 	# Dash control
 	if (
-		Input.is_action_just_pressed("dash")
+		(Input.is_action_just_pressed("dash") or Input.is_action_just_pressed("right_mouse"))
 		and !sliding
 		and dash_cooldown <= 0.0
 		and current_dash_storage >= 5.0

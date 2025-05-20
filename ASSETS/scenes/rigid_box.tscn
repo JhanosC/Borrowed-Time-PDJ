@@ -1,8 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqrso54i4vxs8"]
+[gd_scene load_steps=6 format=3 uid="uid://cqrso54i4vxs8"]
+
+[ext_resource type="Texture2D" uid="uid://bbfjwnq7mv6gq" path="res://ASSETS/texture/kenney_prototype_textures/orange/texture_13.png" id="1_ddahe"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jv3ii"]
+rough = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_r3fl7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s87bt"]
+albedo_texture = ExtResource("1_ddahe")
+uv1_triplanar = true
+uv2_triplanar = true
+uv2_world_triplanar = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jka67"]
 
@@ -16,6 +25,7 @@ continuous_cd = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_r3fl7")
+surface_material_override/0 = SubResource("StandardMaterial3D_s87bt")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_jka67")
