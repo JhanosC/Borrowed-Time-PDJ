@@ -1,0 +1,161 @@
+[gd_scene load_steps=9 format=3 uid="uid://cuowh1uhibiyi"]
+
+[ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_eydq4"]
+[ext_resource type="Environment" uid="uid://binlijw06k2v8" path="res://ASSETS/environment/WE_test.tres" id="2_b7lek"]
+[ext_resource type="PackedScene" uid="uid://dul2pititpkcb" path="res://ASSETS/scenes/player_controller.tscn" id="3_iiqg6"]
+[ext_resource type="PackedScene" uid="uid://cvxhpcjp06g8f" path="res://ASSETS/scenes/spawn_point.tscn" id="4_7ij7c"]
+[ext_resource type="Texture2D" uid="uid://i4uglhlgii1f" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_13.png" id="5_7ij7c"]
+[ext_resource type="Material" uid="uid://bh8gqgktombnd" path="res://ASSETS/art/material/ship_material_test.tres" id="6_3cwnd"]
+[ext_resource type="PackedScene" uid="uid://dl358o8e8ihjt" path="res://ASSETS/scenes/end_level.tscn" id="7_pepwq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iiqg6"]
+albedo_texture = ExtResource("5_7ij7c")
+metallic = 0.2
+uv1_triplanar = true
+uv2_triplanar = true
+uv2_world_triplanar = true
+
+[node name="LevelTutorial" type="Node3D" node_paths=PackedStringArray("player", "door")]
+script = ExtResource("1_eydq4")
+player = NodePath("CharacterBody3D")
+door = NodePath("EndLevel")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.8, -0.1)
+light_color = Color(1, 0.839216, 0.631373, 1)
+light_energy = 2.0
+shadow_enabled = true
+omni_range = 15.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.492404, 0.642788, -0.586824, -0.413176, 0.766044, 0.492404, 0.766044, 0, 0.642788, -10.65, 10.35, -47.3)
+light_color = Color(1, 1, 0.878431, 1)
+light_angular_distance = 1.0
+shadow_enabled = true
+shadow_bias = 0.07
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_b7lek")
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("3_iiqg6")]
+
+[node name="SpawnPoint" parent="." instance=ExtResource("4_7ij7c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, -8)
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="Ship" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, -46.95)
+use_collision = true
+size = Vector3(6.4, 6, 98.5)
+material = SubResource("StandardMaterial3D_iiqg6")
+
+[node name="ShipInterior" type="CSGBox3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.1, -0.450001)
+operation = 2
+use_collision = true
+size = Vector3(5.5, 5.2, 97.6)
+material = ExtResource("6_3cwnd")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 1.3, 20.4)
+operation = 2
+radius = 1.1
+height = 8.4
+sides = 16
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 1.3, 15.9)
+operation = 2
+radius = 1.1
+height = 8.4
+sides = 16
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 1.3, 0.4)
+operation = 2
+radius = 1.1
+height = 8.4
+sides = 16
+
+[node name="CSGCylinder3D4" type="CSGCylinder3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 1.3, -4.1)
+operation = 2
+radius = 1.1
+height = 8.4
+sides = 16
+
+[node name="CSGCylinder3D5" type="CSGCylinder3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 1.3, -19.6)
+operation = 2
+radius = 1.1
+height = 8.4
+sides = 16
+
+[node name="CSGCylinder3D6" type="CSGCylinder3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 1.3, -24.1)
+operation = 2
+radius = 1.1
+height = 8.4
+sides = 16
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.65, 2.15, -9.05)
+operation = 2
+size = Vector3(1.9, 1.9, 4.1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85, 2.15, 6.75)
+operation = 2
+size = Vector3(2.7, 1.9, 4.1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 2.15, 8.15)
+operation = 2
+size = Vector3(2.7, 1.9, 4.1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D/Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.85, 1.55, -27.95)
+operation = 2
+size = Vector3(2.7, 3.1, 6.9)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 0, 0, 1, 1.4, 0, -103.95)
+size = Vector3(4.2, 1, 7.9)
+material = ExtResource("6_3cwnd")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, -1.49012e-08, 0, 1.49012e-08, 1, 0, 0, 0, 1, 0.4, -1.49012e-08, -115.55)
+size = Vector3(6.2, 1, 12.5)
+material = ExtResource("6_3cwnd")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, -1.49012e-08, 0, 1.49012e-08, 1, 0, 0, 0, 1, 0.4, -1.49012e-08, -151.2)
+size = Vector3(6.2, 1, 17)
+material = ExtResource("6_3cwnd")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, -1.49012e-08, 0, 1.49012e-08, 1, 0, 0, 0, 1, 0.4, -1.49012e-08, -192.95)
+size = Vector3(6.2, 1, 26.9)
+material = ExtResource("6_3cwnd")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(2.98023e-08, -1, 0, 1, 2.98023e-08, 0, 0, 0, 1, -2.4, 2.7, -102.5)
+size = Vector3(4.2, 1, 10.8)
+material = ExtResource("6_3cwnd")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(2.98023e-08, -1, 0, 1, 2.98023e-08, 0, 0, 0, 1, -2.4, 3.75, -125.7)
+size = Vector3(6.3, 1, 33.8)
+material = ExtResource("6_3cwnd")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(2.98023e-08, -1, 0, 1, 2.98023e-08, 0, 0, 0, 1, 3.8, 3.75, -119.9)
+size = Vector3(6.3, 1, 45.4)
+material = ExtResource("6_3cwnd")
+
+[node name="EndLevel" parent="." instance=ExtResource("7_pepwq")]
+transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 0, 0, -207.1)
+path_to_new_scene = "res://ASSETS/scenes/level_tutorial.tscn"
+entry_door_name = "EndTutorial"

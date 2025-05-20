@@ -178,6 +178,7 @@ func _physics_process(delta):
 	# Call function to display speed lines when going fast
 	hud.display_speed_lines(Vector3(velocity.x, 0.0, velocity.z).length(), movement_speed)
 	hud.update_dash_storage(current_dash_storage, max_dash_storage)
+	hud.display_debug_info(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction,Vector3(velocity.x, 0.0, velocity.z).length(),desired_velocity)
 	
 	# Handle functions
 	handle_controls(delta)
@@ -205,7 +206,15 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("reload"):
 		reloading_scene = true
 		Global.game_controller.reload_scene()
-		
+	
+	if Input.is_action_just_pressed("1"):
+		Global.game_controller.load_new_scene("res://ASSETS/scenes/level_tutorial.tscn")
+	if Input.is_action_just_pressed("2"):
+		Global.game_controller.load_new_scene("res://ASSETS/scenes/test_level.tscn")
+	if Input.is_action_just_pressed("3"):
+		Global.game_controller.load_new_scene("res://ASSETS/scenes/test_level_2.tscn")
+	
+	
 	#Mouse capture/Enable cursor
 	if Input.is_action_just_pressed("left_mouse"):
 		if !mouse_captured:

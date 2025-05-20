@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://b16oj78thc37m"]
+
+[sub_resource type="SystemFont" id="SystemFont_juo0p"]
+subpixel_positioning = 0
+
+[resource]
+font = SubResource("SystemFont_juo0p")
+outline_size = 3
+outline_color = Color(0, 0, 0, 0.470588)

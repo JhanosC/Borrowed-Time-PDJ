@@ -1,8 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://cmet8rmb0for5"]
+[gd_scene load_steps=22 format=3 uid="uid://cmet8rmb0for5"]
 
 [ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_b0ahb"]
 [ext_resource type="Script" uid="uid://vs1r7bmmcx71" path="res://ASSETS/controllers/scripts/next_level.gd" id="1_xx3hq"]
+[ext_resource type="PackedScene" uid="uid://cvxhpcjp06g8f" path="res://ASSETS/scenes/spawn_point.tscn" id="2_3xer2"]
 [ext_resource type="PackedScene" uid="uid://dul2pititpkcb" path="res://ASSETS/scenes/player_controller.tscn" id="2_nn3ir"]
+[ext_resource type="PackedScene" uid="uid://dl358o8e8ihjt" path="res://ASSETS/scenes/end_level.tscn" id="3_6no46"]
 [ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://ASSETS/controllers/scripts/debug_info.gd" id="3_b0ahb"]
 [ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="5_6no46"]
 [ext_resource type="PackedScene" uid="uid://bcqg05ykqpk7a" path="res://ASSETS/scenes/rigid_box_wall.tscn" id="6_b0ahb"]
@@ -12,11 +14,11 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r6ukr"]
 
-[sub_resource type="SystemFont" id="SystemFont_juo0p"]
+[sub_resource type="SystemFont" id="SystemFont_3xer2"]
 subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_4arys"]
-font = SubResource("SystemFont_juo0p")
+font = SubResource("SystemFont_3xer2")
 outline_size = 3
 outline_color = Color(0, 0, 0, 0.470588)
 
@@ -49,17 +51,11 @@ script = ExtResource("1_b0ahb")
 player = NodePath("CharacterBody3D")
 door = NodePath("EndLevel")
 
-[node name="SpawnPoint" type="Marker3D" parent="."]
+[node name="SpawnPoint" parent="." instance=ExtResource("2_3xer2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55561, 0)
 
-[node name="EndLevel" type="Area3D" parent="."]
+[node name="EndLevel" parent="." instance=ExtResource("3_6no46")]
 transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, -241.771, -18.1822, -205.22)
-script = ExtResource("1_xx3hq")
-path_to_new_scene = "res://ASSETS/scenes/test_level_2.tscn"
-entry_door_name = "FinalLevel1"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="EndLevel"]
-shape = SubResource("BoxShape3D_r6ukr")
 
 [node name="EndLevel2" type="Area3D" parent="."]
 transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 4.00157, 7.94767, 32.7442)
@@ -341,7 +337,6 @@ metadata/_editor_floor_ = Vector3(0, -7, 0)
 environment = ExtResource("7_nn3ir")
 script = ExtResource("8_b0ahb")
 
-[connection signal="body_entered" from="EndLevel" to="EndLevel" method="_on_body_entered"]
 [connection signal="body_entered" from="EndLevel2" to="EndLevel2" method="_on_body_entered"]
 [connection signal="states_update" from="CharacterBody3D" to="UI" method="_on_character_body_3d_states_update"]
 [connection signal="velocity_update" from="CharacterBody3D" to="UI" method="_on_velocity_update"]

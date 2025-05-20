@@ -3,6 +3,7 @@ extends Control
 @onready var speed_lines = $SpeedLines
 @onready var time: Label = $Time
 @onready var dash_storage: ProgressBar = $DashStorage
+@onready var debug_info: Label = $DebugInfo
 var time_passed = 0.0
 
 # Called when the node enters the scene tree for the first time.
@@ -31,6 +32,27 @@ func get_time():
 func update_dash_storage(dash_amount, max_dash_amount):
 	dash_storage.max_value = max_dash_amount
 	dash_storage.value = dash_amount
+
+func display_debug_info(can_crouch: bool,
+slaming: bool,
+sliding: bool,
+wall_running: bool,
+on_floor: bool,
+on_wall: bool,
+direction: Vector3,
+velocity,
+desired_velocity) -> void:
+	debug_info.text = (
+		"Can crouch: "+str(can_crouch) 
+		+"\nSlaming: "+str(slaming)
+		+"\nSliding: "+str(sliding)
+		+"\nWall running: "+str(wall_running)
+		+"\nOn floor: "+str(on_floor)
+		+"\nOn wall: "+str(on_wall)
+		+"\nDirection: "+str(direction)
+		+"\nVelocity: "+str(velocity).pad_decimals(2)
+		+"\nDesired Velocity: "+str(desired_velocity).pad_decimals(2)
+		)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl358o8e8ihjt"]
+
+[ext_resource type="Script" uid="uid://vs1r7bmmcx71" path="res://ASSETS/controllers/scripts/next_level.gd" id="1_ct7ga"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r6ukr"]
+
+[node name="EndLevel" type="Area3D"]
+transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 0, 0, 0)
+script = ExtResource("1_ct7ga")
+path_to_new_scene = "res://ASSETS/scenes/test_level_2.tscn"
+entry_door_name = "FinalLevel1"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_r6ukr")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
