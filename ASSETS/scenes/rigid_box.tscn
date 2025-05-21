@@ -13,6 +13,8 @@ collision_layer = 2
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_jv3ii")
 freeze_mode = 1
+contact_monitor = true
+max_contacts_reported = 7
 script = ExtResource("1_ddahe")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

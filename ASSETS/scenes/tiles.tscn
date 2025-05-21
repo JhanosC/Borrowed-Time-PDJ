@@ -26,9 +26,9 @@ uv2_world_triplanar = true
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_341ea"]
 data = PackedVector3Array(-5, 0.5, 5, 5, 0.5, 5, -5, -0.5, 5, 5, 0.5, 5, 5, -0.5, 5, -5, -0.5, 5, 5, 0.5, -5, -5, 0.5, -5, 5, -0.5, -5, -5, 0.5, -5, -5, -0.5, -5, 5, -0.5, -5, 5, 0.5, 5, 5, 0.5, -5, 5, -0.5, 5, 5, 0.5, -5, 5, -0.5, -5, 5, -0.5, 5, -5, 0.5, -5, -5, 0.5, 5, -5, -0.5, -5, -5, 0.5, 5, -5, -0.5, 5, -5, -0.5, -5, 5, 0.5, 5, -5, 0.5, 5, 5, 0.5, -5, -5, 0.5, 5, -5, 0.5, -5, 5, 0.5, -5, -5, -0.5, 5, 5, -0.5, 5, -5, -0.5, -5, 5, -0.5, 5, 5, -0.5, -5, -5, -0.5, -5)
 
-[node name="Tiles" type="Node3D"]
+[node name="Tiles" type="Node3D" groups=["wall", "walls"]]
 
-[node name="Floor" type="MeshInstance3D" parent="." groups=["walls"]]
+[node name="Floor" type="MeshInstance3D" parent="." groups=["wall", "walls"]]
 mesh = SubResource("BoxMesh_k6t24")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_d6bvg")
@@ -38,7 +38,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_d6bvg")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_7ivye")
 
-[node name="PlataformaMuitoBaixa" type="MeshInstance3D" parent="."]
+[node name="PlataformaMuitoBaixa" type="MeshInstance3D" parent="." groups=["wall"]]
 mesh = SubResource("BoxMesh_vra4g")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_xlp04")

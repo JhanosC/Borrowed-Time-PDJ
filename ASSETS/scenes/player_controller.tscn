@@ -1,15 +1,7 @@
-<<<<<<< HEAD
-[gd_scene load_steps=18 format=3 uid="uid://dul2pititpkcb"]
-=======
-<<<<<<< HEAD
-[gd_scene load_steps=12 format=3 uid="uid://5g5pal1keh8o"]
-=======
-[gd_scene load_steps=16 format=3 uid="uid://dul2pititpkcb"]
->>>>>>> main
->>>>>>> f65d34ea135dab7422cda4ecd817d875e89a33c4
+[gd_scene load_steps=18 format=3 uid="uid://b6n65iiyi6u0q"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
-[ext_resource type="Script" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
+[ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
 [ext_resource type="Shader" uid="uid://b2npu87wax68" path="res://ASSETS/art/shaders/SpeedLinesShader.gdshader" id="2_qwx0b"]
 
 [sub_resource type="Curve" id="Curve_rnlsj"]
@@ -100,14 +92,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 [node name="Camera3D" type="Camera3D" parent="CameraController"]
 cull_mask = 1048573
 
-<<<<<<< HEAD
-[node name="hand" type="Marker3D" parent="CameraController/Camera3D"]
-
-[node name="interaction" type="RayCast3D" parent="CameraController/Camera3D"]
-target_position = Vector3(0, 0, -7)
-collision_mask = 3
-
-=======
 [node name="AimRaycast" type="RayCast3D" parent="CameraController/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 target_position = Vector3(0, -7, 0)
@@ -119,7 +103,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, -2.1)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CameraController/Camera3D/PullPoint"]
 mesh = SubResource("SphereMesh_p1wnk")
 
->>>>>>> main
 [node name="SlidingCollisionShape" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape3D_dk88v")
