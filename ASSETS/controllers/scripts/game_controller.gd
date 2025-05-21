@@ -50,6 +50,7 @@ func monitor_load_status() -> void:
 			_load_progress_timer.stop()
 			return
 		ResourceLoader.THREAD_LOAD_LOADED:
+			if !is_instance_valid(_load_progress_timer): return
 			_load_progress_timer.stop()
 			_load_progress_timer.queue_free()
 			content_finished_loading.emit(ResourceLoader.load_threaded_get(_content_path).instantiate())

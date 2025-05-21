@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cqrso54i4vxs8"]
+[gd_scene load_steps=7 format=3 uid="uid://cqrso54i4vxs8"]
 
 [ext_resource type="Texture2D" uid="uid://bbfjwnq7mv6gq" path="res://ASSETS/texture/kenney_prototype_textures/orange/texture_13.png" id="1_ddahe"]
+[ext_resource type="Script" uid="uid://c7bdfjm21clcr" path="res://ASSETS/controllers/scripts/rigid_box.gd" id="1_s87bt"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jv3ii"]
 rough = true
@@ -20,8 +21,12 @@ collision_layer = 2
 collision_mask = 3
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_jv3ii")
+gravity_scale = 0.0
 freeze_mode = 1
 continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_s87bt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_r3fl7")

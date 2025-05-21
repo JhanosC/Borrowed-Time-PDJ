@@ -214,6 +214,10 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("3"):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/test_level_2.tscn")
 	
+	#if Input.is_action_pressed("right_mouse"):
+		#Engine.time_scale = 0.1
+	#else:
+		#Engine.time_scale = 1.0
 	
 	#Mouse capture/Enable cursor
 	if Input.is_action_just_pressed("left_mouse"):
@@ -260,7 +264,7 @@ func handle_controls(delta):
 	
 	# Dash control
 	if (
-		(Input.is_action_just_pressed("dash") or Input.is_action_just_pressed("right_mouse"))
+		Input.is_action_just_pressed("dash")
 		and !sliding
 		and dash_cooldown <= 0.0
 		and current_dash_storage >= 5.0
@@ -429,10 +433,8 @@ func pull_object():
 func throw_object():
 	var push_dir = (aim_raycast.to_global(aim_raycast.target_position) - aim_raycast.to_global(Vector3.ZERO)).normalized()
 	var push_force = 100.0
-	
-	picked_object.apply_impulse(push_dir * push_force)
-	picked_object.lock_rotation = false
 	picked_object.remove_collision_exception_with(self)
+	picked_object.throw(push_dir, push_force)
 	holding = false
 
 

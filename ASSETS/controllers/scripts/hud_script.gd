@@ -5,6 +5,7 @@ extends Control
 @onready var dash_storage: ProgressBar = $DashStorage
 @onready var debug_info: Label = $DebugInfo
 var time_passed = 0.0
+var fps
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -43,7 +44,8 @@ direction: Vector3,
 velocity,
 desired_velocity) -> void:
 	debug_info.text = (
-		"Can crouch: "+str(can_crouch) 
+		"FPS: " + str(fps)
+		+"\nCan crouch: "+str(can_crouch) 
 		+"\nSlaming: "+str(slaming)
 		+"\nSliding: "+str(sliding)
 		+"\nWall running: "+str(wall_running)
@@ -57,3 +59,4 @@ desired_velocity) -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	display_time(delta)
+	fps = Engine.get_frames_per_second()

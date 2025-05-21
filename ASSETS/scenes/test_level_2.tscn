@@ -1,9 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://dpkrhfy76ympk"]
+[gd_scene load_steps=20 format=3 uid="uid://dpkrhfy76ympk"]
 
 [ext_resource type="Script" uid="uid://vs1r7bmmcx71" path="res://ASSETS/controllers/scripts/next_level.gd" id="1_sxm32"]
 [ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_vmklp"]
 [ext_resource type="PackedScene" uid="uid://dul2pititpkcb" path="res://ASSETS/scenes/player_controller.tscn" id="2_c7bbb"]
-[ext_resource type="Script" uid="uid://c1udo7a0lkml2" path="res://ASSETS/controllers/scripts/debug_info.gd" id="3_vmklp"]
 [ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="5_eyl1r"]
 [ext_resource type="PackedScene" uid="uid://bcqg05ykqpk7a" path="res://ASSETS/scenes/rigid_box_wall.tscn" id="5_vmklp"]
 [ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://ASSETS/scenes/rigid_box.tscn" id="6_w1o6c"]
@@ -12,14 +11,6 @@
 [ext_resource type="Script" uid="uid://b6hni47bovn6j" path="res://ASSETS/controllers/scripts/we2.gd" id="8_c7bbb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r6ukr"]
-
-[sub_resource type="SystemFont" id="SystemFont_c7bbb"]
-subpixel_positioning = 0
-
-[sub_resource type="LabelSettings" id="LabelSettings_4arys"]
-font = SubResource("SystemFont_c7bbb")
-outline_size = 3
-outline_color = Color(0, 0, 0, 0.470588)
 
 [sub_resource type="BoxMesh" id="BoxMesh_noarx"]
 size = Vector3(30, 1, 30)
@@ -111,63 +102,6 @@ shape = SubResource("BoxShape3D_r6ukr")
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_c7bbb")]
 transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, -15.6474, 2.1, 3.57692)
 platform_on_leave = 2
-
-[node name="UI" type="CanvasLayer" parent="."]
-script = ExtResource("3_vmklp")
-
-[node name="Velocity" type="Label" parent="UI"]
-offset_left = 5.0
-offset_right = 95.0
-offset_bottom = 34.0
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "1000"
-label_settings = SubResource("LabelSettings_4arys")
-vertical_alignment = 2
-
-[node name="FOV" type="Label" parent="UI"]
-offset_left = 5.0
-offset_top = 34.0
-offset_right = 95.0
-offset_bottom = 68.0
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "1000"
-label_settings = SubResource("LabelSettings_4arys")
-vertical_alignment = 2
-
-[node name="States" type="Label" parent="UI"]
-offset_left = 5.0
-offset_top = 102.0
-offset_right = 95.0
-offset_bottom = 136.0
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "1000"
-label_settings = SubResource("LabelSettings_4arys")
-vertical_alignment = 2
-
-[node name="Position" type="Label" parent="UI"]
-offset_left = 214.0
-offset_top = -1.0
-offset_right = 304.0
-offset_bottom = 33.0
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "1000"
-label_settings = SubResource("LabelSettings_4arys")
-vertical_alignment = 2
-
-[node name="Camera_Distortion" type="Label" parent="UI"]
-offset_left = 5.0
-offset_top = 68.0
-offset_right = 95.0
-offset_bottom = 102.0
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "1000"
-label_settings = SubResource("LabelSettings_4arys")
-vertical_alignment = 2
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.422618, -0.694272, 0.582564, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 13, 0)
@@ -430,5 +364,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 108.098, -6, 4.79737)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 104.589, -6, 7.55708)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
-[connection signal="states_update" from="CharacterBody3D" to="UI" method="_on_character_body_3d_states_update"]
-[connection signal="velocity_update" from="CharacterBody3D" to="UI" method="_on_velocity_update"]
