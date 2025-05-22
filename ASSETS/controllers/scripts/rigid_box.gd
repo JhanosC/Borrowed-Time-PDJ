@@ -1,21 +1,33 @@
 extends RigidBody3D
+var freezeBody = false
+var player_holding = false
+var was_thrown = false
 
-var thrown := false
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func _ready() -> void:
+	self.contact_monitor = true
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	for i in get_colliding_bodies():
-		if i is not RigidBody3D and thrown:
-			freeze = true
-	if linear_velocity.length() <= 0.0:
-		thrown = false
+func _physics_process(delta):
+	
+	if self.was_thrown and !self.freeze:
+		var contacts = get_colliding_bodies()
+		
+		if contacts.size() >= 1:
+			for body in contacts:
+				print(body, "is wall? ", body.is_in_group("walls"))
+				if body.is_in_group("walls"):
+					self.freeze = true
+					self.linear_velocity = Vector3.ZERO
+					print('i was trown')
+					self.freeze = true
+					self.was_thrown = false
+					player_released()
+	
+func player_picked():
+	player_holding = true
+	
+func player_released():
+	player_holding = false
 
-func throw(push_dir, push_force):
-	thrown = true
-	lock_rotation = false
-	apply_impulse(push_dir * push_force)
+func player_threw():
+	was_thrown = true

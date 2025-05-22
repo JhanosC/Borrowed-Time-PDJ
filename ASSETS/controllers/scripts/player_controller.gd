@@ -80,39 +80,7 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
 @onready var hud = $HUD
 
-#PICKING OBJECTS MECHANINICAL
-#@onready var head = head
-@onready var hand = $CameraController/Camera3D/hand
-@onready var interaction = $CameraController/Camera3D/interaction
-
-#var picked_object
-#var holding = false
-#const pull_power = 4
-
 var debug_mode = true
-var cc = 0
-
-func pull_object_old():
-	if picked_object != null and holding: 
-		var a = picked_object.global_transform.origin
-		var b = hand.global_transform.origin
-		
-		var direction = b - a
-		if direction.length() > 2:
-			picked_object.freeze = false
-			picked_object.linear_velocity = direction * 4.0
-		else:
-			picked_object.freeze = true
-			picked_object.linear_velocity = Vector3.ZERO
-
-func manipulate_object(): 
-	if picked_object != null and holding:
-		print()
-		
-#func release_object():
-	#picked_object.linear_velocity = Vector3(0, 0, 0)
-	#holding = false
-	##picked_object = null
 
 func update_signals():
 	states_update.emit(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction)
@@ -156,7 +124,7 @@ func _push_away_rigid_bodies():
 			
 			const MY_APPROX_MASS_KG = 60.0
 			var mass_ratio = min(1., MY_APPROX_MASS_KG / c.get_collider().mass)
-
+			
 			
 			var push_force = mass_ratio * 5.0
 			push_force = clamp(push_force, 0.0, 10.0)
@@ -165,7 +133,9 @@ func _push_away_rigid_bodies():
 				c.get_position() - c.get_collider().global_position)
 
 func _process_camera(delta):
-	
+	var axis_vector = Vector2.ZERO
+	axis_vector.x = Input.get_action_strength("look_right") - Input.get_action_strength("look_left")
+	axis_vector.y = Input.get_action_strength("look_down") - Input.get_action_strength("look_up")
 	if wall_running:
 		var aim = get_global_transform().basis
 		var forward = -aim.z
@@ -179,6 +149,10 @@ func _process_camera(delta):
 			head.rotation.z = lerp(head.rotation.z, rotation_degree * wall_check_r.get_collision_normal().length(), lerp_speed * delta)
 	else:
 		head.rotation.z = lerp(head.rotation.z, deg_to_rad(0.0), lerp_speed * delta)
+	
+	rotation_target.y -= axis_vector.x * 5.0 * delta
+	rotation_target.x -= axis_vector.y * 5.0 * delta
+
 	# Smooth camera movement
 	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * delta, delta * 5)	
 	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, delta * 50)
@@ -221,8 +195,7 @@ func _physics_process(delta):
 	_wall_run(delta)
 	pull_object()
 	move_and_slide()
-	update_signals() 
-
+	update_signals()
 	
 func _unhandled_input(event):
 	# Mouse movement
@@ -247,13 +220,12 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("3"):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/test_level_2.tscn")
 	
-	#if Input.is_action_pressed("right_mouse"):
-		#Engine.time_scale = 0.1
-	#else:
-		#Engine.time_scale = 1.0
+	if Input.is_action_pressed("right_mouse"):
+		Engine.time_scale = 0.1
+	else:
+		Engine.time_scale = 1.0
 	
 	#Mouse capture/Enable cursor
-
 	if Input.is_action_just_pressed("left_mouse"):
 		if !mouse_captured:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -268,7 +240,6 @@ func handle_controls(delta):
 	if holding:
 		if Input.is_action_just_pressed("left_mouse"):
 			throw_object()
-
 	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -296,7 +267,6 @@ func handle_controls(delta):
 		crawling = true
 	if Input.is_action_just_released("crouch"):
 		can_crouch = true
-		
 	
 	# Dash control
 	if (
@@ -469,19 +439,9 @@ func pull_object():
 func throw_object():
 	var push_dir = (aim_raycast.to_global(aim_raycast.target_position) - aim_raycast.to_global(Vector3.ZERO)).normalized()
 	var push_force = 100.0
-<<<<<<< HEAD
-=======
-	
-	picked_object.player_threw()
-	
-	picked_object.apply_impulse(push_dir * push_force)
-	picked_object.lock_rotation = false
->>>>>>> origin/physics
 	picked_object.remove_collision_exception_with(self)
 	picked_object.throw(push_dir, push_force)
 	holding = false
-	picked_object.player_released()
-	
 
 
 func release_object():
