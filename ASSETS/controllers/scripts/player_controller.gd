@@ -79,6 +79,7 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var sliding_collision_shape: CollisionShape3D = $SlidingCollisionShape
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
 @onready var hud = $HUD
+@onready var hook_controller: HookController = $HookController
 
 var debug_mode = true
 
@@ -214,10 +215,10 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("3"):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/test_level_2.tscn")
 	
-	#if Input.is_action_pressed("right_mouse"):
-		#Engine.time_scale = 0.1
-	#else:
-		#Engine.time_scale = 1.0
+	if Input.is_action_pressed("right_mouse"):
+		Engine.time_scale = 0.1
+	else:
+		Engine.time_scale = 1.0
 	
 	#Mouse capture/Enable cursor
 	if Input.is_action_just_pressed("left_mouse"):
@@ -234,6 +235,9 @@ func handle_controls(delta):
 	if holding:
 		if Input.is_action_just_pressed("left_mouse"):
 			throw_object()
+	else:
+		if Input.is_action_just_pressed("left_mouse"):
+			hook_controller._release_hook()
 	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -245,7 +249,7 @@ func handle_controls(delta):
 	if on_floor and !sliding:
 		if Input.is_action_just_pressed("jump") or (auto_bhop and Input.is_action_pressed("jump")):
 			jump(0.0)
-	
+		
 	# Sliding and slam control
 	if Input.is_action_pressed("crouch") and can_crouch:
 		if !on_floor and !sliding:

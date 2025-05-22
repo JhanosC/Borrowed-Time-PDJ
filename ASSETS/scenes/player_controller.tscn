@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=17 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
 [ext_resource type="Shader" uid="uid://b2npu87wax68" path="res://ASSETS/art/shaders/SpeedLinesShader.gdshader" id="2_qwx0b"]
 [ext_resource type="LabelSettings" uid="uid://b16oj78thc37m" path="res://ASSETS/fonts/debug_label.tres" id="4_e0c87"]
+[ext_resource type="Script" uid="uid://cplm28v0bfog5" path="res://ASSETS/addons/grappling_hook_3d/src/hook_controller.gd" id="5_7mjmw"]
 
 [sub_resource type="Curve" id="Curve_rnlsj"]
 _limits = [0.0, 100.0, 0.0, 1.0]
@@ -84,7 +85,7 @@ fov = 85.0
 
 [node name="AimRaycast" type="RayCast3D" parent="CameraController/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-target_position = Vector3(0, -14, 0)
+target_position = Vector3(0, -25, 0)
 collision_mask = 3
 
 [node name="PullPoint" type="Marker3D" parent="CameraController/Camera3D"]
@@ -203,3 +204,10 @@ offset_right = 179.0
 offset_bottom = 57.0
 text = "bah"
 label_settings = ExtResource("4_e0c87")
+
+[node name="HookController" type="Node" parent="." node_paths=PackedStringArray("hook_raycast", "player_body")]
+script = ExtResource("5_7mjmw")
+hook_raycast = NodePath("../CameraController/Camera3D/AimRaycast")
+player_body = NodePath("..")
+launch_action_name = "launch_grapple"
+retract_action_name = "retract_grapple"
