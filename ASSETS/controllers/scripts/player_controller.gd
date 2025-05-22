@@ -134,7 +134,9 @@ func _push_away_rigid_bodies():
 				c.get_position() - c.get_collider().global_position)
 
 func _process_camera(delta):
-	
+	var axis_vector = Vector2.ZERO
+	axis_vector.x = Input.get_action_strength("look_right") - Input.get_action_strength("look_left")
+	axis_vector.y = Input.get_action_strength("look_down") - Input.get_action_strength("look_up")
 	if wall_running:
 		var aim = get_global_transform().basis
 		var forward = -aim.z
@@ -148,6 +150,10 @@ func _process_camera(delta):
 			head.rotation.z = lerp(head.rotation.z, rotation_degree * wall_check_r.get_collision_normal().length(), lerp_speed * delta)
 	else:
 		head.rotation.z = lerp(head.rotation.z, deg_to_rad(0.0), lerp_speed * delta)
+	
+	rotation_target.y -= axis_vector.x * 5.0 * delta
+	rotation_target.x -= axis_vector.y * 5.0 * delta
+
 	# Smooth camera movement
 	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * delta, delta * 5)	
 	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, delta * 50)
