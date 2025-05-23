@@ -38,7 +38,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_d6bvg")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_7ivye")
 
-[node name="PlataformaMuitoBaixa" type="MeshInstance3D" parent="." groups=["wall"]]
+[node name="PlataformaMuitoBaixa" type="MeshInstance3D" parent="." groups=["wall", "walls"]]
 mesh = SubResource("BoxMesh_vra4g")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_xlp04")

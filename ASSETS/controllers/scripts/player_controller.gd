@@ -58,6 +58,7 @@ var wall_run_cooldown := 0.0
 var possible_wall_jumps := 3
 
 var picked_object = null
+var selected_object = null
 const pull_power := 4.0
 
 var rotation_target: Vector3
@@ -194,6 +195,7 @@ func _physics_process(delta):
 	_distort_camera(delta)
 	_push_away_rigid_bodies()
 	_wall_run(delta)
+	sel_object()
 	pull_object()
 	move_and_slide()
 	update_signals()
@@ -238,11 +240,10 @@ func handle_controls(delta):
 		else:
 			pick_object()
 	
-	if holding:
-		if Input.is_action_just_pressed("left_mouse"):
+	if Input.is_action_just_pressed("left_mouse"):
+		if holding:
 			throw_object()
-	else:
-		if Input.is_action_just_pressed("left_mouse"):
+		else:
 			hook_controller._release_hook()
 	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
@@ -419,10 +420,21 @@ func _stop_dash():
 		desired_velocity = previous_dash_velocity
 	dashing = false
 
+func sel_object():
+	if not holding:
+		var collider = aim_raycast.get_collider()
+		if selected_object != collider:
+			if collider != null and "targeted" in collider:
+				collider.targeted = true
+			if selected_object != null and "targeted" in selected_object:
+				selected_object.targeted = false
+		selected_object = collider
+
 func pick_object():
 		var collider = aim_raycast.get_collider()
 		if collider is RigidBody3D:
 			holding = true
+			collider.held = true
 			collider.lock_rotation = true
 			collider.add_collision_exception_with(self)
 			picked_object = collider

@@ -1,11 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=17 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
 [ext_resource type="Shader" uid="uid://b2npu87wax68" path="res://ASSETS/art/shaders/SpeedLinesShader.gdshader" id="2_qwx0b"]
 [ext_resource type="LabelSettings" uid="uid://b16oj78thc37m" path="res://ASSETS/fonts/debug_label.tres" id="4_e0c87"]
-[ext_resource type="PackedScene" uid="uid://dlqm10204rcaq" path="res://ASSETS/addons/destrohook/scenes/hook.tscn" id="5_7mjmw"]
-[ext_resource type="Script" uid="uid://qet7vjb3sni7" path="res://ASSETS/controllers/scripts/crosshair.gd" id="5_o5pon"]
 [ext_resource type="Script" uid="uid://b5wnnlckg2b2g" path="res://ASSETS/addons/destrohook/scripts/hook_controller.gd" id="5_s6h3k"]
 
 [sub_resource type="Curve" id="Curve_rnlsj"]
@@ -42,6 +40,16 @@ shader_parameter/mask_size = 0.1
 shader_parameter/mask_edge = 0.8
 shader_parameter/animation_speed = 20.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p1wnk"]
+shader = ExtResource("2_qwx0b")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_count = 2.0
+shader_parameter/line_density = 1.0
+shader_parameter/line_faloff = 0.053
+shader_parameter/mask_size = 0.178
+shader_parameter/mask_edge = 0.0
+shader_parameter/animation_speed = 0.5
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e0c87"]
 bg_color = Color(0.147672, 0.147672, 0.147672, 1)
 corner_radius_top_left = 10
@@ -75,13 +83,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 cull_mask = 1048573
 fov = 85.0
 
-[node name="PullPoint" type="Marker3D" parent="CameraController/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, -2.1)
-
 [node name="AimRaycast" type="RayCast3D" parent="CameraController/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 target_position = Vector3(0, -40, 0)
 collision_mask = 3
+
+[node name="PullPoint" type="Marker3D" parent="CameraController/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, -2.1)
 
 [node name="SlidingCollisionShape" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -156,6 +164,23 @@ grow_horizontal = 0
 text = "100"
 label_settings = ExtResource("4_e0c87")
 
+[node name="ColorRect" type="ColorRect" parent="HUD"]
+material = SubResource("ShaderMaterial_p1wnk")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.492
+anchor_right = 0.5
+anchor_bottom = 0.492
+offset_left = -6.0
+offset_top = -5.81601
+offset_right = 18.0
+offset_bottom = 18.184
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+
 [node name="DashStorage" type="ProgressBar" parent="HUD"]
 layout_mode = 1
 anchors_preset = 2
@@ -170,7 +195,7 @@ mouse_filter = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_e0c87")
 theme_override_styles/fill = SubResource("StyleBoxFlat_p1wnk")
 max_value = 5.0
-value = 5.0
+value = 1.48
 show_percentage = false
 
 [node name="DebugInfo" type="Label" parent="HUD"]
@@ -180,29 +205,8 @@ offset_bottom = 57.0
 text = "bah"
 label_settings = ExtResource("4_e0c87")
 
-[node name="CenterContainer" type="CenterContainer" parent="HUD"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("5_o5pon")
-
-[node name="HookController" type="Node" parent="." node_paths=PackedStringArray("player_body", "hook_raycast", "hook_source")]
+[node name="HookController" type="Node" parent="."]
 script = ExtResource("5_s6h3k")
-hook_scene = ExtResource("5_7mjmw")
-player_body = NodePath("..")
-hook_raycast = NodePath("../CameraController/Camera3D/AimRaycast")
-hook_source = NodePath("../CameraController/Camera3D/PullPoint")
-stiffness = 20.0
-rest_length_center_fraction = 5
 
 [node name="HookStart" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.2, -0.2)
