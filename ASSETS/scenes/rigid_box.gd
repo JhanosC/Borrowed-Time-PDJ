@@ -14,7 +14,7 @@ func _physics_process(delta):
 		
 		if contacts.size() >= 1:
 			for body in contacts:
-				print(body, "is wall? ", body.is_in_group("walls"))
+				print(body, "is wall? ", body.isiuy87t6r5688765_in_group("walls"))
 				if body.is_in_group("walls"):
 					self.freeze = true
 					self.linear_velocity = Vector3.ZERO
