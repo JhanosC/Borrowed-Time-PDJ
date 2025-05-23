@@ -28,6 +28,15 @@ var crawling := false
 var can_wall_run := true
 var on_floor := true
 
+var is_slow := false
+var can_slow := true
+var slow_speed_multiplier:= 2.25
+
+var slow_cooldown := 0.5
+var slow_full := true
+
+@export var bar_duration := 10.0
+
 @export_subgroup("Movement Settings")
 @export var movement_speed : float
 @export var max_speed : float
@@ -60,7 +69,7 @@ var input_dir: Vector2
 signal velocity_update(velocity: Vector3, desired_velocity: float)
 signal fov_update(fov: float)
 signal camera_distortion_update(distortion: float)
-signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3)
+signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3,is_slow:bool,can_slow:bool)
 signal position_update(x,y,z: float)
 
 @onready var camera = $CameraController/Camera3D
@@ -76,7 +85,7 @@ signal position_update(x,y,z: float)
 var debug_mode = true
 
 func update_signals():
-	states_update.emit(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction)
+	states_update.emit(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction,is_slow,can_slow)
 	velocity_update.emit(Vector3(velocity.x,0.0,velocity.z).length(), desired_velocity, current_dash_storage)
 
 func get_move_speed() -> float:
@@ -84,6 +93,8 @@ func get_move_speed() -> float:
 		return movement_speed * crawl_speed_multiplier
 	elif dashing:
 		return movement_speed * dash_speed_multiplier
+	elif is_slow:
+		return movement_speed * slow_speed_multiplier
 	return movement_speed
 
 func is_touching_wall() -> bool:
@@ -173,6 +184,16 @@ func _physics_process(delta):
 	_wall_run(delta)
 	move_and_slide()
 	update_signals()
+	_process_slow(delta)
+
+func _process_slow(delta):
+	if Input.is_action_pressed("slow") and can_slow:
+		_slow_bar(bar_duration,delta)
+		Engine.time_scale=0.25
+	else:
+		is_slow = false
+		Engine.time_scale = 1.0
+		_slow_bar_refill(delta)
 	
 func _unhandled_input(event):
 	# Mouse movement
@@ -195,6 +216,8 @@ func handle_controls(delta):
 		mouse_captured = false
 		input_mouse = Vector2.ZERO
 	rotation_target.x = clamp(rotation_target.x, deg_to_rad(-90), deg_to_rad(90))
+	
+			
 	
 	# Jumping control
 	if on_floor and !sliding:
@@ -365,3 +388,23 @@ func _distort_camera(delta):
 		camera_new_fov = min(camera_default_fov + (Vector3(velocity.x,0.,velocity.z).length()*0.7),camera_default_fov * 1.3)
 		camera_distortion = -1.0
 	camera.fov = lerp(camera.fov, camera_new_fov, delta * lerp_speed)
+
+# control the slow motion bar
+func _slow_bar(bar_drain,delta):
+	if bar_drain > 0:
+		is_slow =true
+		bar_duration-= 3 * delta
+		print(bar_drain)
+	else :
+		is_slow = false
+		can_slow =false
+		print("out of time")
+
+func _slow_bar_refill(delta):
+	if bar_duration < 10.0:
+		bar_duration+=clampf(delta * slow_cooldown,0.25,10.0)
+		print("refilling at:"+str(bar_duration))
+	else:
+		slow_full = true
+		can_slow = true
+		print("full")
