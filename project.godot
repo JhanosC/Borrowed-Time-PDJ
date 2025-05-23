@@ -22,6 +22,7 @@ Global="*res://ASSETS/controllers/scripts/global.gd"
 [global_group]
 
 walls="anything that the objects we throw can stick to."
+grappable="Grappling hook can be attached"
 
 [input]
 

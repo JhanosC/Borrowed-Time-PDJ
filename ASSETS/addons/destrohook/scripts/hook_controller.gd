@@ -48,11 +48,14 @@ func _release_hook() -> void:
 func _launch_hook() -> void:
 	if not hook_raycast.is_colliding():
 		return
-	
+	var body: Node3D = hook_raycast.get_collider()
+	if !body.is_in_group("grappable"):
+		return
 	is_hook_launched = true
+	player_body.hook_out = true
 	hook_attached.emit()
 	
-	var body: Node3D = hook_raycast.get_collider()
+	
 
 	hook_target_node = Marker3D.new()
 	body.add_child(hook_target_node)
@@ -69,6 +72,7 @@ func _launch_hook() -> void:
 ## Disables the hook, frees the target node and the hook model, emits required signals.
 func _retract_hook() -> void:
 	is_hook_launched = false
+	player_body.hook_out = false
 	
 	hook_target_node.queue_free()
 	_hook_model.queue_free()
@@ -94,6 +98,9 @@ func _handle_hook(delta: float) -> void:
 		rest_length -= 1
 	elif Input.is_action_just_pressed(extend_action_name):
 		rest_length += 1
+	if distance <= 3.0:
+		_retract_hook()
+	print(distance)
 	player_body.velocity += total_force * delta
 
 	

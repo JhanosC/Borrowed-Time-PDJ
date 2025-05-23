@@ -29,6 +29,7 @@ var can_wall_run := true
 var on_floor := true
 var pulled = false
 var holding = false
+var hook_out = false
 var reloading_scene = false
 
 @export_subgroup("Movement Settings")
@@ -98,9 +99,11 @@ func get_move_speed() -> float:
 func is_touching_wall() -> bool:
 	# More consistent way yo check if is touching a wall
 	if wall_check_l.is_colliding() or wall_check_r.is_colliding() or face_check.is_colliding():
+		var left_wall = wall_check_l.get_collider()
+		var right_wall = wall_check_r.get_collider()
 		# Ignore RigidBodies and CharacterBodies
-		if !(wall_check_l.get_collider() is RigidBody3D or wall_check_r.get_collider() is RigidBody3D or face_check.get_collider() is RigidBody3D):
-			if !(wall_check_l.get_collider() is CharacterBody3D or wall_check_r.get_collider() is CharacterBody3D or face_check.get_collider() is CharacterBody3D):
+		if !(left_wall is RigidBody3D or right_wall is RigidBody3D or face_check.get_collider() is RigidBody3D):
+			if !(left_wall is CharacterBody3D or right_wall is CharacterBody3D or face_check.get_collider() is CharacterBody3D):
 				if abs(wall_check_l.get_collision_normal().y) < 0.1 or abs(wall_check_r.get_collision_normal().y) < 0.1 or abs(face_check.get_collision_normal().y) < 0.1:
 					return true
 	return false
@@ -140,13 +143,13 @@ func _process_camera(delta):
 	axis_vector.y = Input.get_action_strength("look_down") - Input.get_action_strength("look_up")
 	if wall_running:
 		var aim = get_global_transform().basis
-		var forward = -aim.z
+		var foward = -aim.z
 		if wall_check_l.is_colliding():
-			var rotation_degree = PI/2.0 - forward.angle_to(wall_check_l.get_collision_normal())
+			var rotation_degree = PI/2.0 - foward.angle_to(wall_check_l.get_collision_normal())
 			rotation_degree = deg_to_rad(clamp(rotation_degree*20 + 20, -20.0, 30.0))
 			head.rotation.z = lerp(head.rotation.z, rotation_degree * -(wall_check_l.get_collision_normal().length()), lerp_speed * delta)
 		else:
-			var rotation_degree = PI/2.0 - forward.angle_to(wall_check_r.get_collision_normal())
+			var rotation_degree = PI/2.0 - foward.angle_to(wall_check_r.get_collision_normal())
 			rotation_degree = deg_to_rad(clamp(rotation_degree*20 + 10, -20.0, 30.0))
 			head.rotation.z = lerp(head.rotation.z, rotation_degree * wall_check_r.get_collision_normal().length(), lerp_speed * delta)
 	else:
@@ -181,12 +184,14 @@ func _physics_process(delta):
 		if hitGroundCooldown != hitGroundCooldownRef: hitGroundCooldown = hitGroundCooldownRef
 	# If is on floor, decrease momentum reset cooldown
 	if on_floor:
+		slaming = false
+		wall_jump_counter = 0 # Reset wall jump counter when hit the ground
 		if hitGroundCooldown >= 0: hitGroundCooldown -= delta
 
 	# Call function to display speed lines when going fast
 	hud.display_speed_lines(Vector3(velocity.x, 0.0, velocity.z).length(), movement_speed)
 	hud.update_dash_storage(current_dash_storage, max_dash_storage)
-	hud.display_debug_info(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction,Vector3(velocity.x, 0.0, velocity.z).length(),desired_velocity)
+	hud.display_debug_info(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),hook_out,direction,Vector3(velocity.x, 0.0, velocity.z).length(),desired_velocity)
 	
 	# Handle functions
 	handle_controls(delta)
@@ -195,8 +200,9 @@ func _physics_process(delta):
 	_distort_camera(delta)
 	_push_away_rigid_bodies()
 	_wall_run(delta)
-	sel_object()
-	pull_object()
+	if !hook_out:
+		sel_object()
+		pull_object()
 	move_and_slide()
 	update_signals()
 	
@@ -233,18 +239,18 @@ func handle_controls(delta):
 		if !mouse_captured:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			mouse_captured = true
-		
-	if Input.is_action_just_pressed("interact"):
-		if holding:
-			release_object()
-		else:
-			pick_object()
 	
 	if Input.is_action_just_pressed("left_mouse"):
 		if holding:
 			throw_object()
 		else:
-			hook_controller._release_hook()
+			retract_release_hook()
+			
+	if Input.is_action_just_pressed("interact"):
+		if holding:
+			release_object()
+		elif not hook_out:
+			pick_object()
 	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -260,13 +266,14 @@ func handle_controls(delta):
 	# Sliding and slam control
 	if Input.is_action_pressed("crouch") and can_crouch:
 		if !on_floor and !sliding:
+			if hook_out:
+				retract_release_hook()
 			self.velocity.y = -(gravity * slam_strength)
 			slaming = true
 			can_crouch = false
 		else:
 			_slide(delta)
 	elif !ceilingCheck.is_colliding():
-		slaming = false
 		_stop_slide(delta)
 	elif ceilingCheck.is_colliding() and velocity.length() <= 2.0:
 		crawling = true
@@ -280,6 +287,8 @@ func handle_controls(delta):
 		and dash_cooldown <= 0.0
 		and current_dash_storage >= 5.0
 		):
+		if hook_out:
+			retract_release_hook()
 		previous_dash_velocity = desired_velocity
 		_dash() # Update variables to allow to dash
 
@@ -313,7 +322,6 @@ func move(delta):
 	
 	# Apply direction based on state
 	if on_floor:
-		wall_jump_counter = 0 # Reset wall jump counter when hit the ground
 		if direction:
 			if sliding:
 				if velocity.length() < get_move_speed():
@@ -336,8 +344,8 @@ func move(delta):
 			self.velocity.x = lerp(velocity.x, 0.0, ground_decel * delta)
 			self.velocity.z = lerp(velocity.z, 0.0, ground_decel * delta)
 			desired_velocity = velocity.length()
-		if !sliding and !dashing:
-			_headbob_effect(delta)
+		#if !sliding and !dashing:
+			#_headbob_effect(delta)
 
 	if !on_floor:
 		_process_gravity(delta)
@@ -377,7 +385,7 @@ func jump(strength_value : float):
 	self.velocity.y = jump_strength + strength_value
 
 func _wall_run(_delta):
-	if can_wall_run:
+	if can_wall_run and !hook_out:
 		wall_running = true
 		if Input.is_action_just_pressed("jump"):
 			if wall_jump_counter < possible_wall_jumps:
@@ -412,6 +420,7 @@ func _dash():
 	else: move_foward_vector = Vector2(0, -1)
 	current_dash_storage -= 5.0
 	dashing = true
+	slaming = false
 	dashing_timer = dash_duration
 	dash_cooldown = 0.5
 
@@ -448,9 +457,7 @@ func pull_object():
 		if pull_direction.length() > 0.0:
 			picked_object.linear_velocity = pull_direction * 20.0
 			picked_object.freeze = false
-		else:
-			picked_object.linear_velocity = Vector3.ZERO
-			picked_object.freeze = true
+
 
 func throw_object():
 	var push_dir = (aim_raycast.to_global(aim_raycast.target_position) - aim_raycast.to_global(Vector3.ZERO)).normalized()
@@ -465,6 +472,10 @@ func release_object():
 	picked_object.lock_rotation = false
 	picked_object.remove_collision_exception_with(self)
 	holding = false
+
+func retract_release_hook():
+	if !slaming:
+		hook_controller._release_hook()
 
 func _headbob_effect(delta):
 	headbob_time += delta * self.velocity.length()

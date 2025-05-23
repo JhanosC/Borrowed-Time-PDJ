@@ -40,6 +40,7 @@ sliding: bool,
 wall_running: bool,
 on_floor: bool,
 on_wall: bool,
+hook_out: bool,
 direction: Vector3,
 velocity,
 desired_velocity) -> void:
@@ -51,6 +52,7 @@ desired_velocity) -> void:
 		+"\nWall running: "+str(wall_running)
 		+"\nOn floor: "+str(on_floor)
 		+"\nOn wall: "+str(on_wall)
+		+"\nHook out: "+str(hook_out)
 		+"\nDirection: "+str(direction)
 		+"\nVelocity: "+str(velocity).pad_decimals(2)
 		+"\nDesired Velocity: "+str(desired_velocity).pad_decimals(2)

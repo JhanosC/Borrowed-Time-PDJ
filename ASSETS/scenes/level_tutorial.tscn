@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cuowh1uhibiyi"]
+[gd_scene load_steps=11 format=3 uid="uid://cuowh1uhibiyi"]
 
 [ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_eydq4"]
 [ext_resource type="Environment" uid="uid://binlijw06k2v8" path="res://ASSETS/environment/WE_test.tres" id="2_b7lek"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://i4uglhlgii1f" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_13.png" id="5_7ij7c"]
 [ext_resource type="Material" uid="uid://bh8gqgktombnd" path="res://ASSETS/art/material/ship_material_test.tres" id="6_3cwnd"]
 [ext_resource type="PackedScene" uid="uid://dl358o8e8ihjt" path="res://ASSETS/scenes/end_level.tscn" id="7_pepwq"]
+[ext_resource type="PackedScene" uid="uid://ddmylwck6mls6" path="res://ASSETS/scenes/grappable_object.tscn" id="8_512dh"]
+[ext_resource type="PackedScene" uid="uid://bcqg05ykqpk7a" path="res://ASSETS/scenes/rigid_box_wall.tscn" id="9_adbn4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iiqg6"]
 albedo_texture = ExtResource("5_7ij7c")
@@ -175,8 +177,8 @@ size = Vector3(6.2, 1, 17)
 material = ExtResource("6_3cwnd")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, -1.49012e-08, 0, 1.49012e-08, 1, 0, 0, 0, 1, 0.4, -1.49012e-08, -212.384)
-size = Vector3(6.2, 1, 48.2319)
+transform = Transform3D(1, -1.49012e-08, 0, 1.49012e-08, 1, 0, 0, 0, 1, 0.4, -1.49012e-08, -217.485)
+size = Vector3(6.2, 1, 58.4338)
 material = ExtResource("6_3cwnd")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
@@ -194,7 +196,29 @@ transform = Transform3D(2.98023e-08, -1, 0, 1, 2.98023e-08, 0, 0, 0, 1, 3.8, 3.7
 size = Vector3(6.3, 1, 45.4)
 material = ExtResource("6_3cwnd")
 
+[node name="CSGBox3D8" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(2.98023e-08, -1, 0, 1, 2.98023e-08, 0, 0, 0, 1, -2.4, 3.75, -280.7)
+size = Vector3(6.3, 1, 33.8)
+material = ExtResource("6_3cwnd")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(2.98023e-08, -1, 0, 1, 2.98023e-08, 0, 0, 0, 1, 3.8, 3.75, -274.9)
+size = Vector3(6.3, 1, 45.4)
+material = ExtResource("6_3cwnd")
+
 [node name="EndLevel" parent="." instance=ExtResource("7_pepwq")]
-transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 0, 7, -239.1)
+transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 0, 7, -330.1)
 path_to_new_scene = "res://ASSETS/scenes/level_tutorial.tscn"
 entry_door_name = "EndTutorial"
+
+[node name="RigidBody3D" parent="." instance=ExtResource("8_512dh")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 2.16856, 0.799807, -243.812)
+
+[node name="RigidBody3D2" parent="." instance=ExtResource("8_512dh")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.156105, 0.799807, -242.69)
+
+[node name="RigidBody3D3" parent="." instance=ExtResource("8_512dh")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.883591, 0.799807, -244.861)
+
+[node name="RigidBoxWall" parent="." instance=ExtResource("9_adbn4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00917643, 0.481755, -47.8098)

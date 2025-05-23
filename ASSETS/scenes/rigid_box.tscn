@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://dnhgaba8eua66" path="res://ASSETS/controllers/scripts/rigid_box2.gd" id="1_s87bt"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jv3ii"]
-rough = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_r3fl7"]
 

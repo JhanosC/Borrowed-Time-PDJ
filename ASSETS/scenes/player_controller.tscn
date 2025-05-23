@@ -187,8 +187,6 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
@@ -201,8 +199,8 @@ hook_scene = ExtResource("5_7mjmw")
 player_body = NodePath("..")
 hook_raycast = NodePath("../CameraController/Camera3D/AimRaycast")
 hook_source = NodePath("../CameraController/Camera3D/PullPoint")
-stiffness = 20.0
-rest_length_center_fraction = 5
+stiffness = 2.0
+rest_length_center_fraction = 1
 
 [node name="HookStart" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.2, -0.2)
