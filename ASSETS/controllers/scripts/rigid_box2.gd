@@ -8,12 +8,13 @@ var held := false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	outline.hide()
+	freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	for i in get_colliding_bodies():
-		if i is not RigidBody3D and thrown:
+		if i is not RigidBody3D and i is not Player and thrown:
 			freeze = true
 	if linear_velocity.length() <= 0.0:
 		thrown = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=19 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -17,6 +17,10 @@ point_count = 4
 _limits = [0.0, 10.0, 0.0, 1.0]
 _data = [Vector2(0.284644, 9.1875), 0.0, 0.0, 0, 0, Vector2(0.588015, 7.96875), 0.0, 0.0, 0, 0, Vector2(0.891386, 7.46094), 0.0, 0.0, 0, 0]
 point_count = 3
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o5pon"]
+radius = 0.4
+height = 20.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dk88v"]
 height = 1.0
@@ -60,7 +64,6 @@ corner_radius_bottom_left = 10
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_mask = 3
 script = ExtResource("1_dk88v")
-jump_strength = 10.0
 movement_speed = 15.0
 max_speed = 25.0
 ground_decel = 8.0
@@ -78,8 +81,16 @@ fov = 85.0
 [node name="PullPoint" type="Marker3D" parent="CameraController/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, -2.1)
 
+[node name="AimShapeCast" type="ShapeCast3D" parent="CameraController/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_o5pon")
+target_position = Vector3(0, -10.3, 0)
+collision_mask = 2
+debug_shape_custom_color = Color(1, 0, 0, 1)
+
 [node name="AimRaycast" type="RayCast3D" parent="CameraController/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+visible = false
 target_position = Vector3(0, -40, 0)
 collision_mask = 3
 
@@ -197,7 +208,7 @@ script = ExtResource("5_o5pon")
 script = ExtResource("5_s6h3k")
 hook_scene = ExtResource("5_7mjmw")
 player_body = NodePath("..")
-hook_raycast = NodePath("../CameraController/Camera3D/AimRaycast")
+hook_raycast = NodePath("../CameraController/Camera3D/AimShapeCast")
 hook_source = NodePath("../CameraController/Camera3D/PullPoint")
 stiffness = 2.0
 rest_length_center_fraction = 1

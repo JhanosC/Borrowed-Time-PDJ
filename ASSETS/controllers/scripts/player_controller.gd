@@ -30,6 +30,7 @@ var on_floor := true
 var pulled = false
 var holding = false
 var hook_out = false
+var slow_time = false
 var reloading_scene = false
 
 @export_subgroup("Movement Settings")
@@ -58,13 +59,14 @@ var wall_jump_counter := 0
 var wall_run_cooldown := 0.0
 var possible_wall_jumps := 3
 
-var picked_object = null
+var picked_object : RigidBody3D = null
 var selected_object = null
 const pull_power := 4.0
 
 var rotation_target: Vector3
 var input_mouse: Vector2
 var input_dir: Vector2
+var original_picked_object_parent : Node3D
 
 signal velocity_update(velocity: Vector3, desired_velocity: float)
 signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3)
@@ -76,6 +78,7 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var wall_check_r: RayCast3D = $Raycasts/WallCheckR
 @onready var wall_check_l: RayCast3D = $Raycasts/WallCheckL
 @onready var aim_raycast: RayCast3D = $CameraController/Camera3D/AimRaycast
+@onready var aim_shape_cast: ShapeCast3D = $CameraController/Camera3D/AimShapeCast
 @onready var pull_point: Marker3D = $CameraController/Camera3D/PullPoint
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
 @onready var sliding_collision_shape: CollisionShape3D = $SlidingCollisionShape
@@ -97,15 +100,16 @@ func get_move_speed() -> float:
 	return movement_speed
 
 func is_touching_wall() -> bool:
-	# More consistent way yo check if is touching a wall
-	if wall_check_l.is_colliding() or wall_check_r.is_colliding() or face_check.is_colliding():
-		var left_wall = wall_check_l.get_collider()
-		var right_wall = wall_check_r.get_collider()
-		# Ignore RigidBodies and CharacterBodies
-		if !(left_wall is RigidBody3D or right_wall is RigidBody3D or face_check.get_collider() is RigidBody3D):
-			if !(left_wall is CharacterBody3D or right_wall is CharacterBody3D or face_check.get_collider() is CharacterBody3D):
-				if abs(wall_check_l.get_collision_normal().y) < 0.1 or abs(wall_check_r.get_collision_normal().y) < 0.1 or abs(face_check.get_collision_normal().y) < 0.1:
-					return true
+	var checks = [wall_check_l, wall_check_r, face_check]
+	for check in checks:
+		if check.is_colliding():
+			var collider : Node3D = check.get_collider()
+			match collider:
+				null:
+					pass
+				_:
+					if collider.is_in_group("walls"):
+						return true
 	return false
 
 func _ready():
@@ -229,7 +233,12 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("3"):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/test_level_2.tscn")
 	
-	if Input.is_action_pressed("right_mouse"):
+	if Input.is_action_just_pressed("right_mouse"):
+		if slow_time:
+			slow_time = false
+		else:
+			slow_time = true
+	if slow_time:
 		Engine.time_scale = 0.1
 	else:
 		Engine.time_scale = 1.0
@@ -245,6 +254,8 @@ func handle_controls(delta):
 			throw_object()
 		else:
 			retract_release_hook()
+	if Input.is_action_just_released("left_mouse") and hook_out:
+		retract_release_hook()
 			
 	if Input.is_action_just_pressed("interact"):
 		if holding:
@@ -262,6 +273,10 @@ func handle_controls(delta):
 	if on_floor and !sliding:
 		if Input.is_action_just_pressed("jump") or (auto_bhop and Input.is_action_pressed("jump")):
 			jump(0.0)
+	if hook_out:
+		if Input.is_action_just_pressed("jump"):
+			jump(2.0)
+			retract_release_hook()
 		
 	# Sliding and slam control
 	if Input.is_action_pressed("crouch") and can_crouch:
@@ -344,8 +359,8 @@ func move(delta):
 			self.velocity.x = lerp(velocity.x, 0.0, ground_decel * delta)
 			self.velocity.z = lerp(velocity.z, 0.0, ground_decel * delta)
 			desired_velocity = velocity.length()
-		#if !sliding and !dashing:
-			#_headbob_effect(delta)
+		if !sliding and !dashing:
+			_headbob_effect(delta)
 
 	if !on_floor:
 		_process_gravity(delta)
@@ -381,8 +396,8 @@ func jump(strength_value : float):
 			velocity = wall_check_l.get_collision_normal() * wall_jump_force
 		else:
 			velocity = wall_check_r.get_collision_normal() * wall_jump_force
-
-	self.velocity.y = jump_strength + strength_value
+			
+	self.velocity.y += jump_strength + strength_value
 
 func _wall_run(_delta):
 	if can_wall_run and !hook_out:
@@ -430,21 +445,27 @@ func _stop_dash():
 	dashing = false
 
 func sel_object():
-	if not holding:
-		var collider = aim_raycast.get_collider()
+	if not holding and aim_shape_cast.is_colliding():
+		var collider = aim_shape_cast.get_collider(0)
 		if selected_object != collider:
 			if collider != null and "targeted" in collider:
 				collider.targeted = true
 			if selected_object != null and "targeted" in selected_object:
 				selected_object.targeted = false
 		selected_object = collider
+	elif selected_object:
+		selected_object.targeted = false
+		selected_object = null
 
 func pick_object():
-		var collider = aim_raycast.get_collider()
+	if aim_shape_cast.is_colliding():
+		var collider = aim_shape_cast.get_collider(0)
+		print(aim_shape_cast.get_collider(0))
 		if collider is RigidBody3D:
 			holding = true
 			collider.held = true
 			collider.lock_rotation = true
+			collider.freeze = false
 			collider.add_collision_exception_with(self)
 			picked_object = collider
 
@@ -452,23 +473,21 @@ func pull_object():
 	if picked_object != null and holding: 
 		var a = picked_object.global_transform.origin
 		var b = pull_point.global_position
-		
 		var pull_direction = b - a
 		if pull_direction.length() > 0.0:
 			picked_object.linear_velocity = pull_direction * 20.0
-			picked_object.freeze = false
+			picked_object.global_transform.basis = global_transform.basis
 
 
 func throw_object():
 	var push_dir = (aim_raycast.to_global(aim_raycast.target_position) - aim_raycast.to_global(Vector3.ZERO)).normalized()
 	var push_force = 100.0
-	picked_object.remove_collision_exception_with(self)
 	picked_object.throw(push_dir, push_force)
-	holding = false
+	release_object()
 
 
 func release_object():
-	picked_object.linear_velocity = Vector3(0, 0, 0)
+	picked_object.held = false
 	picked_object.lock_rotation = false
 	picked_object.remove_collision_exception_with(self)
 	holding = false

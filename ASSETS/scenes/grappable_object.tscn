@@ -15,6 +15,7 @@ material = SubResource("StandardMaterial3D_mfmno")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jeiq1"]
 albedo_color = Color(0, 1, 0, 1)
 emission_enabled = true
+emission = Color(0, 1, 0, 1)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_mfmno"]
 _surfaces = [{
@@ -33,19 +34,20 @@ _surfaces = [{
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_1nwai"]
 
 [node name="RigidBody3D" type="RigidBody3D" groups=["grappable"]]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+collision_layer = 2
+collision_mask = 3
 continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_e7nkh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.599615, 0, 0, 0, 1.10132, 0, 0, -3.55271e-15, 0.599614, 0, 0, 0)
+transform = Transform3D(0.599615, 0, 0, 0, -4.81402e-08, 0.599614, 0, -1.10132, -2.621e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_xnbuw")
 
 [node name="Outline" type="MeshInstance3D" parent="MeshInstance3D"]
 mesh = SubResource("ArrayMesh_mfmno")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.599615, 0, 0, 0, 1.10132, 0, 0, -3.55271e-15, 0.599614, 0, 0, 0)
+transform = Transform3D(0.599615, 0, 0, 0, -4.81402e-08, 0.599614, 0, -1.10132, -2.621e-08, 0, 0, 0)
 shape = SubResource("CylinderShape3D_1nwai")

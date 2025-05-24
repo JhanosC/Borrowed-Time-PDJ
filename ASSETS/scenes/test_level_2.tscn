@@ -1,10 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://dpkrhfy76ympk"]
+[gd_scene load_steps=19 format=3 uid="uid://dpkrhfy76ympk"]
 
 [ext_resource type="Script" uid="uid://vs1r7bmmcx71" path="res://ASSETS/controllers/scripts/next_level.gd" id="1_sxm32"]
 [ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_vmklp"]
 [ext_resource type="PackedScene" uid="uid://dul2pititpkcb" path="res://ASSETS/scenes/player_controller.tscn" id="2_c7bbb"]
 [ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="5_eyl1r"]
-[ext_resource type="PackedScene" uid="uid://bcqg05ykqpk7a" path="res://ASSETS/scenes/rigid_box_wall.tscn" id="5_vmklp"]
 [ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://ASSETS/scenes/rigid_box.tscn" id="6_w1o6c"]
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/environment/Tiles.tres" id="7_55kva"]
 [ext_resource type="Texture2D" uid="uid://dyydggpxsbar1" path="res://ASSETS/art/HDRi/BuracoNegro7_blender.hdr" id="7_c7bbb"]
@@ -111,33 +110,6 @@ shadow_opacity = 0.75
 [node name="Level" type="Node" parent="."]
 
 [node name="RigidBodies" type="Node" parent="Level"]
-
-[node name="RigidBoxWall" parent="Level/RigidBodies" instance=ExtResource("5_vmklp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 2.33351, 0)
-
-[node name="RigidBoxWall2" parent="Level/RigidBodies" instance=ExtResource("5_vmklp")]
-transform = Transform3D(2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, 41.1, 2, 2.2)
-
-[node name="RigidBoxWall3" parent="Level/RigidBodies" instance=ExtResource("5_vmklp")]
-transform = Transform3D(5.14521e-08, 0, -1, 0, 1, 0, 1.72645, 0, 2.98023e-08, 137.6, -14, 4.8)
-
-[node name="RigidBoxWall9" parent="Level/RigidBodies" instance=ExtResource("5_vmklp")]
-transform = Transform3D(5.14521e-08, 0, -1, 0, 1, 0, 1.72645, 0, 2.98023e-08, 137.6, -9, 4.8)
-
-[node name="RigidBoxWall4" parent="Level/RigidBodies" instance=ExtResource("5_vmklp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 163.078, -36, -65.1463)
-
-[node name="RigidBoxWall5" parent="Level/RigidBodies" instance=ExtResource("5_vmklp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 169.078, -36, -65.1463)
-
-[node name="RigidBoxWall6" parent="Level/RigidBodies" instance=ExtResource("5_vmklp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 175.078, -36, -65.1463)
-
-[node name="RigidBoxWall7" parent="Level/RigidBodies" instance=ExtResource("5_vmklp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 181.078, -36, -65.1463)
-
-[node name="RigidBoxWall8" parent="Level/RigidBodies" instance=ExtResource("5_vmklp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 187.078, -36, -65.1463)
 
 [node name="RigidBody3D" parent="Level/RigidBodies" instance=ExtResource("6_w1o6c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 190.033, -30, -31.5438)

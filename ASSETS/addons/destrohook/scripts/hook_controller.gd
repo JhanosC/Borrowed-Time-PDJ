@@ -15,7 +15,7 @@ extends Node
 @export_group("References")
 @export var hook_scene: PackedScene ## The hook and rope which we will be instantiating
 @export var player_body: CharacterBody3D ## The player, who we will apply forces to
-@export var hook_raycast: RayCast3D ## The raycast which will look where to shoot the rope
+@export var hook_raycast: ShapeCast3D ## The raycast which will look where to shoot the rope
 @export var hook_source: Node3D ## A 3D node that serves as the beginning on the rope model
 
 
@@ -48,7 +48,7 @@ func _release_hook() -> void:
 func _launch_hook() -> void:
 	if not hook_raycast.is_colliding():
 		return
-	var body: Node3D = hook_raycast.get_collider()
+	var body: Node3D = hook_raycast.get_collider(0)
 	if !body.is_in_group("grappable"):
 		return
 	is_hook_launched = true
@@ -60,8 +60,8 @@ func _launch_hook() -> void:
 	hook_target_node = Marker3D.new()
 	body.add_child(hook_target_node)
 	
-	hook_target_node.global_position = hook_raycast.get_collision_point()#for some reason this was originally hook_target_node.position = hook_raycast.get_collision_point() - body.global_position, even though that was a less precise and more convoluted way of doing it
-	hook_target_normal = hook_raycast.get_collision_normal()
+	hook_target_node.global_position = hook_raycast.get_collision_point(0)#for some reason this was originally hook_target_node.position = hook_raycast.get_collision_point() - body.global_position, even though that was a less precise and more convoluted way of doing it
+	hook_target_normal = hook_raycast.get_collision_normal(0)
 	var rest_length_center = (hook_target_node.global_position - player_body.global_position).length() / rest_length_center_fraction
 	rest_length = (hook_target_node.global_position - player_body.global_position).length() - rest_length_center
 	
@@ -98,8 +98,6 @@ func _handle_hook(delta: float) -> void:
 		rest_length -= 1
 	elif Input.is_action_just_pressed(extend_action_name):
 		rest_length += 1
-	if distance <= 3.0:
-		_retract_hook()
 	print(distance)
 	player_body.velocity += total_force * delta
 

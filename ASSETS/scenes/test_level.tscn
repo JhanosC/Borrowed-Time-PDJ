@@ -1,11 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://cmet8rmb0for5"]
+[gd_scene load_steps=16 format=3 uid="uid://cmet8rmb0for5"]
 
 [ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_b0ahb"]
 [ext_resource type="PackedScene" uid="uid://cvxhpcjp06g8f" path="res://ASSETS/scenes/spawn_point.tscn" id="2_3xer2"]
 [ext_resource type="PackedScene" uid="uid://dul2pititpkcb" path="res://ASSETS/scenes/player_controller.tscn" id="2_nn3ir"]
 [ext_resource type="PackedScene" uid="uid://dl358o8e8ihjt" path="res://ASSETS/scenes/end_level.tscn" id="3_6no46"]
 [ext_resource type="Texture2D" uid="uid://bbvdohjkhrutx" path="res://ASSETS/texture/kenney_prototype_textures/dark/texture_07.png" id="5_6no46"]
-[ext_resource type="PackedScene" uid="uid://bcqg05ykqpk7a" path="res://ASSETS/scenes/rigid_box_wall.tscn" id="6_b0ahb"]
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/environment/Tiles.tres" id="7_8i1it"]
 [ext_resource type="Environment" uid="uid://binlijw06k2v8" path="res://ASSETS/environment/WE_test.tres" id="7_nn3ir"]
 [ext_resource type="Script" uid="uid://bmohv7axfoxts" path="res://ASSETS/controllers/scripts/we.gd" id="8_b0ahb"]
@@ -43,7 +42,7 @@ door = NodePath("EndLevel")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55561, 0)
 
 [node name="EndLevel" parent="." instance=ExtResource("3_6no46")]
-transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, -241.771, -18.1822, -205.22)
+transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, -241.771, -20.2038, -205.22)
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_nn3ir")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -135,9 +134,6 @@ shape = SubResource("BoxShape3D_jka67")
 mesh = SubResource("BoxMesh_i5arm")
 skeleton = NodePath("../..")
 
-[node name="RigidBoxWall" parent="Level/RigidBodies" instance=ExtResource("6_b0ahb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.79405, 2, 5.62923)
-
 [node name="CSGObjects" type="Node" parent="Level"]
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Level/CSGObjects" groups=["walls"]]
@@ -204,51 +200,48 @@ use_collision = true
 transform = Transform3D(7, 0, 0, 0, 3.07, 0, 0, 0, 0.5, 37.2846, 11.0348, 9.68621)
 use_collision = true
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Level/CSGObjects" groups=["walls"]]
+[node name="CSGBox3D" type="CSGBox3D" parent="Level/CSGObjects"]
 transform = Transform3D(6.8, 0, 0, 0, 6.8, 0, 0, 0, 6.8, 7.14042, 4.9, -0.904712)
 use_collision = true
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Level/CSGObjects/CSGBox3D" groups=["walls"]]
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Level/CSGObjects/CSGBox3D"]
 transform = Transform3D(1.83643e-08, -0.7, 0, 1.54, 8.34742e-09, 0, 0, 0, 0.7, 0.126408, -0.323529, -0.014013)
 operation = 2
 
-[node name="CSGBox3D19" type="CSGBox3D" parent="Level/CSGObjects" groups=["walls"]]
+[node name="CSGBox3D19" type="CSGBox3D" parent="Level/CSGObjects"]
 transform = Transform3D(-0.173648, 0, -0.984808, 0, 1, 0, 0.984808, 0, -0.173648, 8.4, 5, -51.9)
 use_collision = true
 size = Vector3(100, 10, 10)
 
-[node name="CSGBox3D19" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D19" groups=["walls"]]
+[node name="CSGBox3D19" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D19"]
 operation = 2
 size = Vector3(110, 8, 8)
 
-[node name="CSGBox3D18" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D19" groups=["walls"]]
+[node name="CSGBox3D18" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D19"]
 transform = Transform3D(1, 0, 1.49012e-08, 0, 1, 0, -1.49012e-08, 0, 1, -15.3221, 0, 0.0615892)
 operation = 2
 size = Vector3(4, 4, 13)
 
-[node name="CSGBox3D20" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D19" groups=["walls"]]
+[node name="CSGBox3D20" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D19"]
 transform = Transform3D(1, 0, 1.49012e-08, 0, 1, 0, -1.49012e-08, 0, 1, -27.3221, 0, 0.0615894)
 operation = 2
 size = Vector3(4, 4, 13)
 
-[node name="CSGBox3D21" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D19" groups=["walls"]]
+[node name="CSGBox3D21" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D19"]
 transform = Transform3D(1, 0, 1.49012e-08, 0, 1, 0, -1.49012e-08, 0, 1, -3.32208, 0, 0.0615891)
 operation = 2
 size = Vector3(4, 4, 13)
 
-[node name="CSGBox3D22" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D19" groups=["walls"]]
+[node name="CSGBox3D22" type="CSGBox3D" parent="Level/CSGObjects/CSGBox3D19"]
 transform = Transform3D(1, 0, 1.49012e-08, 0, 1, 0, -1.49012e-08, 0, 1, 7.67792, 0, 0.0615889)
 operation = 2
 size = Vector3(4, 4, 13)
 
-[node name="CSGBox3D18" type="CSGBox3D" parent="Level/CSGObjects" groups=["walls"]]
+[node name="CSGBox3D18" type="CSGBox3D" parent="Level/CSGObjects"]
 transform = Transform3D(19.8409, 0, 0, 0, -10.2911, 0, 0, 0, 10.1289, -214.422, -18.1826, -204.955)
 use_collision = true
 
-[node name="RigidBoxWall" parent="Level" instance=ExtResource("6_b0ahb")]
-transform = Transform3D(0.977138, 0, -0.212604, 0, 1, 0, 0.212604, 0, 0.977138, 13.9403, 1.5, -84.8015)
-
-[node name="GridMap" type="GridMap" parent="."]
+[node name="GridMap" type="GridMap" parent="." groups=["walls"]]
 transform = Transform3D(0.999959, -0.00911049, 0, 0.00911049, 0.999959, 0, 0, 0, 1, 0, 0, 0)
 mesh_library = ExtResource("7_8i1it")
 data = {
