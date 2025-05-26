@@ -18,6 +18,7 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 
 AudioPlayer="*res://ASSETS/scenes/audio_player.tscn"
 Global="*res://ASSETS/controllers/scripts/global.gd"
+BackgroundMusic="*res://ASSETS/scenes/background_music.tscn"
 
 [global_group]
 

@@ -3,12 +3,12 @@ class_name Level extends Node3D
 @export var player:CharacterBody3D
 @export var door:Door
 @onready var spawn_point: Marker3D = $SpawnPoint
-
 var data:LevelDataHandoff
 
 func enter_level() -> void:
 	init_player_location()
 	_connect_to_doors()
+	
 #
 func init_player_location():
 	player.position = spawn_point.position

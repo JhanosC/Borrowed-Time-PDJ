@@ -5,6 +5,7 @@ signal content_invalid(content_path:String)
 signal content_failed_to_load(content_path:String)
 
 @onready var world_3d: Node3D = $World3D
+
 var current_3d_scene
 
 var _content_path:String

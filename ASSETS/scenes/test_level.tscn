@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://bmohv7axfoxts" path="res://ASSETS/controllers/scripts/we.gd" id="8_b0ahb"]
 [ext_resource type="PackedScene" uid="uid://ddmylwck6mls6" path="res://ASSETS/scenes/grappable_object.tscn" id="9_b0ahb"]
 [ext_resource type="PackedScene" uid="uid://bn6iyudl8wv0l" path="res://ASSETS/scenes/rigid_plataform.tscn" id="10_3xer2"]
+[ext_resource type="PackedScene" uid="uid://cqkx1dbl2ntja" path="res://ASSETS/scenes/background_music.tscn" id="9_b0ahb"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_noarx"]
 size = Vector3(30, 1, 30)
@@ -259,6 +260,8 @@ metadata/_editor_floor_ = Vector3(0, -6, 0)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("7_nn3ir")
 script = ExtResource("8_b0ahb")
+
+[node name="BackgroundMusic" parent="." instance=ExtResource("9_b0ahb")]
 
 [node name="RigidBody3D" parent="." instance=ExtResource("9_b0ahb")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -120.663, -25.4956, -202.585)
