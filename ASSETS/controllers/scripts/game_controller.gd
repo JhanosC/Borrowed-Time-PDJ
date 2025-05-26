@@ -74,7 +74,6 @@ func on_content_finished_loading(content) -> void:
 	world_3d.call_deferred("add_child",content)
 	#get_tree().set_deferred("current_scene",content)
 	current_3d_scene = content
-	print("Content is: " + str(content))
 	if content is Level:
 		content.call_deferred("enter_level")
 		

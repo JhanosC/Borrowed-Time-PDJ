@@ -3,6 +3,7 @@ extends Control
 @onready var speed_lines = $SpeedLines
 @onready var time: Label = $Time
 @onready var dash_storage: ProgressBar = $DashStorage
+@onready var slow_down_storage = $SlowDownStorage
 @onready var debug_info: Label = $DebugInfo
 var time_passed = 0.0
 var fps
@@ -24,7 +25,10 @@ func display_fall_lines(current_velocity, base_velocity):
 		speed_lines.visible = false
 
 func display_time(delta):
-	time_passed += delta
+	if $"..".slow_time:
+		time_passed += delta * 4.0
+	else:
+		time_passed += delta
 	time.text = str(time_passed).pad_decimals(2)
 	
 func get_time():
@@ -33,6 +37,10 @@ func get_time():
 func update_dash_storage(dash_amount, max_dash_amount):
 	dash_storage.max_value = max_dash_amount
 	dash_storage.value = dash_amount
+
+func update_slow_down_storage(slow_time_amount, max_slow_time_amount):
+	slow_down_storage.max_value = max_slow_time_amount
+	slow_down_storage.value = slow_time_amount
 
 func display_debug_info(can_crouch: bool,
 slaming: bool,

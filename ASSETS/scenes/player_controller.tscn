@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=21 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -20,7 +20,7 @@ point_count = 3
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o5pon"]
 radius = 0.4
-height = 20.0
+height = 30.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dk88v"]
 height = 1.0
@@ -61,6 +61,21 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5pon"]
+bg_color = Color(0.147672, 0.147672, 0.147672, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e245n"]
+bg_color = Color(0.772549, 0.054902, 0.533333, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_mask = 3
 script = ExtResource("1_dk88v")
@@ -70,6 +85,7 @@ ground_decel = 8.0
 acceleration = 8.0
 desiredMoveSpeedCurve = SubResource("Curve_rnlsj")
 inAirMoveSpeedCurve = SubResource("Curve_qwx0b")
+dash_duration = 0.01
 
 [node name="CameraController" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
@@ -81,10 +97,13 @@ fov = 85.0
 [node name="PullPoint" type="Marker3D" parent="CameraController/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, -2.1)
 
+[node name="BigPullPoint" type="Marker3D" parent="CameraController/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, -2.1)
+
 [node name="AimShapeCast" type="ShapeCast3D" parent="CameraController/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -15)
 shape = SubResource("CapsuleShape3D_o5pon")
-target_position = Vector3(0, -10.3, 0)
+target_position = Vector3(0, 0, 0)
 collision_mask = 2
 debug_shape_custom_color = Color(1, 0, 0, 1)
 
@@ -184,6 +203,23 @@ max_value = 5.0
 value = 5.0
 show_percentage = false
 
+[node name="SlowDownStorage" type="ProgressBar" parent="HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -62.0
+offset_right = 272.0
+offset_bottom = -35.0
+grow_vertical = 0
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_o5pon")
+theme_override_styles/fill = SubResource("StyleBoxFlat_e245n")
+max_value = 5.0
+value = 5.0
+show_percentage = false
+
 [node name="DebugInfo" type="Label" parent="HUD"]
 layout_mode = 1
 offset_right = 179.0
@@ -210,7 +246,8 @@ hook_scene = ExtResource("5_7mjmw")
 player_body = NodePath("..")
 hook_raycast = NodePath("../CameraController/Camera3D/AimShapeCast")
 hook_source = NodePath("../CameraController/Camera3D/PullPoint")
-stiffness = 2.0
+stiffness = 3.0
+damping = 7.0
 rest_length_center_fraction = 1
 
 [node name="HookStart" type="Marker3D" parent="."]

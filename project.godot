@@ -23,6 +23,7 @@ Global="*res://ASSETS/controllers/scripts/global.gd"
 
 walls="anything that the objects we throw can stick to."
 grappable="Grappling hook can be attached"
+big_object="The object is considered way too big"
 
 [input]
 

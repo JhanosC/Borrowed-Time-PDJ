@@ -29,6 +29,7 @@ var is_hook_launched: bool = false
 var _hook_model: Node3D = null
 var hook_target_normal: Vector3 = Vector3.ZERO
 var hook_target_node: Marker3D = null
+var picked_object : Node3D = null
 
 signal hook_launched()
 signal hook_attached(body)
@@ -49,8 +50,8 @@ func _launch_hook() -> void:
 	if not hook_raycast.is_colliding():
 		return
 	var body: Node3D = hook_raycast.get_collider(0)
-	if !body.is_in_group("grappable"):
-		return
+	#if !body.is_in_group("grappable"):
+		#return
 	is_hook_launched = true
 	player_body.hook_out = true
 	hook_attached.emit()
@@ -60,8 +61,9 @@ func _launch_hook() -> void:
 	hook_target_node = Marker3D.new()
 	body.add_child(hook_target_node)
 	
-	hook_target_node.global_position = hook_raycast.get_collision_point(0)#for some reason this was originally hook_target_node.position = hook_raycast.get_collision_point() - body.global_position, even though that was a less precise and more convoluted way of doing it
+	hook_target_node.global_position = hook_raycast.get_collision_point(0)
 	hook_target_normal = hook_raycast.get_collision_normal(0)
+	picked_object = hook_raycast.get_collider(0)
 	var rest_length_center = (hook_target_node.global_position - player_body.global_position).length() / rest_length_center_fraction
 	rest_length = (hook_target_node.global_position - player_body.global_position).length() - rest_length_center
 	
@@ -73,7 +75,7 @@ func _launch_hook() -> void:
 func _retract_hook() -> void:
 	is_hook_launched = false
 	player_body.hook_out = false
-	
+	picked_object = null
 	hook_target_node.queue_free()
 	_hook_model.queue_free()
 	
@@ -83,25 +85,19 @@ func _retract_hook() -> void:
 
 ## the code that manages the hook physics and its movement
 func _handle_hook(delta: float) -> void:
-	# Hook pull math
-	var pull_vector = (hook_target_node.global_position - player_body.global_position).normalized()
-	var distance = (hook_target_node.global_position - player_body.global_position).length()
-	var spring_force_magnitude = stiffness * (distance - rest_length)
-	if spring_force_magnitude > 0:#this makes the force the spring applies stronger when the hook is above you, but apply no force when its under you, so you dont bounce 10m above the hook like a spring
-		spring_force_magnitude *= 2
-	else:
-		spring_force_magnitude = 0
-	var relative_velocity = - player_body.velocity
-	var damping_force_magnitude = damping * relative_velocity.dot(pull_vector)
-	var total_force = (spring_force_magnitude + damping_force_magnitude) * pull_vector
-	if Input.is_action_just_pressed(shorten_action_name):#scrolling the mouse wheel changes the position of the rest_length
-		rest_length -= 1
-	elif Input.is_action_just_pressed(extend_action_name):
-		rest_length += 1
-	print(distance)
-	player_body.velocity += total_force * delta
-
-	
+	if picked_object.freeze and picked_object.is_in_group("grappable"):
+		# Hook pull math
+		var pull_vector = (hook_target_node.global_position - player_body.global_position).normalized()
+		var distance = (hook_target_node.global_position - player_body.global_position).length()
+		var spring_force_magnitude = stiffness * (distance - rest_length)
+		if spring_force_magnitude > 0:#this makes the force the spring applies stronger when the hook is above you, but apply no force when its under you, so you dont bounce 10m above the hook like a spring
+			spring_force_magnitude *= 2
+		else:
+			spring_force_magnitude = 0
+		var relative_velocity = - player_body.velocity
+		var damping_force_magnitude = damping * relative_velocity.dot(pull_vector)
+		var total_force = (spring_force_magnitude + damping_force_magnitude) * pull_vector
+		player_body.velocity += total_force * delta
 	# Hook model handling
 	var source_position: Vector3
 	match true if hook_source else false:

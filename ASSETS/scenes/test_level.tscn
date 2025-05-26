@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cmet8rmb0for5"]
+[gd_scene load_steps=18 format=3 uid="uid://cmet8rmb0for5"]
 
 [ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_b0ahb"]
 [ext_resource type="PackedScene" uid="uid://cvxhpcjp06g8f" path="res://ASSETS/scenes/spawn_point.tscn" id="2_3xer2"]
@@ -8,6 +8,8 @@
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/environment/Tiles.tres" id="7_8i1it"]
 [ext_resource type="Environment" uid="uid://binlijw06k2v8" path="res://ASSETS/environment/WE_test.tres" id="7_nn3ir"]
 [ext_resource type="Script" uid="uid://bmohv7axfoxts" path="res://ASSETS/controllers/scripts/we.gd" id="8_b0ahb"]
+[ext_resource type="PackedScene" uid="uid://ddmylwck6mls6" path="res://ASSETS/scenes/grappable_object.tscn" id="9_b0ahb"]
+[ext_resource type="PackedScene" uid="uid://bn6iyudl8wv0l" path="res://ASSETS/scenes/rigid_plataform.tscn" id="10_3xer2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_noarx"]
 size = Vector3(30, 1, 30)
@@ -238,17 +240,53 @@ operation = 2
 size = Vector3(4, 4, 13)
 
 [node name="CSGBox3D18" type="CSGBox3D" parent="Level/CSGObjects"]
-transform = Transform3D(19.8409, 0, 0, 0, -10.2911, 0, 0, 0, 10.1289, -214.422, -18.1826, -204.955)
+transform = Transform3D(19.8409, 0, 0, 0, -10.2911, 0, 0, 0, 10.1289, -214.422, -19.5349, -204.955)
 use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65.6818, -16.0436, -200.975)
+use_collision = true
+size = Vector3(33.5452, 23.2518, 1)
 
 [node name="GridMap" type="GridMap" parent="." groups=["walls"]]
 transform = Transform3D(0.999959, -0.00911049, 0, 0.00911049, 0.999959, 0, 0, 0, 1, 0, 0, 0)
 mesh_library = ExtResource("7_8i1it")
 data = {
-"cells": PackedInt32Array(30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 524298, 65523, 262144, 262140, 65530, 262145, 524313, 65526, 393216, 524313, 65523, 393216, 524328, 65523, 393216, 524328, 65526, 393216, -196601, 65476, 1, -196595, 65465, 1, -196592, 65450, 196608, -458740, 65434, 131073, -458749, 65425, 131073, -393222, 65430, 131073, -393237, 65438, 851968, -786496, 65433, 524289, -786511, 65428, 524289, -786529, 65433, 524289, 65521, 0, 524288, 65506, 0, 524288, 65491, 0, 524288, 65476, 0, 524288, 65461, 0, 524288, 65446, 0, 524288, 65431, 0, 524288, 65416, 0, 524288, 65401, 0, 524288, 65386, 0, 524288, 65371, 0, 524288, 65356, 0, 524288, 589810, 65529, 327680, 589795, 65529, 327680, 589780, 65529, 327680, 589765, 65529, 327680, 589750, 65529, 327680, 589735, 65529, 327680, 589720, 65529, 327680, 589705, 65529, 327680, 589690, 65529, 327680, 589675, 65529, 327680, 589810, 7, 327680, 589795, 7, 327680, 589780, 7, 327680, 589765, 7, 327680, 589750, 7, 327680, 589735, 7, 327680, 589720, 7, 327680, 589705, 7, 327680, 589690, 7, 327680, 589675, 7, 327680, 589660, 7, 327680, 589660, 65529, 327680, 589645, 65529, 327680, 589645, 7, 327680, -786534, 65433, 1, -786539, 65433, 1, -786544, 65433, 1, -786549, 65433, 1, -786554, 65433, 1, -196601, 65471, 1, -458749, 65430, 1, -393249, 65434, 786432, -393262, 65439, 786432)
+"cells": PackedInt32Array(30, 0, 0, 30, 65521, 0, 0, 15, 0, 15, 15, 0, 30, 15, 0, 0, 30, 0, 15, 30, 0, 30, 30, 0, 524298, 65526, 917504, 524298, 65523, 262144, 262140, 65530, 262145, 524313, 65526, 393216, 524313, 65523, 393216, 524328, 65523, 393216, 524328, 65526, 393216, -196601, 65476, 1, -196595, 65465, 1, -458749, 65425, 131073, -393222, 65430, 131073, -786496, 65433, 524289, -786511, 65428, 524289, -786529, 65433, 524289, 65521, 0, 524288, 65506, 0, 524288, 65491, 0, 524288, 65476, 0, 524288, 65461, 0, 524288, 65446, 0, 524288, 65431, 0, 524288, 65416, 0, 524288, 65401, 0, 524288, 65386, 0, 524288, 65371, 0, 524288, 65356, 0, 524288, 589810, 65529, 327680, 589795, 65529, 327680, 589780, 65529, 327680, 589765, 65529, 327680, 589750, 65529, 327680, 589735, 65529, 327680, 589720, 65529, 327680, 589705, 65529, 327680, 589690, 65529, 327680, 589675, 65529, 327680, 589810, 7, 327680, 589795, 7, 327680, 589780, 7, 327680, 589765, 7, 327680, 589750, 7, 327680, 589735, 7, 327680, 589720, 7, 327680, 589705, 7, 327680, 589690, 7, 327680, 589675, 7, 327680, 589660, 7, 327680, 589660, 65529, 327680, 589645, 65529, 327680, 589645, 7, 327680, -786534, 65433, 1, -786539, 65433, 1, -786544, 65433, 1, -786549, 65433, 1, -786554, 65433, 1, -196601, 65471, 1, -458749, 65430, 1, -65520, 65434, 196608)
 }
-metadata/_editor_floor_ = Vector3(0, -7, 0)
+metadata/_editor_floor_ = Vector3(0, -6, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("7_nn3ir")
 script = ExtResource("8_b0ahb")
+
+[node name="RigidBody3D" parent="." instance=ExtResource("9_b0ahb")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -120.663, -25.4956, -202.585)
+freeze = true
+
+[node name="RigidBody3D2" parent="." instance=ExtResource("9_b0ahb")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -120.663, -25.4956, -203.585)
+freeze = true
+
+[node name="RigidBody3D3" parent="." instance=ExtResource("9_b0ahb")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -120.663, -25.4956, -204.585)
+freeze = true
+
+[node name="RigidBody3D4" parent="." instance=ExtResource("9_b0ahb")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -120.663, -25.4956, -205.585)
+freeze = true
+
+[node name="RigidBody3D6" parent="." instance=ExtResource("9_b0ahb")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -15.097, -11.0785, -206.449)
+
+[node name="RigidBody3D5" parent="." instance=ExtResource("10_3xer2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.4596, -3.18024, -147.241)
+freeze = true
+
+[node name="RigidBody3D7" parent="." instance=ExtResource("10_3xer2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.533726, -3.18024, -167.977)
+freeze = true
+
+[node name="RigidBody3D8" parent="." instance=ExtResource("10_3xer2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.6302, -15.5404, -225.272)
+freeze = true

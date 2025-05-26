@@ -12,7 +12,7 @@ var lerp_speed := 10.0
 var sliding_height := 0.75
 var gravity := 0.0
 var camera_distortion := -1.0
-var camera_distortion_strength := 0.6
+var camera_distortion_strength := 1.0
 var camera_default_fov := 75.0
 var camera_new_fov := camera_default_fov
 
@@ -30,8 +30,13 @@ var on_floor := true
 var pulled = false
 var holding = false
 var hook_out = false
-var slow_time = false
 var reloading_scene = false
+var slow_time := false
+var slow_speed_multiplier:= 4.0
+
+@export var max_slow_time_amount := 10.0
+var slow_time_amount := 10.0
+var slow_cooldown := 3.0
 
 @export_subgroup("Movement Settings")
 @export var movement_speed : float
@@ -61,12 +66,11 @@ var possible_wall_jumps := 3
 
 var picked_object : RigidBody3D = null
 var selected_object = null
-const pull_power := 4.0
+const pull_power := 20.0
 
 var rotation_target: Vector3
 var input_mouse: Vector2
 var input_dir: Vector2
-var original_picked_object_parent : Node3D
 
 signal velocity_update(velocity: Vector3, desired_velocity: float)
 signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3)
@@ -80,13 +84,14 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var aim_raycast: RayCast3D = $CameraController/Camera3D/AimRaycast
 @onready var aim_shape_cast: ShapeCast3D = $CameraController/Camera3D/AimShapeCast
 @onready var pull_point: Marker3D = $CameraController/Camera3D/PullPoint
+@onready var big_pull_point = $CameraController/Camera3D/BigPullPoint
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
 @onready var sliding_collision_shape: CollisionShape3D = $SlidingCollisionShape
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
 @onready var hud = $HUD
 @onready var hook_controller: HookController = $HookController
 
-var debug_mode = true
+var debug_mode = false
 
 func update_signals():
 	states_update.emit(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction)
@@ -158,14 +163,15 @@ func _process_camera(delta):
 			head.rotation.z = lerp(head.rotation.z, rotation_degree * wall_check_r.get_collision_normal().length(), lerp_speed * delta)
 	else:
 		head.rotation.z = lerp(head.rotation.z, deg_to_rad(0.0), lerp_speed * delta)
-	
+		
+	var speed_factor = slow_speed_multiplier if slow_time else 1.0
 	rotation_target.y -= axis_vector.x * 5.0 * delta
 	rotation_target.x -= axis_vector.y * 5.0 * delta
 
 	# Smooth camera movement
-	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * delta, delta * 5)	
-	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, delta * 50)
-	rotation.y = lerp_angle(rotation.y, rotation_target.y, delta * 25)
+	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * delta, delta * 5 * speed_factor)	
+	camera.rotation.x = lerp_angle(camera.rotation.x, rotation_target.x, delta * 50 * speed_factor)
+	rotation.y = lerp_angle(rotation.y, rotation_target.y, delta * 25 * speed_factor)
 
 func _process_gravity(delta):
 	# Slower fall while on wall
@@ -195,6 +201,7 @@ func _physics_process(delta):
 	# Call function to display speed lines when going fast
 	hud.display_speed_lines(Vector3(velocity.x, 0.0, velocity.z).length(), movement_speed)
 	hud.update_dash_storage(current_dash_storage, max_dash_storage)
+	hud.update_slow_down_storage(slow_time_amount,10.0)
 	hud.display_debug_info(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),hook_out,direction,Vector3(velocity.x, 0.0, velocity.z).length(),desired_velocity)
 	
 	# Handle functions
@@ -206,6 +213,7 @@ func _physics_process(delta):
 	_wall_run(delta)
 	if !hook_out:
 		sel_object()
+	if !hook_out or picked_object.is_in_group("big_object"):
 		pull_object()
 	move_and_slide()
 	update_signals()
@@ -235,38 +243,46 @@ func handle_controls(delta):
 	
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:
+			Engine.time_scale = 1.0
 			slow_time = false
 		else:
+			Engine.time_scale /= slow_speed_multiplier
 			slow_time = true
 	if slow_time:
-		Engine.time_scale = 0.1
+		_slow_bar(delta)
 	else:
-		Engine.time_scale = 1.0
+		_slow_bar_refill(delta)
 	
 	#Mouse capture/Enable cursor
-	if Input.is_action_just_pressed("left_mouse"):
-		if !mouse_captured:
+	if !mouse_captured:
+		if Input.is_action_just_pressed("left_mouse"):
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			mouse_captured = true
-	
-	if Input.is_action_just_pressed("left_mouse"):
-		if holding:
-			throw_object()
-		else:
-			retract_release_hook()
-	if Input.is_action_just_released("left_mouse") and hook_out:
-		retract_release_hook()
+			Engine.time_scale = 1.0
+	else:
+		if Input.is_action_just_pressed("left_mouse"):
+			if holding:
+				throw_object()
+			else:
+				pick_object()
+				retract_release_hook()
+		if Input.is_action_just_released("left_mouse"):
+			if hook_out:
+				retract_release_hook()
+			if holding:
+				if picked_object.is_in_group("big_object"):
+					picked_object.change_to_freeze_state()
+					release_object()
 			
 	if Input.is_action_just_pressed("interact"):
 		if holding:
 			release_object()
-		elif not hook_out:
-			pick_object()
 	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		mouse_captured = false
 		input_mouse = Vector2.ZERO
+		Engine.time_scale = 0.0
 	rotation_target.x = clamp(rotation_target.x, deg_to_rad(-90), deg_to_rad(90))
 	
 	# Jumping control
@@ -274,7 +290,7 @@ func handle_controls(delta):
 		if Input.is_action_just_pressed("jump") or (auto_bhop and Input.is_action_pressed("jump")):
 			jump(0.0)
 	if hook_out:
-		if Input.is_action_just_pressed("jump"):
+		if Input.is_action_just_pressed("jump") and !holding:
 			jump(2.0)
 			retract_release_hook()
 		
@@ -405,7 +421,7 @@ func _wall_run(_delta):
 		if Input.is_action_just_pressed("jump"):
 			if wall_jump_counter < possible_wall_jumps:
 				wall_jump_counter += 1
-				jump(0)
+				jump(2.0)
 				self.velocity.y = jump_strength
 			wall_running = false
 			wall_run_cooldown = 0.2
@@ -444,6 +460,17 @@ func _stop_dash():
 		desired_velocity = previous_dash_velocity
 	dashing = false
 
+func _slow_bar(delta):
+	if slow_time_amount > 0:
+		slow_time_amount -= 10.0 * delta
+	else:
+		Engine.time_scale = 1.0
+		slow_time = false
+
+func _slow_bar_refill(delta):
+	if slow_time_amount < 10.0:
+		slow_time_amount += delta * slow_cooldown
+
 func sel_object():
 	if not holding and aim_shape_cast.is_colliding():
 		var collider = aim_shape_cast.get_collider(0)
@@ -459,9 +486,10 @@ func sel_object():
 
 func pick_object():
 	if aim_shape_cast.is_colliding():
-		var collider = aim_shape_cast.get_collider(0)
-		print(aim_shape_cast.get_collider(0))
-		if collider is RigidBody3D:
+		var collider : Node3D = aim_shape_cast.get_collider(0)
+		if collider is RigidBody3D and not (collider.is_in_group("grappable") and collider.freeze):
+			if collider.is_in_group("big_object"):
+				big_pull_point.global_position = collider.global_transform.origin
 			holding = true
 			collider.held = true
 			collider.lock_rotation = true
@@ -471,20 +499,28 @@ func pick_object():
 
 func pull_object():
 	if picked_object != null and holding: 
-		var a = picked_object.global_transform.origin
-		var b = pull_point.global_position
-		var pull_direction = b - a
+		var object_pos = picked_object.global_transform.origin
+		var hand_pos : Vector3
+		if picked_object.is_in_group("big_object"):
+			hand_pos = big_pull_point.global_position
+		else:
+			hand_pos = pull_point.global_position
+		var pull_direction = hand_pos - object_pos
 		if pull_direction.length() > 0.0:
-			picked_object.linear_velocity = pull_direction * 20.0
+			picked_object.linear_velocity = pull_direction * pull_power
 			picked_object.global_transform.basis = global_transform.basis
-
+		
+		var hand_position_from_player = (big_pull_point.global_position - self.global_position).normalized()
+		if Input.is_action_just_pressed("scroll_up"):
+			big_pull_point.global_position += hand_position_from_player
+		if Input.is_action_just_pressed("scroll_down"):
+			big_pull_point.global_position -= hand_position_from_player
 
 func throw_object():
 	var push_dir = (aim_raycast.to_global(aim_raycast.target_position) - aim_raycast.to_global(Vector3.ZERO)).normalized()
 	var push_force = 100.0
 	picked_object.throw(push_dir, push_force)
 	release_object()
-
 
 func release_object():
 	picked_object.held = false
@@ -506,7 +542,7 @@ func _headbob_effect(delta):
 
 # FOV when running, standing still for too long or falling from map
 func _distort_camera(delta):
-	if mouse_captured and (velocity.length() <= 0.0 and !debug_mode) or position.y < -150.0:
+	if mouse_captured and (Vector3(velocity.x,0.0,velocity.z).length() <= 3.0 and !debug_mode) or position.y < -150.0:
 		camera_distortion += camera_distortion_strength * delta
 		if camera_distortion >= 0.0:
 			camera_new_fov += camera_distortion
