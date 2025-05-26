@@ -5,6 +5,7 @@ extends Control
 @onready var dash_storage: ProgressBar = $DashStorage
 @onready var slow_down_storage = $SlowDownStorage
 @onready var debug_info: Label = $DebugInfo
+@onready var player = $".."
 var time_passed = 0.0
 var fps
 
@@ -52,19 +53,22 @@ hook_out: bool,
 direction: Vector3,
 velocity,
 desired_velocity) -> void:
-	debug_info.text = (
-		"FPS: " + str(fps)
-		+"\nCan crouch: "+str(can_crouch) 
-		+"\nSlaming: "+str(slaming)
-		+"\nSliding: "+str(sliding)
-		+"\nWall running: "+str(wall_running)
-		+"\nOn floor: "+str(on_floor)
-		+"\nOn wall: "+str(on_wall)
-		+"\nHook out: "+str(hook_out)
-		+"\nDirection: "+str(direction)
-		+"\nVelocity: "+str(velocity).pad_decimals(2)
-		+"\nDesired Velocity: "+str(desired_velocity).pad_decimals(2)
-		)
+	if player.debug_mode:
+		debug_info.text = (
+			"FPS: " + str(fps)
+			+"\nCan crouch: "+str(can_crouch) 
+			+"\nSlaming: "+str(slaming)
+			+"\nSliding: "+str(sliding)
+			+"\nWall running: "+str(wall_running)
+			+"\nOn floor: "+str(on_floor)
+			+"\nOn wall: "+str(on_wall)
+			+"\nHook out: "+str(hook_out)
+			+"\nDirection: "+str(direction)
+			+"\nVelocity: "+str(velocity).pad_decimals(2)
+			+"\nDesired Velocity: "+str(desired_velocity).pad_decimals(2)
+			)
+	else:
+		debug_info.text = ""
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
