@@ -85,13 +85,13 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
 @onready var hud = $HUD
 @onready var hook_controller: HookController = $HookController
-@onready var landind: AudioStreamPlayer3D = $landing
-@onready var slow_motion_sound: AudioStreamPlayer3D = $slow_motion_sound
-@onready var slow_motion_stop_sound: AudioStreamPlayer3D = $slow_motion_stop_sound
-@onready var running_sound: AudioStreamPlayer3D = $running_sound
-@onready var jump_voice_sound: AudioStreamPlayer3D = $jump_voice 
-@onready var dash_sound_effect: AudioStreamPlayer3D = $dash_sound_effect 
-@onready var sliding_sound_effect: AudioStreamPlayer3D = $sliding_sound_effect 
+@onready var landind: AudioStreamPlayer3D = $sounds/landing
+@onready var slow_motion_sound: AudioStreamPlayer3D = $sounds/slow_motion_sound
+@onready var slow_motion_stop_sound: AudioStreamPlayer3D = $sounds/slow_motion_stop_sound
+@onready var running_sound: AudioStreamPlayer3D = $sounds/running_sound
+@onready var jump_voice_sound: AudioStreamPlayer3D = $sounds/jump_voice 
+@onready var dash_sound_effect: AudioStreamPlayer3D = $sounds/dash_sound_effect 
+@onready var sliding_sound_effect: AudioStreamPlayer3D = $sounds/sliding_sound_effect 
 
 var debug_mode = true
 
