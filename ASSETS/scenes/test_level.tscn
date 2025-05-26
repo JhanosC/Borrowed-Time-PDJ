@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cmet8rmb0for5"]
+[gd_scene load_steps=17 format=3 uid="uid://cmet8rmb0for5"]
 
 [ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_b0ahb"]
 [ext_resource type="PackedScene" uid="uid://cvxhpcjp06g8f" path="res://ASSETS/scenes/spawn_point.tscn" id="2_3xer2"]
@@ -8,6 +8,7 @@
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/environment/Tiles.tres" id="7_8i1it"]
 [ext_resource type="Environment" uid="uid://binlijw06k2v8" path="res://ASSETS/environment/WE_test.tres" id="7_nn3ir"]
 [ext_resource type="Script" uid="uid://bmohv7axfoxts" path="res://ASSETS/controllers/scripts/we.gd" id="8_b0ahb"]
+[ext_resource type="PackedScene" uid="uid://cqkx1dbl2ntja" path="res://ASSETS/scenes/background_music.tscn" id="9_b0ahb"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_noarx"]
 size = Vector3(30, 1, 30)
@@ -252,3 +253,5 @@ metadata/_editor_floor_ = Vector3(0, -7, 0)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("7_nn3ir")
 script = ExtResource("8_b0ahb")
+
+[node name="BackgroundMusic" parent="." instance=ExtResource("9_b0ahb")]

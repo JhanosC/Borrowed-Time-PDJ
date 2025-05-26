@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqkx1dbl2ntja"]
+
+[ext_resource type="AudioStream" uid="uid://cykmp1i62m53l" path="res://ASSETS/songs/sound_effects/spatial_sound_effect.mp3" id="1_oq8wu"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer"]
+stream = ExtResource("1_oq8wu")
+volume_db = 3.748
+autoplay = true

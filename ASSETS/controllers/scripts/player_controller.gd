@@ -85,6 +85,13 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
 @onready var hud = $HUD
 @onready var hook_controller: HookController = $HookController
+@onready var landind: AudioStreamPlayer3D = $landing
+@onready var slow_motion_sound: AudioStreamPlayer3D = $slow_motion_sound
+@onready var slow_motion_stop_sound: AudioStreamPlayer3D = $slow_motion_stop_sound
+@onready var running_sound: AudioStreamPlayer3D = $running_sound
+@onready var jump_voice_sound: AudioStreamPlayer3D = $jump_voice 
+@onready var dash_sound_effect: AudioStreamPlayer3D = $dash_sound_effect 
+@onready var sliding_sound_effect: AudioStreamPlayer3D = $sliding_sound_effect 
 
 var debug_mode = true
 
@@ -185,12 +192,28 @@ func _physics_process(delta):
 		can_wall_run = false
 	# If on air, momentum reset cooldown is up
 	if !on_floor:
-		if hitGroundCooldown != hitGroundCooldownRef: hitGroundCooldown = hitGroundCooldownRef
+		if hitGroundCooldown != hitGroundCooldownRef: 
+			hitGroundCooldown = hitGroundCooldownRef
+		else:
+			if hitGroundCooldown >= 0:
+				landind.play()
 	# If is on floor, decrease momentum reset cooldown
 	if on_floor:
 		slaming = false
 		wall_jump_counter = 0 # Reset wall jump counter when hit the ground
 		if hitGroundCooldown >= 0: hitGroundCooldown -= delta
+		var speed = self.direction.x + self.direction.z
+		
+		#print("Direction:", self.direction, " | Moving:", speed)
+		print(get_move_speed())
+		if speed != 0 and on_floor:
+			if not running_sound.playing:
+				running_sound.play()
+				running_sound.pitch_scale = get_move_speed() * 0.03
+		else:
+			running_sound.stop()
+	else:
+		running_sound.stop()
 
 	# Call function to display speed lines when going fast
 	hud.display_speed_lines(Vector3(velocity.x, 0.0, velocity.z).length(), movement_speed)
@@ -236,8 +259,13 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:
 			slow_time = false
+			slow_motion_sound.playing = false
+			#slow_motion_stop_sound.play()
+
 		else:
 			slow_time = true
+			slow_motion_sound.playing = true
+			
 	if slow_time:
 		Engine.time_scale = 0.1
 	else:
@@ -301,7 +329,9 @@ func handle_controls(delta):
 		and !sliding
 		and dash_cooldown <= 0.0
 		and current_dash_storage >= 5.0
+		
 		):
+		dash_sound_effect.play()
 		if hook_out:
 			retract_release_hook()
 		previous_dash_velocity = desired_velocity
@@ -338,6 +368,14 @@ func move(delta):
 	# Apply direction based on state
 	if on_floor:
 		if direction:
+			print(get_move_speed())
+			var speed = self.direction.x + self.direction.z
+			if speed != 0 and on_floor and !sliding:
+				if not running_sound.playing:
+					running_sound.play()
+					running_sound.pitch_scale = get_move_speed() * 0.03
+			else:
+				running_sound.stop()
 			if sliding:
 				if velocity.length() < get_move_speed():
 					velocity.x = direction.x * get_move_speed()
@@ -363,6 +401,7 @@ func move(delta):
 			_headbob_effect(delta)
 
 	if !on_floor:
+		running_sound.stop()
 		_process_gravity(delta)
 		if direction:
 			if dashing:
@@ -387,10 +426,15 @@ func move(delta):
 				velocity.x = direction.x * desired_velocity
 				velocity.z = direction.z * desired_velocity
 				
+	if sliding and !sliding_sound_effect.playing:
+		sliding_sound_effect.play()
+	elif !sliding and sliding_sound_effect.playing:
+		sliding_sound_effect.stop()
 	if desired_velocity >= max_speed: desired_velocity = max_speed
 
 # Handles jump
 func jump(strength_value : float):
+	jump_voice_sound.play()
 	if wall_running: # Jump away from wall
 		if wall_check_l.is_colliding():
 			velocity = wall_check_l.get_collision_normal() * wall_jump_force

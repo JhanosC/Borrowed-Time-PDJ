@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=26 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -7,6 +7,13 @@
 [ext_resource type="PackedScene" uid="uid://dlqm10204rcaq" path="res://ASSETS/addons/destrohook/scenes/hook.tscn" id="5_7mjmw"]
 [ext_resource type="Script" uid="uid://qet7vjb3sni7" path="res://ASSETS/controllers/scripts/crosshair.gd" id="5_o5pon"]
 [ext_resource type="Script" uid="uid://b5wnnlckg2b2g" path="res://ASSETS/addons/destrohook/scripts/hook_controller.gd" id="5_s6h3k"]
+[ext_resource type="AudioStream" uid="uid://6j2m6pck7th8" path="res://ASSETS/songs/sound_effects/landing.mp3" id="8_e245n"]
+[ext_resource type="AudioStream" uid="uid://cbygna20ivhm0" path="res://ASSETS/songs/sound_effects/slow-motion.mp3" id="9_rhvmy"]
+[ext_resource type="AudioStream" uid="uid://bnrexabnxcod5" path="res://ASSETS/songs/sound_effects/slow-motion-slow-to-fast.mp3" id="10_qwohm"]
+[ext_resource type="AudioStream" uid="uid://2ocuvrwct4ju" path="res://ASSETS/songs/sound_effects/running.mp3" id="11_682bx"]
+[ext_resource type="AudioStream" uid="uid://cbpvmtex0hj0w" path="res://ASSETS/songs/sound_effects/jump_voice.mp3" id="12_gsv3y"]
+[ext_resource type="AudioStream" uid="uid://dd0b7kddme46y" path="res://ASSETS/songs/sound_effects/dash_effect.mp3" id="13_at3dx"]
+[ext_resource type="AudioStream" uid="uid://bovfadakdy2v2" path="res://ASSETS/songs/sound_effects/sliding_sound.mp3" id="14_w33ps"]
 
 [sub_resource type="Curve" id="Curve_rnlsj"]
 _limits = [0.0, 100.0, 0.0, 1.0]
@@ -215,3 +222,30 @@ rest_length_center_fraction = 1
 
 [node name="HookStart" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.2, -0.2)
+
+[node name="landing" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("8_e245n")
+volume_db = -20.571
+max_db = -1.286
+
+[node name="slow_motion_sound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("9_rhvmy")
+
+[node name="slow_motion_stop_sound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("10_qwohm")
+
+[node name="running_sound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("11_682bx")
+volume_db = -25.904
+max_db = -1.571
+
+[node name="jump_voice" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("12_gsv3y")
+volume_db = -21.333
+
+[node name="dash_sound_effect" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("13_at3dx")
+volume_db = -25.905
+
+[node name="sliding_sound_effect" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("14_w33ps")
