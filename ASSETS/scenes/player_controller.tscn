@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=28 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -280,7 +280,7 @@ max_db = -1.571
 
 [node name="jump_voice" type="AudioStreamPlayer3D" parent="sounds"]
 stream = ExtResource("12_gsv3y")
-volume_db = -27.429
+volume_db = -30.0
 
 [node name="dash_sound_effect" type="AudioStreamPlayer3D" parent="sounds"]
 stream = ExtResource("13_at3dx")
@@ -288,3 +288,4 @@ volume_db = -30.476
 
 [node name="sliding_sound_effect" type="AudioStreamPlayer3D" parent="sounds"]
 stream = ExtResource("14_w33ps")
+volume_db = -25.0

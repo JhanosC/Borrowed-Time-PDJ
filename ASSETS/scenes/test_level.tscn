@@ -8,9 +8,8 @@
 [ext_resource type="MeshLibrary" uid="uid://daceprhb8647h" path="res://ASSETS/environment/Tiles.tres" id="7_8i1it"]
 [ext_resource type="Environment" uid="uid://binlijw06k2v8" path="res://ASSETS/environment/WE_test.tres" id="7_nn3ir"]
 [ext_resource type="Script" uid="uid://bmohv7axfoxts" path="res://ASSETS/controllers/scripts/we.gd" id="8_b0ahb"]
-[ext_resource type="PackedScene" uid="uid://ddmylwck6mls6" path="res://ASSETS/scenes/grappable_object.tscn" id="9_b0ahb"]
 [ext_resource type="PackedScene" uid="uid://bn6iyudl8wv0l" path="res://ASSETS/scenes/rigid_plataform.tscn" id="10_3xer2"]
-[ext_resource type="PackedScene" uid="uid://cqkx1dbl2ntja" path="res://ASSETS/scenes/background_music.tscn" id="9_b0ahb"]
+[ext_resource type="PackedScene" uid="uid://ddmylwck6mls6" path="res://ASSETS/scenes/grappable_object.tscn" id="10_6no46"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_noarx"]
 size = Vector3(30, 1, 30)
@@ -261,27 +260,6 @@ metadata/_editor_floor_ = Vector3(0, -6, 0)
 environment = ExtResource("7_nn3ir")
 script = ExtResource("8_b0ahb")
 
-[node name="BackgroundMusic" parent="." instance=ExtResource("9_b0ahb")]
-
-[node name="RigidBody3D" parent="." instance=ExtResource("9_b0ahb")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -120.663, -25.4956, -202.585)
-freeze = true
-
-[node name="RigidBody3D2" parent="." instance=ExtResource("9_b0ahb")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -120.663, -25.4956, -203.585)
-freeze = true
-
-[node name="RigidBody3D3" parent="." instance=ExtResource("9_b0ahb")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -120.663, -25.4956, -204.585)
-freeze = true
-
-[node name="RigidBody3D4" parent="." instance=ExtResource("9_b0ahb")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -120.663, -25.4956, -205.585)
-freeze = true
-
-[node name="RigidBody3D6" parent="." instance=ExtResource("9_b0ahb")]
-transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -15.097, -11.0785, -206.449)
-
 [node name="RigidBody3D5" parent="." instance=ExtResource("10_3xer2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.4596, -3.18024, -147.241)
 freeze = true
@@ -293,3 +271,13 @@ freeze = true
 [node name="RigidBody3D8" parent="." instance=ExtResource("10_3xer2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.6302, -15.5404, -225.272)
 freeze = true
+
+[node name="RigidBody3D" parent="." instance=ExtResource("10_6no46")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5155, -9.30504, -207.478)
+
+[node name="RigidBody3D2" parent="." instance=ExtResource("10_6no46")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -121.406, -25.9079, -205.333)
+freeze = true
+
+[node name="RigidBody3D3" parent="." instance=ExtResource("10_3xer2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -155.649, -25.3581, -234.038)

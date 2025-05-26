@@ -90,6 +90,7 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
 @onready var hud = $HUD
 @onready var hook_controller: HookController = $HookController
+
 @onready var landind: AudioStreamPlayer3D = $sounds/landing
 @onready var slow_motion_sound: AudioStreamPlayer3D = $sounds/slow_motion_sound
 @onready var slow_motion_stop_sound: AudioStreamPlayer3D = $sounds/slow_motion_stop_sound
@@ -200,26 +201,11 @@ func _physics_process(delta):
 	if !on_floor:
 		if hitGroundCooldown != hitGroundCooldownRef: 
 			hitGroundCooldown = hitGroundCooldownRef
-		else:
-			if hitGroundCooldown >= 0:
-				landind.play()
 	# If is on floor, decrease momentum reset cooldown
 	if on_floor:
 		slaming = false
 		wall_jump_counter = 0 # Reset wall jump counter when hit the ground
 		if hitGroundCooldown >= 0: hitGroundCooldown -= delta
-		var speed = self.direction.x + self.direction.z
-		
-		#print("Direction:", self.direction, " | Moving:", speed)
-		print(get_move_speed())
-		if speed != 0 and on_floor:
-			if not running_sound.playing:
-				running_sound.play()
-				running_sound.pitch_scale = get_move_speed() * 0.03
-		else:
-			running_sound.stop()
-	else:
-		running_sound.stop()
 
 	# Call function to display speed lines when going fast
 	hud.display_speed_lines(Vector3(velocity.x, 0.0, velocity.z).length(), movement_speed)
@@ -254,6 +240,7 @@ func reload_scene():
 func handle_controls(delta):
 	# Reload scene
 	if Input.is_action_just_pressed("reload"):
+		Engine.time_scale = 1.0
 		reloading_scene = true
 		Global.game_controller.reload_scene()
 	
@@ -384,7 +371,6 @@ func move(delta):
 	# Apply direction based on state
 	if on_floor:
 		if direction:
-			print(get_move_speed())
 			var speed = self.direction.x + self.direction.z
 			if speed != 0 and on_floor and !sliding:
 				if not running_sound.playing:
