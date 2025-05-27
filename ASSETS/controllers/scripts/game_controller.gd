@@ -79,5 +79,6 @@ func on_content_finished_loading(content) -> void:
 		content.call_deferred("enter_level")
 		
 func reload_scene():
+	Engine.time_scale = 1.0
 	load_new_scene(current_3d_scene.scene_file_path)
 	

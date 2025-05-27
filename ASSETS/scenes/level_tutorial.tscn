@@ -23,6 +23,11 @@ script = ExtResource("1_eydq4")
 player = NodePath("CharacterBody3D")
 door = NodePath("EndLevel")
 
+[node name="EndLevel" parent="." instance=ExtResource("7_pepwq")]
+transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 0, 7, -330.1)
+path_to_new_scene = "res://ASSETS/scenes/test_level.tscn"
+entry_door_name = "EndTutorial"
+
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.8, -0.1)
 light_color = Color(1, 0.839216, 0.631373, 1)
@@ -213,11 +218,6 @@ material = ExtResource("6_3cwnd")
 transform = Transform3D(2.98023e-08, -1, 0, 1, 2.98023e-08, 0, 0, 0, 1, 4.96902, 3.75, -272.576)
 size = Vector3(6.3, 1, 18.8)
 material = ExtResource("6_3cwnd")
-
-[node name="EndLevel" parent="." instance=ExtResource("7_pepwq")]
-transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 0, 7, -330.1)
-path_to_new_scene = "res://ASSETS/scenes/test_level.tscn"
-entry_door_name = "EndTutorial"
 
 [node name="RigidBodies" type="Node3D" parent="."]
 

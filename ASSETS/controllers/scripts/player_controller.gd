@@ -12,7 +12,7 @@ var lerp_speed := 10.0
 var sliding_height := 0.75
 var gravity := 0.0
 var camera_distortion := -1.0
-var camera_distortion_strength := 1.0
+var camera_distortion_strength := 0.6
 var camera_default_fov := 75.0
 var camera_new_fov := camera_default_fov
 
@@ -99,7 +99,7 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var dash_sound_effect: AudioStreamPlayer3D = $sounds/dash_sound_effect 
 @onready var sliding_sound_effect: AudioStreamPlayer3D = $sounds/sliding_sound_effect 
 
-var debug_mode = false
+var debug_mode = true
 
 func update_signals():
 	states_update.emit(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction)
@@ -143,13 +143,11 @@ func _push_away_rigid_bodies():
 			push_dir.y = 0 # Do not push down or up
 			var velocity_diff_in_push_dir = self.velocity.dot(push_dir) - c.get_collider().linear_velocity.dot(push_dir)
 			velocity_diff_in_push_dir = max(0., velocity_diff_in_push_dir)
-			
 			const MY_APPROX_MASS_KG = 60.0
 			var mass_ratio = min(1., MY_APPROX_MASS_KG / c.get_collider().mass)
-			
-			
-			var push_force = mass_ratio * 5.0
+			var push_force = mass_ratio * 2.0
 			push_force = clamp(push_force, 0.0, 10.0)
+			
 			c.get_collider().apply_impulse(
 				push_dir * velocity_diff_in_push_dir * push_force,
 				c.get_position() - c.get_collider().global_position)
@@ -173,8 +171,8 @@ func _process_camera(delta):
 		head.rotation.z = lerp(head.rotation.z, deg_to_rad(0.0), lerp_speed * delta)
 		
 	var speed_factor = slow_speed_multiplier if slow_time else 1.0
-	rotation_target.y -= axis_vector.x * 5.0 * delta
-	rotation_target.x -= axis_vector.y * 5.0 * delta
+	rotation_target.y -= axis_vector.x * 5.0 * delta * speed_factor
+	rotation_target.x -= axis_vector.y * 5.0 * delta * speed_factor
 
 	# Smooth camera movement
 	camera.rotation.z = lerp_angle(camera.rotation.z, -input_mouse.x * 70 * delta, delta * 5 * speed_factor)	
@@ -222,7 +220,7 @@ func _physics_process(delta):
 	_wall_run(delta)
 	if !hook_out:
 		sel_object()
-	if !hook_out or picked_object.is_in_group("big_object"):
+	if !hook_out or (picked_object and picked_object.is_in_group("big_object")):
 		pull_object()
 	move_and_slide()
 	update_signals()
@@ -240,7 +238,6 @@ func reload_scene():
 func handle_controls(delta):
 	# Reload scene
 	if Input.is_action_just_pressed("reload"):
-		Engine.time_scale = 1.0
 		reloading_scene = true
 		Global.game_controller.reload_scene()
 	
@@ -572,7 +569,7 @@ func _headbob_effect(delta):
 
 # FOV when running, standing still for too long or falling from map
 func _distort_camera(delta):
-	if mouse_captured and (Vector3(velocity.x,0.0,velocity.z).length() <= 3.0 and !debug_mode) or position.y < -150.0:
+	if mouse_captured and (Vector3(velocity.x,0.0,velocity.z).length() <= 13.0 and !debug_mode) or position.y < -150.0:
 		camera_distortion += camera_distortion_strength * delta
 		if camera_distortion >= 0.0:
 			camera_new_fov += camera_distortion
