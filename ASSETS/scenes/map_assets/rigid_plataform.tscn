@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=4 uid="uid://bn6iyudl8wv0l"]
+
+[ext_resource type="Script" uid="uid://dnhgaba8eua66" path="res://ASSETS/controllers/scripts/rigid_box.gd" id="1_33mrg"]
+[ext_resource type="Texture2D" uid="uid://bbfjwnq7mv6gq" path="res://ASSETS/texture/kenney_prototype_textures/orange/texture_13.png" id="2_vjvxk"]
+[ext_resource type="Material" uid="uid://ys4hudvcgpar" path="res://ASSETS/art/material/rigid_body_selected_material.tres" id="3_vjvxk"]
+[ext_resource type="Material" uid="uid://c5yj7ux55og2h" path="res://ASSETS/art/material/rigid_body_freeze_material.tres" id="4_uoo6l"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jv3ii"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_r3fl7"]
+size = Vector3(7, 1, 7)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s87bt"]
+albedo_texture = ExtResource("2_vjvxk")
+uv1_triplanar = true
+uv2_triplanar = true
+uv2_world_triplanar = true
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_uoo6l"]
+_surfaces = [{
+"aabb": AABB(-3.52887, -0.528867, -3.52887, 7.05773, 1.05773, 7.05773),
+"attribute_data": PackedByteArray("AAAAAAAAAACrqio/AAAAAKuqqj4AAAAAAACAPwAAAAAAAAAAAAAAP6uqKj8AAAA/q6qqPgAAAD8AAIA/AAAAP6uqqj4AAAAAAAAAAAAAAD+rqio/AAAAAKuqqj4AAAA/q6qqPgAAAD8AAAAAAACAP6uqKj8AAAA/q6qqPgAAgD+rqqo+AAAAP6uqKj8AAAA/q6oqPwAAAD8AAIA/AAAAP6uqqj4AAIA/q6oqPwAAgD+rqio/AACAPwAAgD8AAIA/"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAAEAAIAAgAEAAYAAQAFAAMAAwAFAAcACAAMAAoACgAMAA4ACQANAAsACwANAA8AEAAUABIAEgAUABYAEQAVABMAEwAVABcA"),
+"material": ExtResource("4_uoo6l"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("99hhwNxjBz/32GFA99hhQNxjBz/32GHA99hhQNxjBz/32GFA99hhwNxjBz/32GHA99hhwNxjB7/32GFA99hhQNxjB7/32GHA99hhQNxjB7/32GFA99hhwNxjB7/32GHA99hhQNxjBz/32GFA99hhwNxjBz/32GHA99hhQNxjBz/32GHA99hhwNxjBz/32GFA99hhQNxjB7/32GFA99hhwNxjB7/32GHA99hhQNxjB7/32GHA99hhwNxjB7/32GFA99hhQNxjBz/32GFA99hhwNxjB7/32GFA99hhwNxjBz/32GFA99hhQNxjB7/32GFA99hhQNxjBz/32GHA99hhwNxjB7/32GHA99hhwNxjBz/32GHA99hhQNxjB7/32GHA/3//f////7//////AAD/v/9//3////+//////wAA/7//f/9/////v/////8AAP+//3//f////7//////AAD/v///AID/////AAAAgP9//7///wCA/////wAAAID/f/+///8AgP////8AAACA/3//v///AID/////AAAAgP9//78AgP//AAD/vwCAAAD///+/AID//wAA/78AgAAA////vwCA//8AAP+/AIAAAP///78AgP//AAD/vwCAAAD///+/")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_vjvxk"]
+_surfaces = [{
+"aabb": AABB(-3.52887, -0.528867, -3.52887, 7.05773, 1.05773, 7.05773),
+"attribute_data": PackedByteArray("AAAAAAAAAACrqio/AAAAAKuqqj4AAAAAAACAPwAAAAAAAAAAAAAAP6uqKj8AAAA/q6qqPgAAAD8AAIA/AAAAP6uqqj4AAAAAAAAAAAAAAD+rqio/AAAAAKuqqj4AAAA/q6qqPgAAAD8AAAAAAACAP6uqKj8AAAA/q6qqPgAAgD+rqqo+AAAAP6uqKj8AAAA/q6oqPwAAAD8AAIA/AAAAP6uqqj4AAIA/q6oqPwAAgD+rqio/AACAPwAAgD8AAIA/"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAAEAAIAAgAEAAYAAQAFAAMAAwAFAAcACAAMAAoACgAMAA4ACQANAAsACwANAA8AEAAUABIAEgAUABYAEQAVABMAEwAVABcA"),
+"material": ExtResource("3_vjvxk"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("99hhwNxjBz/32GFA99hhQNxjBz/32GHA99hhQNxjBz/32GFA99hhwNxjBz/32GHA99hhwNxjB7/32GFA99hhQNxjB7/32GHA99hhQNxjB7/32GFA99hhwNxjB7/32GHA99hhQNxjBz/32GFA99hhwNxjBz/32GHA99hhQNxjBz/32GHA99hhwNxjBz/32GFA99hhQNxjB7/32GFA99hhwNxjB7/32GHA99hhQNxjB7/32GHA99hhwNxjB7/32GFA99hhQNxjBz/32GFA99hhwNxjB7/32GFA99hhwNxjBz/32GFA99hhQNxjB7/32GFA99hhQNxjBz/32GHA99hhwNxjB7/32GHA99hhwNxjBz/32GHA99hhQNxjB7/32GHA/3//f////7//////AAD/v/9//3////+//////wAA/7//f/9/////v/////8AAP+//3//f////7//////AAD/v///AID/////AAAAgP9//7///wCA/////wAAAID/f/+///8AgP////8AAACA/3//v///AID/////AAAAgP9//78AgP//AAD/vwCAAAD///+/AID//wAA/78AgAAA////vwCA//8AAP+/AIAAAP///78AgP//AAD/vwCAAAD///+/")
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jka67"]
+size = Vector3(7, 1, 7)
+
+[node name="RigidPlataform" type="RigidBody3D" groups=["big_object"]]
+collision_layer = 2
+collision_mask = 3
+mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_jv3ii")
+gravity_scale = 0.0
+freeze_mode = 1
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_33mrg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_r3fl7")
+surface_material_override/0 = SubResource("StandardMaterial3D_s87bt")
+
+[node name="FreezeOutline" type="MeshInstance3D" parent="MeshInstance3D"]
+mesh = SubResource("ArrayMesh_uoo6l")
+
+[node name="Outline" type="MeshInstance3D" parent="MeshInstance3D"]
+mesh = SubResource("ArrayMesh_vjvxk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_jka67")

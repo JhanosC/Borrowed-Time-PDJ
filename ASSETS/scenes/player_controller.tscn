@@ -246,6 +246,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_o5pon")
+DOT_RADIUS = 2.0
 
 [node name="HookController" type="Node" parent="." node_paths=PackedStringArray("player_body", "hook_raycast", "hook_source")]
 script = ExtResource("5_s6h3k")

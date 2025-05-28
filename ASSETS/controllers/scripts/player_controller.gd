@@ -32,11 +32,12 @@ var holding = false
 var hook_out = false
 var reloading_scene = false
 var slow_time := false
-var slow_speed_multiplier:= 4.0
+
 
 @export var max_slow_time_amount := 10.0
 var slow_time_amount := 10.0
 var slow_cooldown := 3.0
+var slow_speed_multiplier:= 4.0
 
 @export_subgroup("Movement Settings")
 @export var movement_speed : float
@@ -242,11 +243,11 @@ func handle_controls(delta):
 		Global.game_controller.reload_scene()
 	
 	if Input.is_action_just_pressed("1"):
-		Global.game_controller.load_new_scene("res://ASSETS/scenes/level_tutorial.tscn")
+		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_1.tscn")
 	if Input.is_action_just_pressed("2"):
-		Global.game_controller.load_new_scene("res://ASSETS/scenes/test_level.tscn")
+		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_2.tscn")
 	if Input.is_action_just_pressed("3"):
-		Global.game_controller.load_new_scene("res://ASSETS/scenes/test_level_2.tscn")
+		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_3.tscn")
 	
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:
@@ -512,17 +513,16 @@ func sel_object():
 		selected_object = null
 
 func pick_object():
-	if aim_shape_cast.is_colliding():
-		var collider : Node3D = aim_shape_cast.get_collider(0)
-		if collider is RigidBody3D and not (collider.is_in_group("grappable") and collider.freeze):
-			if collider.is_in_group("big_object"):
-				big_pull_point.global_position = collider.global_transform.origin
+	if selected_object:
+		if selected_object is RigidBody3D and not (selected_object.is_in_group("grappable") and selected_object.freeze):
+			if selected_object.is_in_group("big_object"):
+				big_pull_point.global_position = selected_object.global_transform.origin
 			holding = true
-			collider.held = true
-			collider.lock_rotation = true
-			collider.freeze = false
-			collider.add_collision_exception_with(self)
-			picked_object = collider
+			selected_object.held = true
+			selected_object.lock_rotation = true
+			selected_object.freeze = false
+			selected_object.add_collision_exception_with(self)
+			picked_object = selected_object
 
 func pull_object():
 	if picked_object != null and holding: 
