@@ -45,7 +45,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55561, 0)
 
 [node name="EndLevel" parent="." instance=ExtResource("3_bpab0")]
 transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, -241.771, -20.2038, -205.22)
-path_to_new_scene = "res://ASSETS/scenes/levels/test_level_1.tscn"
+path_to_new_scene = "res://ASSETS/scenes/levels/tutorial_level.tscn"
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("4_65y7y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
