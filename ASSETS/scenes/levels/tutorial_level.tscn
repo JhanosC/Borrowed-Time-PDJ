@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ic8jnxws8nbd"]
+[gd_scene load_steps=15 format=3 uid="uid://ic8jnxws8nbd"]
 
 [ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_7dgdu"]
 [ext_resource type="PackedScene" uid="uid://cvxhpcjp06g8f" path="res://ASSETS/scenes/map_assets/spawn_point.tscn" id="2_wjua2"]
@@ -7,8 +7,13 @@
 [ext_resource type="Environment" uid="uid://binlijw06k2v8" path="res://ASSETS/environment/WE_test.tres" id="5_t6j6b"]
 [ext_resource type="Script" uid="uid://bmohv7axfoxts" path="res://ASSETS/controllers/scripts/we.gd" id="6_gds7y"]
 [ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://ASSETS/scenes/map_assets/rigid_box.tscn" id="7_t6j6b"]
-[ext_resource type="Material" uid="uid://bh8gqgktombnd" path="res://ASSETS/art/material/ship_material_test.tres" id="7_u57sp"]
 [ext_resource type="PackedScene" uid="uid://7jtq21kyti31" path="res://ASSETS/scenes/map_assets/runnable_wall.tscn" id="8_kanxd"]
+[ext_resource type="PackedScene" uid="uid://blu2dydyefx20" path="res://ASSETS/scenes/map_assets/tutorial_level.tscn" id="9_t6j6b"]
+[ext_resource type="PackedScene" uid="uid://dqjau1jw70ff8" path="res://ASSETS/scenes/map_assets/ship-tiles/corridor.tscn" id="10_hjkmv"]
+[ext_resource type="PackedScene" uid="uid://b312jwrhelx5d" path="res://ASSETS/scenes/map_assets/ship-tiles/catwalk.tscn" id="11_xjc08"]
+[ext_resource type="PackedScene" uid="uid://c3g8rtinevwy3" path="res://ASSETS/scenes/map_assets/ship-tiles/corner.tscn" id="12_6kj10"]
+[ext_resource type="PackedScene" uid="uid://c4i37h86u2ob0" path="res://ASSETS/scenes/map_assets/ship-tiles/ground_ceiling.tscn" id="13_aecbf"]
+[ext_resource type="PackedScene" uid="uid://t6hftafvfya4" path="res://ASSETS/scenes/map_assets/ship-tiles/catwalk_curve.tscn" id="14_13c0w"]
 
 [node name="TutorialLevel" type="Node3D" node_paths=PackedStringArray("player", "door")]
 script = ExtResource("1_7dgdu")
@@ -18,7 +23,7 @@ door = NodePath("EndLevel")
 [node name="SpawnPoint" parent="." instance=ExtResource("2_wjua2")]
 
 [node name="EndLevel" parent="." instance=ExtResource("3_u57sp")]
-transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 0.400921, 7.27112, -266.558)
+transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 35.2697, 7.27112, -305.579)
 path_to_new_scene = "res://ASSETS/scenes/levels/test_level_1.tscn"
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("4_kanxd")]
@@ -39,9 +44,49 @@ shadow_bias = 0.07
 [node name="Level" type="Node" parent="."]
 
 [node name="Luzes" type="Node3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, -2.98023e-08, 1, 0, -1, -2.98023e-08, 0, 5.7, -23.7013)
+transform = Transform3D(1, 0, 0, 0, -2.98023e-08, 1, 0, -1, -2.98023e-08, 34.8688, 5.7, -62.7231)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Level/Luzes"]
+light_color = Color(1, 0, 0.027451, 1)
+light_energy = 1.5
+light_specular = 3.167
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 75.0
+spot_angle_attenuation = 0.535886
+
+[node name="SpotLight3D18" type="SpotLight3D" parent="Level/Luzes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.56917, -12.8324, -4.76837e-07)
+light_color = Color(1, 0, 0.027451, 1)
+light_energy = 1.5
+light_specular = 3.167
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 75.0
+spot_angle_attenuation = 0.535886
+
+[node name="SpotLight3D19" type="SpotLight3D" parent="Level/Luzes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.0884, -14.8324, -4.76837e-07)
+light_color = Color(1, 0, 0.027451, 1)
+light_energy = 1.5
+light_specular = 3.167
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 75.0
+spot_angle_attenuation = 0.535886
+
+[node name="SpotLight3D20" type="SpotLight3D" parent="Level/Luzes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.7547, -40.5845, -1.43051e-06)
+light_color = Color(1, 0, 0.027451, 1)
+light_energy = 1.5
+light_specular = 3.167
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 75.0
+spot_angle_attenuation = 0.535886
+
+[node name="SpotLight3D21" type="SpotLight3D" parent="Level/Luzes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.7547, -59.5845, -1.90735e-06)
 light_color = Color(1, 0, 0.027451, 1)
 light_energy = 1.5
 light_specular = 3.167
@@ -163,9 +208,10 @@ spot_angle_attenuation = 0.535886
 [node name="SpotLight3D13" type="SpotLight3D" parent="Level/Luzes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 112.8, 7.20001)
 light_color = Color(0.411765, 0.454902, 0.666667, 1)
+light_energy = 1.5
 light_specular = 3.167
 shadow_enabled = true
-spot_range = 40.0
+spot_range = 45.0
 spot_angle = 75.0
 spot_angle_attenuation = 0.535886
 
@@ -187,11 +233,34 @@ spot_range = 40.0
 spot_angle = 75.0
 spot_angle_attenuation = 0.535886
 
+[node name="SpotLight3D16" type="SpotLight3D" parent="Level/Luzes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 183.38, 2.70001)
+light_color = Color(1, 0, 0.027451, 1)
+light_energy = 1.5
+light_specular = 3.167
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 75.0
+spot_angle_attenuation = 0.535886
+
+[node name="SpotLight3D17" type="SpotLight3D" parent="Level/Luzes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 197.795, 2.70001)
+light_color = Color(1, 0, 0.027451, 1)
+light_energy = 1.5
+light_specular = 3.167
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 75.0
+spot_angle_attenuation = 0.535886
+
 [node name="RigidBoddies" type="Node3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.35, -20.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.8688, 4.35, -59.7718)
 
 [node name="RigidBody3D" parent="Level/RigidBoddies" instance=ExtResource("7_t6j6b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, -2.95, 15.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, -2.95, 11.9977)
+
+[node name="RigidBody3D17" parent="Level/RigidBoddies" instance=ExtResource("7_t6j6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.8696, -2.08036, 10.1738)
 
 [node name="RigidBody3D2" parent="Level/RigidBoddies" instance=ExtResource("7_t6j6b")]
 transform = Transform3D(0.925417, -0.173648, -0.336824, 0.163176, 0.984808, -0.0593912, 0.34202, 0, 0.939693, 2.1, -0.849999, 1.85)
@@ -221,7 +290,7 @@ transform = Transform3D(-0.0430586, 0.17101, -0.984328, -0.469846, 0.866025, 0.1
 transform = Transform3D(-0.0430586, 0.17101, -0.984328, -0.469846, 0.866025, 0.17101, 0.881697, 0.469846, 0.0430586, -5.2, -1.85, -36.55)
 
 [node name="RigidBody3D10" parent="Level/RigidBoddies" instance=ExtResource("7_t6j6b")]
-transform = Transform3D(-0.599729, -0.17101, -0.781717, 0.326038, 0.839912, -0.433876, 0.73077, -0.515077, -0.447964, 4.9, -3.05, -39.25)
+transform = Transform3D(-0.599729, -0.17101, -0.781717, 0.326038, 0.839912, -0.433876, 0.73077, -0.515077, -0.447964, 4.9, -2.66358, -39.25)
 
 [node name="RigidBody3D12" parent="Level/RigidBoddies" instance=ExtResource("7_t6j6b")]
 transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -2.4, -2.95, -64.55)
@@ -278,6 +347,7 @@ transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 
 transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -0.7, -2.95, -102.65)
 
 [node name="Walls" type="Node3D" parent="Level" groups=["walls"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.8688, 0, -39.0218)
 
 [node name="RunnableWall" parent="Level/Walls" instance=ExtResource("8_kanxd")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.5, 5.3, -136.75)
@@ -295,104 +365,147 @@ size = Vector3(37.3, 5.8, 0.5)
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.5, 5.6, -176.65)
 size = Vector3(37.3, 5.8, 0.5)
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.35, -20.75)
-use_collision = true
-collision_mask = 3
+[node name="CSGCombiner3D" parent="Level" instance=ExtResource("9_t6j6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.8688, 4.35, -59.7718)
+visible = false
+use_collision = false
 
-[node name="Nave" type="CSGCombiner3D" parent="Level/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -45.5999)
+[node name="Ship" type="Node3D" parent="Level"]
 
-[node name="ExteriorSalaGrande" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.75)
-use_collision = true
-size = Vector3(21, 10, 38)
-material = ExtResource("7_u57sp")
+[node name="Corridor" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
-[node name="InteriorSalaGrande" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 6.55)
-operation = 2
-size = Vector3(20, 5, 36.9)
-material = ExtResource("7_u57sp")
+[node name="Catwalk" parent="Level/Ship/Corridor" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="ExteriorCorredor" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 45.5499)
-size = Vector3(10, 10, 44.9)
-material = ExtResource("7_u57sp")
+[node name="Corridor2" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -8)
 
-[node name="InteriorCorredor" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 44.2999)
-operation = 2
-size = Vector3(6.5, 5, 45.2)
-material = ExtResource("7_u57sp")
+[node name="Catwalk" parent="Level/Ship/Corridor2" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="ExteriorElevador" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.975, -70.5274)
-size = Vector3(10, 15.4, 19.9)
-material = ExtResource("7_u57sp")
+[node name="Corridor3" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -16)
 
-[node name="InteriorElevador" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3.275, -70.3774)
-operation = 2
-size = Vector3(7.1, 10.9, 16.3)
-material = ExtResource("7_u57sp")
+[node name="Catwalk" parent="Level/Ship/Corridor3" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="ExteriorCorredor2" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -37.1902)
-size = Vector3(10, 10, 53.5)
-material = ExtResource("7_u57sp")
+[node name="Corridor4" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -24)
 
-[node name="InteriorCorredor2" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -39.1901)
-operation = 2
-size = Vector3(6.5, 5, 59.9)
-material = ExtResource("7_u57sp")
+[node name="Catwalk" parent="Level/Ship/Corridor4" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="ExteriorCorredor3" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, -139.79)
-size = Vector3(10, 12, 126.1)
-material = ExtResource("7_u57sp")
+[node name="Corridor5" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -32)
 
-[node name="InteriorCorredor3" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -139.74)
-operation = 2
-size = Vector3(6.5, 5.8, 129.2)
-material = ExtResource("7_u57sp")
+[node name="Catwalk" parent="Level/Ship/Corridor5" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="ExteriorObstaculo" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -50.1902)
-size = Vector3(8.4, 5.6, 10.1)
-material = ExtResource("7_u57sp")
+[node name="Corridor6" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -40)
 
-[node name="ExteriorBuraco" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.4, 39.3566)
-size = Vector3(9.2, 36.4, 10)
-material = ExtResource("7_u57sp")
+[node name="Catwalk" parent="Level/Ship/Corridor6" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="InteriorBuraco" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20.95, 39.3566)
-operation = 2
-size = Vector3(6.5, 37.5, 6)
-material = ExtResource("7_u57sp")
+[node name="Corridor7" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8, 3, -48)
 
-[node name="ExteriorBuraco3" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20.4, -110.193)
-size = Vector3(10, 36.4, 41.1)
-material = ExtResource("7_u57sp")
+[node name="Catwalk" parent="Level/Ship/Corridor7" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="InteriorBuraco3" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16.75, -110.293)
-operation = 2
-size = Vector3(7.1, 41.9, 37.3)
-material = ExtResource("7_u57sp")
+[node name="CorridorCurve" type="Node3D" parent="Level/Ship"]
+transform = Transform3D(-1, -1.13474e-05, -7.54976e-08, 1.13474e-05, -1, 3.25841e-07, -1.35103e-07, 3.25841e-07, 1, 0, 3, -48)
 
-[node name="ExteriorBuraco2" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.4, 11.5237)
-size = Vector3(25, 36.4, 20)
-material = ExtResource("7_u57sp")
+[node name="Corner" parent="Level/Ship/CorridorCurve" instance=ExtResource("12_6kj10")]
+transform = Transform3D(1, -2.46014e-14, 0, -4.40219e-14, 1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="InteriorBuraco2" type="CSGBox3D" parent="Level/CSGCombiner3D/Nave"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20.95, 11.5237)
-operation = 2
-size = Vector3(20, 37.5, 15)
-material = ExtResource("7_u57sp")
+[node name="Corner2" parent="Level/Ship/CorridorCurve" instance=ExtResource("12_6kj10")]
+transform = Transform3D(-1.03184e-07, -1.10216e-05, 1, -1.16732e-05, 1, 1.10216e-05, -1, -1.16732e-05, 1.589e-08, 0, 0, 0)
+
+[node name="Corner3" parent="Level/Ship/CorridorCurve" instance=ExtResource("12_6kj10")]
+transform = Transform3D(-1, -2.26948e-05, -8.74154e-08, -2.26948e-05, 1, -6.51683e-07, 8.74302e-08, -6.51683e-07, -1, 0, 0, 0)
+
+[node name="Corner4" parent="Level/Ship/CorridorCurve" instance=ExtResource("12_6kj10")]
+transform = Transform3D(1.90864e-07, -1.16732e-05, -1, -1.10216e-05, 1, -1.16732e-05, 1, 1.10216e-05, 7.1533e-08, 0, 0, 0)
+
+[node name="GroundCeiling" parent="Level/Ship/CorridorCurve" instance=ExtResource("13_aecbf")]
+transform = Transform3D(-1, 1.13474e-05, -7.55013e-08, -1.13474e-05, -1, 3.2584e-07, -1.35099e-07, 3.25842e-07, 1, 0, 0, 0)
+
+[node name="GroundCeiling2" parent="Level/Ship/CorridorCurve" instance=ExtResource("13_aecbf")]
+transform = Transform3D(-1.13037e-05, -1, -7.55013e-08, 1, -1.13037e-05, 3.2584e-07, -3.25842e-07, -1.35099e-07, 1, 0, 0, 0)
+
+[node name="GroundCeiling3" parent="Level/Ship/CorridorCurve" instance=ExtResource("13_aecbf")]
+transform = Transform3D(-1.13474e-05, -3.17904e-08, 1, 1, 3.69552e-07, 1.13474e-05, -3.69554e-07, 1, 9.13875e-08, 0, 0, 0)
+
+[node name="GroundCeiling4" parent="Level/Ship/CorridorCurve" instance=ExtResource("13_aecbf")]
+transform = Transform3D(7.55023e-08, -1.13037e-05, 1, -4.13263e-07, 1, 1.13037e-05, -1, -4.13265e-07, 1.35099e-07, 0, 0, 0)
+
+[node name="CatwalkCurve" parent="Level/Ship/CorridorCurve" instance=ExtResource("14_13c0w")]
+transform = Transform3D(-1, 1.13474e-05, -1.19213e-07, -1.13474e-05, -1, 3.2584e-07, -1.7881e-07, 3.25842e-07, 1, -1.13474e-05, 1, 0)
+
+[node name="Corridor8" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 16, 3, -48)
+
+[node name="Catwalk" parent="Level/Ship/Corridor8" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="Corridor9" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 24, 3, -48)
+
+[node name="Catwalk" parent="Level/Ship/Corridor9" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="CorridorCurve2" type="Node3D" parent="Level/Ship"]
+transform = Transform3D(1, 1.13474e-05, 1.6292e-07, 1.13474e-05, -1, 3.25841e-07, 2.22525e-07, -3.2584e-07, -1, 32, 3, -48)
+
+[node name="Corner" parent="Level/Ship/CorridorCurve2" instance=ExtResource("12_6kj10")]
+transform = Transform3D(1, -2.46014e-14, 0, -4.40219e-14, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Corner2" parent="Level/Ship/CorridorCurve2" instance=ExtResource("12_6kj10")]
+transform = Transform3D(-1.03184e-07, -1.10216e-05, 1, -1.16732e-05, 1, 1.10216e-05, -1, -1.16732e-05, 1.589e-08, 0, 0, 0)
+
+[node name="Corner3" parent="Level/Ship/CorridorCurve2" instance=ExtResource("12_6kj10")]
+transform = Transform3D(-1, -2.26948e-05, -8.74154e-08, -2.26948e-05, 1, -6.51683e-07, 8.74302e-08, -6.51683e-07, -1, 0, 0, 0)
+
+[node name="Corner4" parent="Level/Ship/CorridorCurve2" instance=ExtResource("12_6kj10")]
+transform = Transform3D(1.90864e-07, -1.16732e-05, -1, -1.10216e-05, 1, -1.16732e-05, 1, 1.10216e-05, 7.1533e-08, 0, 0, 0)
+
+[node name="GroundCeiling" parent="Level/Ship/CorridorCurve2" instance=ExtResource("13_aecbf")]
+transform = Transform3D(-1, 1.13474e-05, -7.55013e-08, -1.13474e-05, -1, 3.2584e-07, -1.35099e-07, 3.25842e-07, 1, 0, 0, 0)
+
+[node name="GroundCeiling2" parent="Level/Ship/CorridorCurve2" instance=ExtResource("13_aecbf")]
+transform = Transform3D(-1.13037e-05, -1, -7.55013e-08, 1, -1.13037e-05, 3.2584e-07, -3.25842e-07, -1.35099e-07, 1, 0, 0, 0)
+
+[node name="GroundCeiling3" parent="Level/Ship/CorridorCurve2" instance=ExtResource("13_aecbf")]
+transform = Transform3D(-1.13474e-05, -3.17904e-08, 1, 1, 3.69552e-07, 1.13474e-05, -3.69554e-07, 1, 9.13875e-08, 0, 0, 0)
+
+[node name="GroundCeiling4" parent="Level/Ship/CorridorCurve2" instance=ExtResource("13_aecbf")]
+transform = Transform3D(7.55023e-08, -1.13037e-05, 1, -4.13263e-07, 1, 1.13037e-05, -1, -4.13265e-07, 1.35099e-07, 0, 0, 0)
+
+[node name="CatwalkCurve" parent="Level/Ship/CorridorCurve2" instance=ExtResource("14_13c0w")]
+transform = Transform3D(-1, 1.13474e-05, -1.19213e-07, -1.13474e-05, -1, 3.2584e-07, -1.7881e-07, 3.25842e-07, 1, -1.13474e-05, 1, 0)
+
+[node name="Corridor10" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 3, -56)
+
+[node name="Catwalk" parent="Level/Ship/Corridor10" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="Corridor11" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 3, -64)
+
+[node name="Catwalk" parent="Level/Ship/Corridor11" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="Corridor12" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 3, -72)
+
+[node name="Catwalk" parent="Level/Ship/Corridor12" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="Corridor13" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 3, -80)
+
+[node name="Catwalk" parent="Level/Ship/Corridor13" instance=ExtResource("11_xjc08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)

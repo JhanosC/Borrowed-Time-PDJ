@@ -1,0 +1,176 @@
+[gd_scene load_steps=3 format=3 uid="uid://blu2dydyefx20"]
+
+[ext_resource type="Material" uid="uid://bh8gqgktombnd" path="res://ASSETS/art/material/ship_material_test.tres" id="1_reeim"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_reeim"]
+transparency = 1
+albedo_color = Color(1, 0, 1, 0.294118)
+
+[node name="CSGCombiner3D" type="CSGCombiner3D"]
+material_override = SubResource("StandardMaterial3D_reeim")
+use_collision = true
+collision_mask = 3
+
+[node name="Nave" type="CSGCombiner3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -45.5999)
+
+[node name="ExteriorSalaGrande" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.75)
+use_collision = true
+size = Vector3(21, 10, 38)
+material = ExtResource("1_reeim")
+
+[node name="InteriorSalaGrande" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 6.55)
+operation = 2
+size = Vector3(20, 5, 36.9)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorCorredor" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 41.8717)
+size = Vector3(10, 10, 37.5437)
+material = ExtResource("1_reeim")
+
+[node name="InteriorCorredor" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 40.2189)
+operation = 2
+size = Vector3(6.5, 5, 37.038)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorCorredor4" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -20.9145, 0, 55.4972)
+size = Vector3(10, 10, 37.5437)
+material = ExtResource("1_reeim")
+
+[node name="InteriorCorredor4" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -19.321, -1, 55.4972)
+operation = 2
+size = Vector3(6.5, 5, 37.1567)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorCorredor5" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.6609, 0, 79.049)
+size = Vector3(10, 10, 37.5437)
+material = ExtResource("1_reeim")
+
+[node name="InteriorCorredor5" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.6609, -1, 78.5909)
+operation = 2
+size = Vector3(6.5, 5, 40.9908)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorCorredor6" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.6609, 0, 103.246)
+size = Vector3(10, 10, 11.9383)
+material = ExtResource("1_reeim")
+
+[node name="InteriorCorredor6" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.6609, -1, 102.204)
+operation = 2
+size = Vector3(6.5, 5, 12.6544)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorElevador" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.975, -70.5274)
+size = Vector3(10, 15.4, 19.9)
+material = ExtResource("1_reeim")
+
+[node name="InteriorElevador" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3.275, -70.3774)
+operation = 2
+size = Vector3(7.1, 10.9, 16.3)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorCorredor2" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -37.1902)
+size = Vector3(10, 10, 53.5)
+material = ExtResource("1_reeim")
+
+[node name="InteriorCorredor2" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -39.1901)
+operation = 2
+size = Vector3(6.5, 5, 59.9)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorCorredor3" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, -107.653)
+size = Vector3(10, 12, 61.8267)
+material = ExtResource("1_reeim")
+
+[node name="InteriorCorredor3" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -108.129)
+operation = 2
+size = Vector3(6.5, 5.8, 65.9773)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorCorredor7" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, -168.653)
+size = Vector3(10, 12, 61.8267)
+material = ExtResource("1_reeim")
+
+[node name="InteriorCorredor7" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -169.129)
+operation = 2
+size = Vector3(6.5, 5.8, 65.9773)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorCorredor8" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, -229.653)
+size = Vector3(10, 12, 61.8267)
+material = ExtResource("1_reeim")
+
+[node name="InteriorCorredor8" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -227.9)
+operation = 2
+size = Vector3(6.5, 5.8, 61.52)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorObstaculo" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -50.1902)
+size = Vector3(8.4, 5.6, 10.1)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorBuraco" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.26852, 32.5733)
+size = Vector3(9.2, 6.13705, 13.3915)
+material = ExtResource("1_reeim")
+
+[node name="InteriorBuraco" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.71099, 30.8776)
+operation = 2
+size = Vector3(6.5, 7.02197, 6)
+material = ExtResource("1_reeim")
+
+[node name="Rampa" type="CSGPolygon3D" parent="Nave"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.25251, -9.22774, 33.8689)
+operation = 2
+polygon = PackedVector2Array(0, 0, 6, 6, 0, 6)
+depth = 3.0
+
+[node name="ExteriorBuraco3" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20.4, -110.193)
+size = Vector3(10, 36.4, 41.1)
+material = ExtResource("1_reeim")
+
+[node name="InteriorBuraco3" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16.75, -110.293)
+operation = 2
+size = Vector3(7.1, 41.9, 37.3)
+material = ExtResource("1_reeim")
+
+[node name="ExteriorBuraco2" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.83851, 13.6823)
+size = Vector3(25, 9.27703, 24.3173)
+material = ExtResource("1_reeim")
+
+[node name="InteriorBuraco2" type="CSGBox3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.29692, 12.0237)
+operation = 2
+size = Vector3(20, 10.1938, 14)
+material = ExtResource("1_reeim")
+
+[node name="Rampa2" type="CSGPolygon3D" parent="Nave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.81118, -12.3879, 21.9995)
+operation = 2
+polygon = PackedVector2Array(0, 0, 9, 9, -3, 9, -3, 0)
+depth = 3.0
