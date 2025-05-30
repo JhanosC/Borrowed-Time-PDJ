@@ -1,13 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://blu2dydyefx20"]
+[gd_scene load_steps=3 format=3 uid="uid://bm6mdk8dwhrbv"]
 
+[ext_resource type="Material" uid="uid://d38qsv7a1mkwe" path="res://ASSETS/art/material/transparent_material.tres" id="1_8ql00"]
 [ext_resource type="Material" uid="uid://bh8gqgktombnd" path="res://ASSETS/art/material/ship_material_test.tres" id="1_reeim"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_reeim"]
-transparency = 1
-albedo_color = Color(1, 0, 1, 0.294118)
-
 [node name="CSGCombiner3D" type="CSGCombiner3D"]
-material_override = SubResource("StandardMaterial3D_reeim")
+material_override = ExtResource("1_8ql00")
 use_collision = true
 collision_mask = 3
 

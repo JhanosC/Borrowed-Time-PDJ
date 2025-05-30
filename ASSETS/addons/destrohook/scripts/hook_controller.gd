@@ -85,7 +85,7 @@ func _retract_hook() -> void:
 
 ## the code that manages the hook physics and its movement
 func _handle_hook(delta: float) -> void:
-	if picked_object.freeze and picked_object.is_in_group("grappable"):
+	if picked_object is RigidBody3D and picked_object.freeze and picked_object.is_in_group("grappable"):
 		# Hook pull math
 		var pull_vector = (hook_target_node.global_position - player_body.global_position).normalized()
 		var distance = (hook_target_node.global_position - player_body.global_position).length()

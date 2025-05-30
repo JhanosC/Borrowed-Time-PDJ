@@ -507,7 +507,8 @@ func sel_object():
 				collider.targeted = true
 			if selected_object != null and "targeted" in selected_object:
 				selected_object.targeted = false
-		selected_object = collider
+		if collider is RigidBody3D:
+			selected_object = collider
 	elif selected_object:
 		selected_object.targeted = false
 		selected_object = null

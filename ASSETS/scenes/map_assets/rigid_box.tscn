@@ -56,7 +56,7 @@ _surfaces = [{
 
 [node name="RigidBox" type="RigidBody3D"]
 collision_layer = 2
-collision_mask = 3
+collision_mask = 7
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_jv3ii")
 gravity_scale = 0.0

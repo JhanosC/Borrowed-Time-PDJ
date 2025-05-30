@@ -49,7 +49,7 @@ size = Vector3(7, 1, 7)
 
 [node name="RigidPlataform" type="RigidBody3D" groups=["big_object"]]
 collision_layer = 2
-collision_mask = 3
+collision_mask = 7
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_jv3ii")
 gravity_scale = 0.0
