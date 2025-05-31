@@ -295,9 +295,7 @@ func handle_controls(delta):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		mouse_captured = false
 		input_mouse = Vector2.ZERO
-		Engine.time_scale = 0.0
 	rotation_target.x = clamp(rotation_target.x, deg_to_rad(-90), deg_to_rad(90))
-	
 	# Jumping control
 	if on_floor and !sliding:
 		if Input.is_action_just_pressed("jump") or (auto_bhop and Input.is_action_pressed("jump")):

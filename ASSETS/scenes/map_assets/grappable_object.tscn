@@ -62,9 +62,11 @@ transform = Transform3D(0.599615, 0, 0, 0, -4.81402e-08, 0.599614, 0, -1.10132, 
 mesh = SubResource("CylinderMesh_xnbuw")
 
 [node name="Outline" type="MeshInstance3D" parent="MeshInstance3D"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_mfmno")
 
 [node name="FreezeOutline" type="MeshInstance3D" parent="MeshInstance3D"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_xnbuw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

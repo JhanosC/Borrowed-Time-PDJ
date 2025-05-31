@@ -73,10 +73,12 @@ surface_material_override/0 = SubResource("StandardMaterial3D_s87bt")
 [node name="Outline" type="MeshInstance3D" parent="MeshInstance3D"]
 transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
 visible = false
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_s87bt")
 surface_material_override/0 = SubResource("StandardMaterial3D_uo1vw")
 
 [node name="FreezeOutline" type="MeshInstance3D" parent="MeshInstance3D"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_vhlrv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

@@ -64,9 +64,11 @@ mesh = SubResource("BoxMesh_r3fl7")
 surface_material_override/0 = SubResource("StandardMaterial3D_s87bt")
 
 [node name="FreezeOutline" type="MeshInstance3D" parent="MeshInstance3D"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_uoo6l")
 
 [node name="Outline" type="MeshInstance3D" parent="MeshInstance3D"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_vjvxk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
