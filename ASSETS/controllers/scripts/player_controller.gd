@@ -73,6 +73,11 @@ var rotation_target: Vector3
 var input_mouse: Vector2
 var input_dir: Vector2
 
+
+var is_paused: bool = false
+@onready var pause_menu: Control = $HUD/PauseMenu
+
+
 signal velocity_update(velocity: Vector3, desired_velocity: float)
 signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3)
 
@@ -134,6 +139,7 @@ func _ready():
 	gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 	camera.fov = camera_default_fov
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	pause_menu.hide()
 
 func _push_away_rigid_bodies():
 	# Handle colision with RigidBodies
@@ -211,7 +217,6 @@ func _physics_process(delta):
 	hud.update_dash_storage(current_dash_storage, max_dash_storage)
 	hud.update_slow_down_storage(slow_time_amount,10.0)
 	hud.display_debug_info(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),hook_out,direction,Vector3(velocity.x, 0.0, velocity.z).length(),desired_velocity)
-	
 	# Handle functions
 	handle_controls(delta)
 	move(delta)
@@ -249,6 +254,9 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("3"):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_3.tscn")
 	
+	if Input.is_action_just_pressed("pause"):
+		pause_game()
+
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:
 			Engine.time_scale = 1.0
@@ -581,3 +589,15 @@ func _distort_camera(delta):
 		camera_new_fov = min(camera_default_fov + (Vector3(velocity.x,0.,velocity.z).length()*0.7),camera_default_fov * 1.3)
 		camera_distortion = -1.0
 	camera.fov = lerp(camera.fov, camera_new_fov, delta * lerp_speed)
+
+func pause_game():
+	if !is_paused:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		is_paused = true
+		Engine.time_scale = 0
+		pause_menu.show()
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		is_paused = false
+		Engine.time_scale = 1
+		pause_menu.hide()

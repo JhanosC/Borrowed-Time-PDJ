@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=29 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dlqm10204rcaq" path="res://ASSETS/addons/destrohook/scenes/hook.tscn" id="5_7mjmw"]
 [ext_resource type="Script" uid="uid://qet7vjb3sni7" path="res://ASSETS/controllers/scripts/crosshair.gd" id="5_o5pon"]
 [ext_resource type="Script" uid="uid://b5wnnlckg2b2g" path="res://ASSETS/addons/destrohook/scripts/hook_controller.gd" id="5_s6h3k"]
+[ext_resource type="PackedScene" uid="uid://d4g848nd0qaex" path="res://ASSETS/scenes/pause_menu.tscn" id="6_cxp22"]
 [ext_resource type="AudioStream" uid="uid://6j2m6pck7th8" path="res://ASSETS/songs/sound_effects/landing.mp3" id="8_e245n"]
 [ext_resource type="AudioStream" uid="uid://cbygna20ivhm0" path="res://ASSETS/songs/sound_effects/slow-motion.mp3" id="9_rhvmy"]
 [ext_resource type="AudioStream" uid="uid://bnrexabnxcod5" path="res://ASSETS/songs/sound_effects/slow-motion-slow-to-fast.mp3" id="10_qwohm"]
@@ -247,6 +248,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_o5pon")
 DOT_RADIUS = 2.0
+
+[node name="PauseMenu" parent="HUD" instance=ExtResource("6_cxp22")]
+z_as_relative = false
+layout_mode = 1
 
 [node name="HookController" type="Node" parent="." node_paths=PackedStringArray("player_body", "hook_raycast", "hook_source")]
 script = ExtResource("5_s6h3k")
