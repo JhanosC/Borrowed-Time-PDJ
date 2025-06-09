@@ -47,8 +47,14 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	for i in count:
 		var other = state.get_contact_collider_object(i)
 		# skip if the thing we hit is a RigidBody3D or CharacterBody3D
-		if other is RigidBody3D or other is CharacterBody3D:
+		if other is RigidBody3D:
+			if !is_in_group("grappable") and (linear_velocity - other.linear_velocity).length() >= 10.0:
+				call_deferred("queue_free")
+		if other is Player:
 			continue
+		else:
+			if !is_in_group("grappable") and linear_velocity.length() >= 10.0:
+				call_deferred("queue_free")
 		# otherwise, align to this surface and break out
 		var normal = state.get_contact_local_normal(i)
 		_align_to_normal(normal)
