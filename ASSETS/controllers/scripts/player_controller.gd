@@ -76,6 +76,7 @@ var input_dir: Vector2
 
 var is_paused: bool = false
 @onready var pause_menu: Control = $HUD/PauseMenu
+@onready var end_menu: Control = $HUD/EndLevelMenu
 
 
 signal velocity_update(velocity: Vector3, desired_velocity: float)
@@ -140,6 +141,7 @@ func _ready():
 	camera.fov = camera_default_fov
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	pause_menu.hide()
+	end_menu.hide()
 
 func _push_away_rigid_bodies():
 	# Handle colision with RigidBodies
@@ -256,7 +258,10 @@ func handle_controls(delta):
 	
 	if Input.is_action_just_pressed("pause"):
 		pause_game()
-
+	
+	if Input.is_action_just_pressed("tmpnext"):
+		end_level()
+	
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:
 			Engine.time_scale = 1.0
@@ -601,3 +606,7 @@ func pause_game():
 		is_paused = false
 		Engine.time_scale = 1
 		pause_menu.hide()
+func end_level():
+	
+	Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_3.tscn")
+	

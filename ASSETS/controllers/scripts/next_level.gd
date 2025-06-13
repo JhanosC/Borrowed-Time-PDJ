@@ -5,6 +5,7 @@ signal player_entered_door(door:Door)
 @export var path_to_new_scene:String
 @export var entry_door_name:String
 
+
 func _on_body_entered(body):
 	if not body is Player:
 		return
