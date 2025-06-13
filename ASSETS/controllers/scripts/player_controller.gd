@@ -75,6 +75,7 @@ var input_dir: Vector2
 
 
 var is_paused: bool = false
+var has_ended: bool = false
 @onready var pause_menu: Control = $HUD/PauseMenu
 @onready var end_menu: Control = $HUD/EndLevelMenu
 
@@ -607,6 +608,15 @@ func pause_game():
 		Engine.time_scale = 1
 		pause_menu.hide()
 func end_level():
-	
-	Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_3.tscn")
+	if !has_ended:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		has_ended=true
+		Engine.time_scale = 0
+		end_menu.show()
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		has_ended=false
+		Engine.time_scale = 1
+		end_menu.hide() 
+		
 	
