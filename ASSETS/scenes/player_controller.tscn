@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=31 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -16,6 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://cbpvmtex0hj0w" path="res://ASSETS/songs/sound_effects/jump_voice.mp3" id="12_gsv3y"]
 [ext_resource type="AudioStream" uid="uid://dd0b7kddme46y" path="res://ASSETS/songs/sound_effects/dash_effect.mp3" id="13_at3dx"]
 [ext_resource type="AudioStream" uid="uid://bovfadakdy2v2" path="res://ASSETS/songs/sound_effects/sliding_sound.mp3" id="14_w33ps"]
+[ext_resource type="Script" uid="uid://dijjpokw641ib" path="res://ASSETS/controllers/scripts/in_game_gui.gd" id="15_v3oa1"]
 
 [sub_resource type="Curve" id="Curve_rnlsj"]
 _limits = [0.0, 100.0, 0.0, 1.0]
@@ -250,13 +251,6 @@ grow_vertical = 2
 script = ExtResource("5_o5pon")
 DOT_RADIUS = 2.0
 
-[node name="PauseMenu" parent="HUD" instance=ExtResource("6_cxp22")]
-z_as_relative = false
-layout_mode = 1
-
-[node name="EndLevelMenu" parent="HUD" instance=ExtResource("7_t5dha")]
-layout_mode = 1
-
 [node name="HookController" type="Node" parent="." node_paths=PackedStringArray("player_body", "hook_raycast", "hook_source")]
 script = ExtResource("5_s6h3k")
 hook_scene = ExtResource("5_7mjmw")
@@ -299,3 +293,27 @@ volume_db = -30.476
 [node name="sliding_sound_effect" type="AudioStreamPlayer3D" parent="sounds"]
 stream = ExtResource("14_w33ps")
 volume_db = -25.0
+
+[node name="InGameGUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -573.0
+offset_top = -324.0
+offset_right = 579.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_v3oa1")
+
+[node name="PauseMenu" parent="InGameGUI" instance=ExtResource("6_cxp22")]
+z_as_relative = false
+layout_mode = 1
+metadata/_edit_group_ = true
+
+[node name="EndLevelMenu" parent="InGameGUI" instance=ExtResource("7_t5dha")]
+layout_mode = 1
+metadata/_edit_group_ = true

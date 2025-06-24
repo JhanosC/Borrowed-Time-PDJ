@@ -73,11 +73,7 @@ var rotation_target: Vector3
 var input_mouse: Vector2
 var input_dir: Vector2
 
-
-var is_paused: bool = false
-var has_ended: bool = false
-@onready var pause_menu: Control = $HUD/PauseMenu
-@onready var end_menu: Control = $HUD/EndLevelMenu
+@onready var gui : Control = $InGameGUI
 
 
 signal velocity_update(velocity: Vector3, desired_velocity: float)
@@ -141,8 +137,8 @@ func _ready():
 	gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 	camera.fov = camera_default_fov
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	pause_menu.hide()
-	end_menu.hide()
+	gui.hide()
+
 
 func _push_away_rigid_bodies():
 	# Handle colision with RigidBodies
@@ -258,10 +254,10 @@ func handle_controls(delta):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_3.tscn")
 	
 	if Input.is_action_just_pressed("pause"):
-		pause_game()
+		gui.pause_game()
 	
 	if Input.is_action_just_pressed("tmpnext"):
-		end_level()
+		gui.end_level()
 	
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:
@@ -596,27 +592,5 @@ func _distort_camera(delta):
 		camera_distortion = -1.0
 	camera.fov = lerp(camera.fov, camera_new_fov, delta * lerp_speed)
 
-func pause_game():
-	if !is_paused:
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		is_paused = true
-		Engine.time_scale = 0
-		pause_menu.show()
-	else:
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		is_paused = false
-		Engine.time_scale = 1
-		pause_menu.hide()
-func end_level():
-	if !has_ended:
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		has_ended=true
-		Engine.time_scale = 0
-		end_menu.show()
-	else:
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		has_ended=false
-		Engine.time_scale = 1
-		end_menu.hide() 
 		
 	
