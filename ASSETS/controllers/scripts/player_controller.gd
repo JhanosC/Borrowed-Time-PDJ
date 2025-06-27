@@ -328,7 +328,7 @@ func handle_controls(delta):
 		and !sliding
 		and dash_cooldown <= 0.0
 		and current_dash_storage >= 5.0
-		
+		and direction
 		):
 		#dash_sound_effect.play()
 		if hook_out:
@@ -409,12 +409,15 @@ func move(delta):
 				# Apply momentum when on air
 				#if desired_velocity < max_speed: desired_velocity += 0.2 * delta
 				
-				# Curves for air acceleration
-				var contrdDesMoveSpeed : float = desiredMoveSpeedCurve.sample(desired_velocity/100)
-				var contrdInAirMoveSpeed : float = inAirMoveSpeedCurve.sample(desired_velocity)
-			
-				velocity.x = lerp(velocity.x, direction.x * contrdDesMoveSpeed, contrdInAirMoveSpeed * delta)
-				velocity.z = lerp(velocity.z, direction.z * contrdDesMoveSpeed, contrdInAirMoveSpeed * delta)
+				## Curves for air acceleration
+				#var contrdDesMoveSpeed : float = desiredMoveSpeedCurve.sample(desired_velocity/100)
+				#var contrdInAirMoveSpeed : float = inAirMoveSpeedCurve.sample(desired_velocity)
+			#
+				#velocity.x = lerp(velocity.x, direction.x * contrdDesMoveSpeed, contrdInAirMoveSpeed * delta)
+				#velocity.z = lerp(velocity.z, direction.z * contrdDesMoveSpeed, contrdInAirMoveSpeed * delta)
+				self.velocity.x = lerp(velocity.x, direction.x * get_move_speed(), acceleration * delta)
+				self.velocity.z = lerp(velocity.z, direction.z * get_move_speed(), acceleration * delta)
+				
 		else:
 			desired_velocity = velocity.length()
 	if is_touching_wall():
@@ -471,10 +474,10 @@ func _stop_slide(delta):
 	sliding_collision_shape.disabled = true
 
 func _dash():
-	# If start dashing, keep on same direction the player started
-	if input_dir != Vector2.ZERO: move_foward_vector = input_dir
-	# If try to dash while idle, slide foward
-	else: move_foward_vector = Vector2(0, -1)
+	## If start dashing, keep on same direction the player started
+	#if input_dir != Vector2.ZERO: move_foward_vector = input_dir
+	## If try to dash while idle, slide foward
+	#else: move_foward_vector = Vector2(0, -1)
 	current_dash_storage -= 5.0
 	dashing = true
 	slaming = false
@@ -482,8 +485,8 @@ func _dash():
 	dash_cooldown = 0.5
 
 func _stop_dash():
-	if dashing:
-		desired_velocity = previous_dash_velocity
+	#if dashing:
+	desired_velocity = previous_dash_velocity
 	dashing = false
 
 func _slow_bar(delta):

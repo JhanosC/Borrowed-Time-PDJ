@@ -16,9 +16,9 @@
 [ext_resource type="AudioStream" uid="uid://bovfadakdy2v2" path="res://ASSETS/songs/sound_effects/sliding_sound.mp3" id="14_w33ps"]
 
 [sub_resource type="Curve" id="Curve_rnlsj"]
-_limits = [0.0, 100.0, 0.0, 1.0]
-_data = [Vector2(0.136364, 14.6067), 0.0, 0.0, 0, 0, Vector2(0.337079, 26.875), 0.0, 0.0, 0, 0, Vector2(0.617977, 57.3437), 0.0, 0.0, 0, 0, Vector2(0.842697, 100), 0.0, 0.0, 0, 0]
-point_count = 4
+_limits = [15.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 15), 0.0, 0.0, 0, 0, Vector2(0.381081, 15), 0.0, 0.0, 0, 0, Vector2(1, 100), 137.336, 0.0, 1, 0]
+point_count = 3
 
 [sub_resource type="Curve" id="Curve_qwx0b"]
 _limits = [0.0, 10.0, 0.0, 1.0]
