@@ -73,8 +73,12 @@ var rotation_target: Vector3
 var input_mouse: Vector2
 var input_dir: Vector2
 
+
+
+
 signal velocity_update(velocity: Vector3, desired_velocity: float)
-signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3)
+signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
+	,on_floor:bool,on_wall:bool,direction:Vector3)
 
 @onready var camera = $CameraController/Camera3D
 @onready var head: Node3D = $CameraController
@@ -91,6 +95,7 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
 @onready var hud = $HUD
 @onready var hook_controller: HookController = $HookController
+@onready var gui : Control = $CanvasLayer/InGameGUI
 
 @onready var landind: AudioStreamPlayer3D = $sounds/landing
 @onready var slow_motion_sound: AudioStreamPlayer3D = $sounds/slow_motion_sound
@@ -134,6 +139,8 @@ func _ready():
 	gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 	camera.fov = camera_default_fov
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+
 
 func _push_away_rigid_bodies():
 	# Handle colision with RigidBodies
@@ -211,7 +218,6 @@ func _physics_process(delta):
 	hud.update_dash_storage(current_dash_storage, max_dash_storage)
 	hud.update_slow_down_storage(slow_time_amount,10.0)
 	hud.display_debug_info(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),hook_out,direction,Vector3(velocity.x, 0.0, velocity.z).length(),desired_velocity)
-	
 	# Handle functions
 	handle_controls(delta)
 	move(delta)
@@ -252,6 +258,18 @@ func handle_controls(delta):
 		print('pressed')
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/level_2.tscn")
 	
+	if Input.is_action_just_pressed("mouse_capture_exit"):
+		gui.pause_game()
+	#
+	#if Input.is_action_just_pressed("tmpnext"):
+	#	gui.end_level()
+	
+	if Input.is_action_just_pressed("mouse_capture_exit"):
+		gui.pause_game()
+	#
+	#if Input.is_action_just_pressed("tmpnext"):
+	#	gui.end_level()
+	
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:
 			Engine.time_scale = 1.0
@@ -270,12 +288,11 @@ func handle_controls(delta):
 		_slow_bar_refill(delta)
 	
 	#Mouse capture/Enable cursor
-	if !mouse_captured:
-		if Input.is_action_just_pressed("left_mouse"):
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-			mouse_captured = true
-			Engine.time_scale = 1.0
-	else:
+	#if !mouse_captured:
+		#if Input.is_action_just_pressed("left_mouse"):
+			#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			#mouse_captured = true
+	if true:
 		if Input.is_action_just_pressed("left_mouse"):
 			if holding:
 				throw_object()
@@ -294,10 +311,10 @@ func handle_controls(delta):
 		if holding:
 			release_object()
 	
-	if Input.is_action_just_pressed("mouse_capture_exit"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		mouse_captured = false
-		input_mouse = Vector2.ZERO
+	#if Input.is_action_just_pressed("mouse_capture_exit"):
+		#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		#mouse_captured = false
+		#input_mouse = Vector2.ZERO
 	rotation_target.x = clamp(rotation_target.x, deg_to_rad(-90), deg_to_rad(90))
 	# Jumping control
 	if on_floor and !sliding:
@@ -585,3 +602,6 @@ func _distort_camera(delta):
 		camera_new_fov = min(camera_default_fov + (Vector3(velocity.x,0.,velocity.z).length()*0.7),camera_default_fov * 1.3)
 		camera_distortion = -1.0
 	camera.fov = lerp(camera.fov, camera_new_fov, delta * lerp_speed)
+
+		
+	

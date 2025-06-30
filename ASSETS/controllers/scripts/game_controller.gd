@@ -17,6 +17,7 @@ func _ready() -> void:
 	content_invalid.connect(on_content_invalid)
 	content_failed_to_load.connect(on_content_failed_to_load)
 	content_finished_loading.connect(on_content_finished_loading)
+	
 
 func load_new_scene(content_path:String) -> void:
 	_load_content(content_path)
@@ -79,6 +80,7 @@ func on_content_finished_loading(content) -> void:
 		content.call_deferred("enter_level")
 		
 func reload_scene():
+	StatsMan.reset_count += 1
 	Engine.time_scale = 1.0
 	load_new_scene(current_3d_scene.scene_file_path)
 	
