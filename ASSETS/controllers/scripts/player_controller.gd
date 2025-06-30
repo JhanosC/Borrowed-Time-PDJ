@@ -73,10 +73,12 @@ var rotation_target: Vector3
 var input_mouse: Vector2
 var input_dir: Vector2
 
-@onready var gui : Control = $InGameGUI
+
+
 
 signal velocity_update(velocity: Vector3, desired_velocity: float)
-signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3)
+signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
+	,on_floor:bool,on_wall:bool,direction:Vector3)
 
 @onready var camera = $CameraController/Camera3D
 @onready var head: Node3D = $CameraController
@@ -93,6 +95,7 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var mesh: MeshInstance3D = $WorldModel/MeshInstance3D
 @onready var hud = $HUD
 @onready var hook_controller: HookController = $HookController
+@onready var gui : Control = $CanvasLayer/InGameGUI
 
 @onready var landind: AudioStreamPlayer3D = $sounds/landing
 @onready var slow_motion_sound: AudioStreamPlayer3D = $sounds/slow_motion_sound
@@ -252,7 +255,7 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("3"):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_3.tscn")
 	
-	if Input.is_action_just_pressed("pause"):
+	if Input.is_action_just_pressed("mouse_capture_exit"):
 		gui.pause_game()
 	#
 	#if Input.is_action_just_pressed("tmpnext"):
@@ -276,12 +279,11 @@ func handle_controls(delta):
 		_slow_bar_refill(delta)
 	
 	#Mouse capture/Enable cursor
-	if !mouse_captured:
-		if Input.is_action_just_pressed("left_mouse"):
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-			mouse_captured = true
-			Engine.time_scale = 1.0
-	else:
+	#if !mouse_captured:
+		#if Input.is_action_just_pressed("left_mouse"):
+			#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			#mouse_captured = true
+	if true:
 		if Input.is_action_just_pressed("left_mouse"):
 			if holding:
 				throw_object()
@@ -300,11 +302,10 @@ func handle_controls(delta):
 		if holding:
 			release_object()
 	
-	if Input.is_action_just_pressed("mouse_capture_exit"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		mouse_captured = false
-		input_mouse = Vector2.ZERO
-		Engine.time_scale = 0.0
+	#if Input.is_action_just_pressed("mouse_capture_exit"):
+		#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		#mouse_captured = false
+		#input_mouse = Vector2.ZERO
 	rotation_target.x = clamp(rotation_target.x, deg_to_rad(-90), deg_to_rad(90))
 	
 	# Jumping control

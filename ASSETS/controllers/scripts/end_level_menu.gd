@@ -1,16 +1,13 @@
 extends Control
 
 @onready var main = $".."
+var next_level_path : String
 
+func _ready() -> void:
+	hide()
 
-func _get_door_path() -> String:
-	var level = Global.game_controller.current_3d_scene
-	if not level:
-		return ""
-	for child in level.get_children():
-		if child is Door:
-			return child.path_to_new_scene
-	return ""
+func set_next_path(path_to_new_scene) -> void:
+	next_level_path = path_to_new_scene
 
 func get_stats():
 	var resets = StatsMan.reset_count
@@ -26,13 +23,12 @@ func display_stats(reset_count: int,level_time: float,rank: String):
 	
 
 func _on_next_level_pressed() -> void:
-	var next_path = _get_door_path()
-	if next_path != "":
-		Global.game_controller.load_new_scene(next_path)
+	if next_level_path != "":
+		Global.game_controller.load_new_scene(next_level_path)
 	else:
 		print("Failure: no Door selected")
 	StatsMan.reset_stats()
-	main.end_level()
+	main.resume_level()
 
 func _on_continue_pressed() -> void:
 	main.end_level()

@@ -20,8 +20,10 @@ grow_vertical = 2
 script = ExtResource("1_i8xuv")
 
 [node name="PauseMenu" parent="." instance=ExtResource("2_f70x8")]
+process_mode = 2
 z_as_relative = false
 layout_mode = 1
 
 [node name="EndLevelMenu" parent="." instance=ExtResource("3_kugkv")]
+process_mode = 2
 layout_mode = 1

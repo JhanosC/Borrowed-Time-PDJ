@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dul2pititpkcb"]
+[gd_scene load_steps=31 format=3 uid="uid://dul2pititpkcb"]
 
 [ext_resource type="Script" uid="uid://scbrlodgmekb" path="res://ASSETS/controllers/scripts/player_controller.gd" id="1_dk88v"]
 [ext_resource type="Script" uid="uid://1pmhdygqnv1j" path="res://ASSETS/controllers/scripts/hud_script.gd" id="2_p1wnk"]
@@ -14,7 +14,9 @@
 [ext_resource type="AudioStream" uid="uid://cbpvmtex0hj0w" path="res://ASSETS/songs/sound_effects/jump_voice.mp3" id="12_gsv3y"]
 [ext_resource type="AudioStream" uid="uid://dd0b7kddme46y" path="res://ASSETS/songs/sound_effects/dash_effect.mp3" id="13_at3dx"]
 [ext_resource type="AudioStream" uid="uid://bovfadakdy2v2" path="res://ASSETS/songs/sound_effects/sliding_sound.mp3" id="14_w33ps"]
-[ext_resource type="PackedScene" uid="uid://danjfjltsc2ij" path="res://ASSETS/scenes/in_game_gui.tscn" id="15_cxp22"]
+[ext_resource type="Script" uid="uid://dijjpokw641ib" path="res://ASSETS/controllers/scripts/in_game_gui.gd" id="15_v3oa1"]
+[ext_resource type="PackedScene" uid="uid://d4g848nd0qaex" path="res://ASSETS/scenes/pause_menu.tscn" id="16_ox102"]
+[ext_resource type="PackedScene" uid="uid://dt11i3fli5afj" path="res://ASSETS/scenes/end_level_menu.tscn" id="17_olxu0"]
 
 [sub_resource type="Curve" id="Curve_rnlsj"]
 _limits = [0.0, 100.0, 0.0, 1.0]
@@ -292,4 +294,28 @@ volume_db = -30.476
 stream = ExtResource("14_w33ps")
 volume_db = -25.0
 
-[node name="InGameGUI" parent="." instance=ExtResource("15_cxp22")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="InGameGUI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -573.0
+offset_top = -324.0
+offset_right = 579.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_v3oa1")
+
+[node name="PauseMenu" parent="CanvasLayer/InGameGUI" instance=ExtResource("16_ox102")]
+process_mode = 2
+z_as_relative = false
+layout_mode = 1
+
+[node name="EndLevelMenu" parent="CanvasLayer/InGameGUI" instance=ExtResource("17_olxu0")]
+process_mode = 2
+layout_mode = 1

@@ -37,7 +37,7 @@ metadata/_edit_group_ = true
 
 [node name="Next Level" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Next Level"
+text = "Continue"
 
 [node name="Continue" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2

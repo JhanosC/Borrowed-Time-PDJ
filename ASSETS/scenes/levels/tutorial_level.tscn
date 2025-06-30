@@ -23,7 +23,7 @@ door = NodePath("EndLevel")
 [node name="SpawnPoint" parent="." instance=ExtResource("2_wjua2")]
 
 [node name="EndLevel" parent="." instance=ExtResource("3_u57sp")]
-transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 35.2697, 7.27112, -305.579)
+transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 1.07565, 3.00293, -47.7531)
 path_to_new_scene = "res://ASSETS/scenes/levels/test_level_1.tscn"
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("4_kanxd")]
