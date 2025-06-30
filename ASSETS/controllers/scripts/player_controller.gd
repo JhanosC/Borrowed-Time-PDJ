@@ -237,7 +237,7 @@ func reload_scene():
 	Global.game_controller.reload_scene()
 
 func handle_controls(delta):
-	# Reload scene
+	# Reload sc43ene
 	if Input.is_action_just_pressed("reload"):
 		reloading_scene = true
 		Global.game_controller.reload_scene()
@@ -248,13 +248,16 @@ func handle_controls(delta):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_2.tscn")
 	if Input.is_action_just_pressed("3"):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_3.tscn")
+	if Input.is_action_just_pressed("4"):
+		print('pressed')
+		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/level_2.tscn")
 	
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:
 			Engine.time_scale = 1.0
 			slow_time = false
 			slow_motion_sound.playing = false
-			#slow_motion_stop_sound.play()
+			slow_motion_stop_sound.play()
 
 		else:
 			Engine.time_scale /= slow_speed_multiplier
@@ -330,7 +333,7 @@ func handle_controls(delta):
 		and current_dash_storage >= 5.0
 		and direction
 		):
-		#dash_sound_effect.play()
+		dash_sound_effect.play()
 		if hook_out:
 			retract_release_hook()
 		previous_dash_velocity = desired_velocity
@@ -367,13 +370,13 @@ func move(delta):
 	# Apply direction based on state
 	if on_floor:
 		if direction:
-			#var speed = self.direction.x + self.direction.z
-			#if speed != 0 and on_floor and !sliding:
-				#if not running_sound.playing:
-					#running_sound.play()
-					#running_sound.pitch_scale = get_move_speed() * 0.03
-			#else:
-				#running_sound.stop()
+			var speed = self.direction.x + self.direction.z
+			if speed != 0 and on_floor and !sliding:
+				if not running_sound.playing:
+					running_sound.play()
+					running_sound.pitch_scale = get_move_speed() * 0.03
+			else:
+				running_sound.stop()
 			if sliding:
 				if velocity.length() < get_move_speed():
 					velocity.x = direction.x * get_move_speed()
@@ -427,15 +430,15 @@ func move(delta):
 				velocity.x = direction.x * desired_velocity
 				velocity.z = direction.z * desired_velocity
 				
-	#if sliding and !sliding_sound_effect.playing:
-		#sliding_sound_effect.play()
+	if sliding and !sliding_sound_effect.playing:
+		sliding_sound_effect.play()
 	elif !sliding and sliding_sound_effect.playing:
 		sliding_sound_effect.stop()
 	if desired_velocity >= max_speed: desired_velocity = max_speed
 
 # Handles jump
 func jump(strength_value : float):
-	#jump_voice_sound.play()
+	jump_voice_sound.play()
 	if wall_running: # Jump away from wall
 		if wall_check_l.is_colliding():
 			velocity = wall_check_l.get_collision_normal() * wall_jump_force

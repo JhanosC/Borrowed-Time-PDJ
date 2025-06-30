@@ -30,7 +30,7 @@ size = Vector3(10, 1, 10)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_jka67"]
 data = PackedVector3Array(-5, 0.5, 5, 5, 0.5, 5, -5, -0.5, 5, 5, 0.5, 5, 5, -0.5, 5, -5, -0.5, 5, 5, 0.5, -5, -5, 0.5, -5, 5, -0.5, -5, -5, 0.5, -5, -5, -0.5, -5, 5, -0.5, -5, 5, 0.5, 5, 5, 0.5, -5, 5, -0.5, 5, 5, 0.5, -5, 5, -0.5, -5, 5, -0.5, 5, -5, 0.5, -5, -5, 0.5, 5, -5, -0.5, -5, -5, 0.5, 5, -5, -0.5, 5, -5, -0.5, -5, 5, 0.5, 5, -5, 0.5, 5, 5, 0.5, -5, -5, 0.5, 5, -5, 0.5, -5, 5, 0.5, -5, -5, -0.5, 5, 5, -0.5, 5, -5, -0.5, -5, 5, -0.5, 5, 5, -0.5, -5, -5, -0.5, -5)
 
-[sub_resource type="Shader" id="Shader_vmklp"]
+[sub_resource type="Shader" id="Shader_avis6"]
 code = "
 // NOTE: Shader automatically converted from Godot Engine 4.4.1.stable's PanoramaSkyMaterial.
 
@@ -53,7 +53,7 @@ void sky() {
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sau28"]
-shader = SubResource("Shader_vmklp")
+shader = SubResource("Shader_avis6")
 shader_parameter/source_panorama = ExtResource("8_1i7hi")
 shader_parameter/exposure = 0.5
 shader_parameter/blend = 0.8
@@ -61,14 +61,14 @@ shader_parameter/speed = 0.002
 shader_parameter/rotate_x = 0.0
 shader_parameter/rotate_y = 0.0
 
-[sub_resource type="Sky" id="Sky_8woma"]
+[sub_resource type="Sky" id="Sky_q8mfe"]
 sky_material = SubResource("ShaderMaterial_sau28")
 radiance_size = 0
 
 [sub_resource type="Environment" id="Environment_eyl1r"]
 background_mode = 2
 background_color = Color(0.715663, 0.502034, 0.87004, 1)
-sky = SubResource("Sky_8woma")
+sky = SubResource("Sky_q8mfe")
 ambient_light_color = Color(0.752941, 0.545098, 0.752941, 1)
 ambient_light_sky_contribution = 0.7
 ambient_light_energy = 1.15

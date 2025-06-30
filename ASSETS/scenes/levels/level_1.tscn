@@ -1,0 +1,124 @@
+[gd_scene load_steps=15 format=3 uid="uid://o1bf8n8yaord"]
+
+[ext_resource type="PackedScene" uid="uid://7jtq21kyti31" path="res://ASSETS/scenes/map_assets/runnable_wall.tscn" id="1_vqatl"]
+[ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_wv58r"]
+[ext_resource type="PackedScene" uid="uid://dqjau1jw70ff8" path="res://ASSETS/scenes/map_assets/ship-tiles/corridor.tscn" id="2_dmbdp"]
+[ext_resource type="PackedScene" uid="uid://cvxhpcjp06g8f" path="res://ASSETS/scenes/map_assets/spawn_point.tscn" id="2_fr400"]
+[ext_resource type="PackedScene" uid="uid://e2fivt20ym7p" path="res://ASSETS/scenes/map_assets/ship-tiles/corridor_colapsed.tscn" id="3_58o1v"]
+[ext_resource type="PackedScene" uid="uid://bn6iyudl8wv0l" path="res://ASSETS/scenes/map_assets/rigid_plataform.tscn" id="4_wv58r"]
+[ext_resource type="PackedScene" uid="uid://dul2pititpkcb" path="res://ASSETS/scenes/player_controller.tscn" id="7_81nyu"]
+[ext_resource type="Texture2D" uid="uid://dyydggpxsbar1" path="res://ASSETS/art/HDRi/BuracoNegro7_blender.hdr" id="8_81nyu"]
+[ext_resource type="Script" uid="uid://b6hni47bovn6j" path="res://ASSETS/controllers/scripts/we2.gd" id="9_phapn"]
+[ext_resource type="PackedScene" uid="uid://dl358o8e8ihjt" path="res://ASSETS/scenes/map_assets/end_level.tscn" id="10_phapn"]
+
+[sub_resource type="Shader" id="Shader_vmklp"]
+code = "
+// NOTE: Shader automatically converted from Godot Engine 4.4.1.stable's PanoramaSkyMaterial.
+
+shader_type sky;
+
+uniform sampler2D source_panorama : filter_linear, source_color, hint_default_black;
+uniform sampler2D stars : filter_linear, source_color, hint_default_black;
+uniform float exposure : hint_range(0, 128) = 1.0;
+uniform float blend : hint_range(0, 1) = 0.3;
+uniform float speed = 0.002;
+uniform float rotate_x : hint_range(0, 1) = 0.0;
+uniform float rotate_y : hint_range(0, 1) = 0.0;
+
+void sky() {
+	vec2 rotate_sky_coords = vec2(SKY_COORDS.x + rotate_x, SKY_COORDS.y + rotate_y);
+	COLOR = mix(texture(source_panorama, rotate_sky_coords).rgb * exposure,
+	texture(stars, SKY_COORDS).rbg * exposure,
+	blend);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_riauv"]
+shader = SubResource("Shader_vmklp")
+shader_parameter/source_panorama = ExtResource("8_81nyu")
+shader_parameter/exposure = 0.5
+shader_parameter/blend = 0.8
+shader_parameter/speed = 0.002
+shader_parameter/rotate_x = 0.0
+shader_parameter/rotate_y = 0.0
+
+[sub_resource type="Sky" id="Sky_8woma"]
+sky_material = SubResource("ShaderMaterial_riauv")
+radiance_size = 0
+
+[sub_resource type="Environment" id="Environment_tr5an"]
+background_mode = 2
+background_color = Color(0.715663, 0.502034, 0.87004, 1)
+sky = SubResource("Sky_8woma")
+ambient_light_color = Color(0.752941, 0.545098, 0.752941, 1)
+ambient_light_sky_contribution = 0.7
+ambient_light_energy = 1.15
+ssao_enabled = true
+ssao_radius = 0.45
+ssao_intensity = 1.0
+ssao_power = 5.0
+glow_levels/2 = 0.6
+glow_levels/3 = 0.6
+glow_levels/5 = 0.0
+glow_intensity = 2.0
+
+[node name="Level1" type="Node3D" node_paths=PackedStringArray("player")]
+script = ExtResource("1_wv58r")
+player = NodePath("CharacterBody3D")
+
+[node name="SpawnPoint" parent="." instance=ExtResource("2_fr400")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.225616, 34.9695, -58.2072)
+
+[node name="RunnableWall3" parent="." instance=ExtResource("1_vqatl")]
+transform = Transform3D(-4.37114e-08, -0.00174533, 0.999998, 0, 0.999998, 0.00174533, -1, 7.62907e-11, -4.37113e-08, -3.02226, 21.1732, 84.9405)
+
+[node name="Corridor" parent="." instance=ExtResource("2_dmbdp")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 33.928, -0.302)
+
+[node name="Corridor2" parent="." instance=ExtResource("2_dmbdp")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 26.338, -0.302)
+
+[node name="Corridor3" parent="." instance=ExtResource("2_dmbdp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.338, 26.728)
+
+[node name="Corridor4" parent="." instance=ExtResource("2_dmbdp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.338, 34.5374)
+
+[node name="Corridor5" parent="." instance=ExtResource("2_dmbdp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.338, 42.3159)
+
+[node name="CorridorColapsed" parent="." instance=ExtResource("3_58o1v")]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 26.4366, 50.1125)
+
+[node name="RunnableWall" parent="." instance=ExtResource("1_vqatl")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.9648, 25.3018, 67.8452)
+
+[node name="RunnableWall2" parent="." instance=ExtResource("1_vqatl")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.9648, 25.3018, 71.8335)
+
+[node name="RigidPlataform" parent="." instance=ExtResource("4_wv58r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.99112, 17.5788, 93.3532)
+
+[node name="Corridor6" parent="." instance=ExtResource("2_dmbdp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 46.157, -17.9343)
+
+[node name="Corridor7" parent="." instance=ExtResource("2_dmbdp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 46.209, -25.911)
+
+[node name="Corridor8" parent="." instance=ExtResource("2_dmbdp")]
+transform = Transform3D(1, -3.6848e-10, -1.55282e-12, 3.6848e-10, 0.999964, 0.00842984, -1.55282e-12, -0.00842984, 0.999964, 0, 34.0277, -58.9664)
+
+[node name="RigidPlataform2" parent="." instance=ExtResource("4_wv58r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.0513, -44.1442)
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("7_81nyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 34.8543, -62.2008)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_tr5an")
+script = ExtResource("9_phapn")
+
+[node name="EndLevel" parent="." instance=ExtResource("10_phapn")]
+transform = Transform3D(12.9056, 0, 0, 0, 12.9056, 0, 0, 0, 12.9056, 0, 6.86143, -330.1)
+path_to_new_scene = "res://ASSETS/scenes/levels/test_level_2.tscn"
+entry_door_name = "EndTutorial"
