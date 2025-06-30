@@ -564,6 +564,12 @@ transform = Transform3D(7.55023e-08, -1.13037e-05, 1, -4.13263e-07, 1, 1.13037e-
 [node name="CatwalkCurve" parent="Level/Ship/CorridorCurve" instance=ExtResource("14_13c0w")]
 transform = Transform3D(-1, 1.13474e-05, -1.19213e-07, -1.13474e-05, -1, 3.2584e-07, -1.7881e-07, 3.25842e-07, 1, -1.13474e-05, 1, 0)
 
+[node name="CorridorWall4" parent="Level/Ship/CorridorCurve" instance=ExtResource("15_aecbf")]
+transform = Transform3D(1.19213e-07, 1.13474e-05, -1, -3.2584e-07, -1, -1.13474e-05, -1, 3.25843e-07, -1.78811e-07, 0, 0, 0)
+
+[node name="CorridorWall5" parent="Level/Ship/CorridorCurve" instance=ExtResource("15_aecbf")]
+transform = Transform3D(1, 1.13474e-05, 1.62924e-07, 1.13474e-05, -1, -3.25839e-07, 2.22522e-07, 3.25843e-07, -1, 0, 0, 0)
+
 [node name="Corridor8" parent="Level/Ship" instance=ExtResource("10_hjkmv")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 16, 3, -48)
 
@@ -923,12 +929,6 @@ transform = Transform3D(-0.3, 0, 3.49691e-07, 0, 4, 0, -2.62268e-08, 0, -4, 32, 
 
 [node name="CorridorWall3" parent="Level/Ship" instance=ExtResource("15_aecbf")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 3, -1.93715e-07)
-
-[node name="CorridorWall4" parent="Level/Ship" instance=ExtResource("15_aecbf")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 3, -48)
-
-[node name="CorridorWall5" parent="Level/Ship" instance=ExtResource("15_aecbf")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3, -48)
 
 [node name="CorridorBorders" parent="Level/Ship" instance=ExtResource("20_6b15w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 3, -79.7)

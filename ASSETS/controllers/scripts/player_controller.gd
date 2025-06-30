@@ -255,7 +255,7 @@ func handle_controls(delta):
 		if Input.is_action_just_pressed("3"):
 			Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_2.tscn")
 		if Input.is_action_just_pressed("4"):
-			Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/level_3.tscn")
+			Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_3.tscn")
 	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
 		gui.pause_game()
