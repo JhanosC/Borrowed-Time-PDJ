@@ -12,7 +12,7 @@ var _content_path:String
 var _load_progress_timer:Timer
 
 func _ready() -> void:
-	current_3d_scene = $World3D/Main
+	current_3d_scene = $World3D/Level1
 	Global.game_controller = self
 	content_invalid.connect(on_content_invalid)
 	content_failed_to_load.connect(on_content_failed_to_load)

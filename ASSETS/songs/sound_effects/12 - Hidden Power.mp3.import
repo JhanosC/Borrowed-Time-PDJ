@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c7o8h1gh74atq"
+path="res://.godot/imported/12 - Hidden Power.mp3-82dd9d6a8471895f6749d6873c15e089.mp3str"
+
+[deps]
+
+source_file="res://ASSETS/songs/sound_effects/12 - Hidden Power.mp3"
+dest_files=["res://.godot/imported/12 - Hidden Power.mp3-82dd9d6a8471895f6749d6873c15e089.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
