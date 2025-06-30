@@ -1,10 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://cyauayisoiw31"]
+[gd_scene load_steps=15 format=3 uid="uid://b0d5wvobkqr1d"]
 
-[ext_resource type="Script" uid="uid://b5qy1yy5u2f13" path="res://menu_control.gd" id="1_fu7sn"]
-[ext_resource type="Texture2D" uid="uid://cfgoq6nqjyp17" path="res://ASSETS/environment/background/art-space-169.jpg" id="2_jix8l"]
-[ext_resource type="FontFile" uid="uid://p2n3ul34tq7k" path="res://ASSETS/fonts/friendly_stranger/FriendlyStranger.otf" id="3_glbon"]
-[ext_resource type="AudioStream" uid="uid://ctrfboufh1g76" path="res://ASSETS/songs/sound_effects/button_sounds/hover_button.mp3" id="4_mybwk"]
-[ext_resource type="AudioStream" uid="uid://bajx25kgbxnl1" path="res://ASSETS/songs/sound_effects/button_sounds/button_click.wav" id="5_u3nhw"]
+[ext_resource type="Script" path="res://menu_control.gd" id="1_fu7sn"]
+[ext_resource type="Texture2D" path="res://ASSETS/environment/background/art-space-169.jpg" id="2_jix8l"]
+[ext_resource type="FontFile" path="res://ASSETS/fonts/friendly_stranger/FriendlyStranger.otf" id="3_glbon"]
+[ext_resource type="AudioStream" path="res://ASSETS/songs/sound_effects/button_sounds/hover_button.mp3" id="4_mybwk"]
+[ext_resource type="AudioStream" path="res://ASSETS/songs/sound_effects/button_sounds/button_click.wav" id="5_u3nhw"]
 
 [sub_resource type="Theme" id="Theme_nlkkf"]
 
