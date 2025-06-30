@@ -88,7 +88,7 @@ environment = ExtResource("5_3a28o")
 script = ExtResource("6_o7046")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.492404, 0.642788, -0.586824, -0.413176, 0.766044, 0.492404, 0.766044, -4.2649e-07, 0.642788, -11.8517, 10.35, -48.7549)
+transform = Transform3D(0.492404, 0.642788, -0.586824, -0.413176, 0.766044, 0.492404, 0.766044, -4.27843e-07, 0.642788, -11.9392, 10.35, -48.7374)
 light_color = Color(1, 1, 0.878431, 1)
 light_angular_distance = 1.0
 shadow_enabled = true
