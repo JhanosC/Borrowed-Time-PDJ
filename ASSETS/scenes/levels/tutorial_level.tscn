@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://ic8jnxws8nbd"]
+[gd_scene load_steps=23 format=3 uid="uid://ic8jnxws8nbd"]
 
 [ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_7dgdu"]
 [ext_resource type="PackedScene" uid="uid://cvxhpcjp06g8f" path="res://ASSETS/scenes/map_assets/spawn_point.tscn" id="2_wjua2"]
@@ -8,7 +8,9 @@
 [ext_resource type="Script" uid="uid://bmohv7axfoxts" path="res://ASSETS/controllers/scripts/we.gd" id="6_gds7y"]
 [ext_resource type="PackedScene" uid="uid://cqrso54i4vxs8" path="res://ASSETS/scenes/map_assets/rigid_box.tscn" id="7_t6j6b"]
 [ext_resource type="PackedScene" uid="uid://7jtq21kyti31" path="res://ASSETS/scenes/map_assets/runnable_wall.tscn" id="8_kanxd"]
+[ext_resource type="PackedScene" uid="uid://bn6iyudl8wv0l" path="res://ASSETS/scenes/map_assets/rigid_plataform.tscn" id="8_qwb2d"]
 [ext_resource type="Material" uid="uid://bh8gqgktombnd" path="res://ASSETS/art/material/ship_material_test.tres" id="9_6kj10"]
+[ext_resource type="PackedScene" uid="uid://ddmylwck6mls6" path="res://ASSETS/scenes/map_assets/grappable_object.tscn" id="9_g20pi"]
 [ext_resource type="Material" uid="uid://d38qsv7a1mkwe" path="res://ASSETS/art/material/transparent_material.tres" id="9_nqssx"]
 [ext_resource type="PackedScene" uid="uid://dqjau1jw70ff8" path="res://ASSETS/scenes/map_assets/ship-tiles/corridor.tscn" id="10_hjkmv"]
 [ext_resource type="PackedScene" uid="uid://b312jwrhelx5d" path="res://ASSETS/scenes/map_assets/ship-tiles/catwalk.tscn" id="11_xjc08"]
@@ -233,7 +235,7 @@ spot_angle = 75.0
 spot_angle_attenuation = 0.535886
 
 [node name="SpotLight3D15" type="SpotLight3D" parent="Level/Luzes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 159.7, 2.70001)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.36956, 174.948, 2.70001)
 light_color = Color(0.411765, 0.454902, 0.666667, 1)
 light_specular = 3.167
 shadow_enabled = true
@@ -242,7 +244,7 @@ spot_angle = 75.0
 spot_angle_attenuation = 0.535886
 
 [node name="SpotLight3D16" type="SpotLight3D" parent="Level/Luzes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 183.38, 2.70001)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.73106, 183.38, 2.70001)
 light_color = Color(1, 0, 0.027451, 1)
 light_energy = 1.5
 light_specular = 3.167
@@ -252,7 +254,7 @@ spot_angle = 75.0
 spot_angle_attenuation = 0.535886
 
 [node name="SpotLight3D17" type="SpotLight3D" parent="Level/Luzes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 197.795, 2.70001)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.83288, 207.029, 2.70001)
 light_color = Color(1, 0, 0.027451, 1)
 light_energy = 1.5
 light_specular = 3.167
@@ -353,6 +355,12 @@ transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 
 
 [node name="RigidBox13" parent="Level/RigidBoddies" instance=ExtResource("7_t6j6b")]
 transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -0.700001, -1.15, -102.65)
+
+[node name="RigidPlataform" parent="Level/RigidBoddies" instance=ExtResource("8_qwb2d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.4818, -6.67183, -137.372)
+
+[node name="RigidBody3D18" parent="Level/RigidBoddies" instance=ExtResource("9_g20pi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.28083, -5.81213, -141.698)
 
 [node name="Walls" type="Node3D" parent="Level" groups=["walls"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.5269, 0, -42.8671)

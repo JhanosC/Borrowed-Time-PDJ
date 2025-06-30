@@ -105,7 +105,7 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var dash_sound_effect: AudioStreamPlayer3D = $sounds/dash_sound_effect 
 @onready var sliding_sound_effect: AudioStreamPlayer3D = $sounds/sliding_sound_effect 
 
-var debug_mode = true
+var debug_mode = false
 
 func update_signals():
 	states_update.emit(can_crouch,slaming,sliding,wall_running,on_floor,is_touching_wall(),direction)
@@ -199,7 +199,7 @@ func _physics_process(delta):
 	# Decrease wall run cooldown
 	if wall_run_cooldown >= 0.0: wall_run_cooldown -= delta
 	# If the cooldown is down, can wall run again
-	if wall_run_cooldown <= 0.0 and (Vector3(velocity.x, 0.0, velocity.z).length() >= get_move_speed() * 0.7 or face_check.is_colliding()) and !on_floor and is_touching_wall():
+	if wall_run_cooldown <= 0.0 and !on_floor and is_touching_wall():
 		can_wall_run = true
 	else:
 		can_wall_run = false
@@ -247,28 +247,18 @@ func handle_controls(delta):
 	if Input.is_action_just_pressed("reload"):
 		reloading_scene = true
 		Global.game_controller.reload_scene()
-	
-	if Input.is_action_just_pressed("1"):
-		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_1.tscn")
-	if Input.is_action_just_pressed("2"):
-		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_2.tscn")
-	if Input.is_action_just_pressed("3"):
-		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_3.tscn")
-	if Input.is_action_just_pressed("4"):
-		print('pressed')
-		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/level_2.tscn")
-	
-	if Input.is_action_just_pressed("mouse_capture_exit"):
-		gui.pause_game()
-	#
-	#if Input.is_action_just_pressed("tmpnext"):
-	#	gui.end_level()
+	if debug_mode:
+		if Input.is_action_just_pressed("1"):
+			Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/tutorial_level.tscn")
+		if Input.is_action_just_pressed("2"):
+			Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_1.tscn")
+		if Input.is_action_just_pressed("3"):
+			Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_2.tscn")
+		if Input.is_action_just_pressed("4"):
+			Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/level_3.tscn")
 	
 	if Input.is_action_just_pressed("mouse_capture_exit"):
 		gui.pause_game()
-	#
-	#if Input.is_action_just_pressed("tmpnext"):
-	#	gui.end_level()
 	
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:

@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://dt11i3fli5afj"]
+[gd_scene load_steps=3 format=3 uid="uid://dt11i3fli5afj"]
 
 [ext_resource type="Script" uid="uid://c0oyytjq0m1fi" path="res://ASSETS/controllers/scripts/end_level_menu.gd" id="1_ij351"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ij351"]
+bg_color = Color(0.655982, 0.790756, 0.779639, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.459162, 0.888335, 0.829561, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="EndLevelMenu" type="Control"]
 layout_mode = 3
@@ -12,42 +24,63 @@ grow_vertical = 2
 script = ExtResource("1_ij351")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-layout_mode = 0
-offset_left = 448.0
-offset_top = 71.0
-offset_right = 748.0
-offset_bottom = 571.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -184.0
+offset_right = 150.0
+offset_bottom = 184.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ij351")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
-layout_mode = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -250.0
+offset_right = 100.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="ResetsLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="ResetsLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 metadata/_edit_group_ = true
 
-[node name="TimeLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="TimeLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 metadata/_edit_group_ = true
 
-[node name="RankLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="RankLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 metadata/_edit_group_ = true
 
-[node name="Next Level" type="Button" parent="PanelContainer/VBoxContainer"]
+[node name="Next Level" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Continue"
+size_flags_vertical = 4
+text = "Next Level"
 
-[node name="Continue" type="Button" parent="PanelContainer/VBoxContainer"]
+[node name="Reset" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Continue"
+text = "Restart Level"
 
-[node name="Quit" type="Button" parent="PanelContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 text = "Quit"
 
-[connection signal="pressed" from="PanelContainer/VBoxContainer/Next Level" to="." method="_on_next_level_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="VBoxContainer/Next Level" to="." method="_on_next_level_pressed"]
+[connection signal="pressed" from="VBoxContainer/Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="VBoxContainer/Reset" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

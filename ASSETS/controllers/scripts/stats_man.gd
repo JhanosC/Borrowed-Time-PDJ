@@ -8,7 +8,7 @@ func reset_stats():
 	level_time = 0
 
 func _process(delta: float) -> void:
-	level_time+=delta
+	level_time += delta * 1/Engine.time_scale
 
 func rank_level()-> String:
 	if reset_count <= 5 and level_time <= 60:

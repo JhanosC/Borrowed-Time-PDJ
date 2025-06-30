@@ -17,9 +17,9 @@ func get_stats():
 	
 
 func display_stats(reset_count: int,level_time: float,rank: String):
-	$PanelContainer/VBoxContainer/ResetsLabel.text = "Resets: %d" % reset_count
-	$PanelContainer/VBoxContainer/TimeLabel.text = "Time in Level: %.2f s"% level_time
-	$PanelContainer/VBoxContainer/RankLabel.text = "Rank in Level: %s" % rank
+	$VBoxContainer/ResetsLabel.text = "Resets: %d" % reset_count
+	$VBoxContainer/TimeLabel.text = "Time in Level: %.2f s"% level_time
+	$VBoxContainer/RankLabel.text = "Rank in Level: %s" % rank
 	
 
 func _on_next_level_pressed() -> void:
@@ -30,8 +30,11 @@ func _on_next_level_pressed() -> void:
 	StatsMan.reset_stats()
 	main.resume_level()
 
-func _on_continue_pressed() -> void:
-	main.end_level()
+func _on_reset_pressed():
+	main.resume_level()
+	Global.game_controller.reload_scene()
 
 func _on_quit_pressed() -> void:
-	get_tree().quit()
+	main.resume_level()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/main_menu.tscn")

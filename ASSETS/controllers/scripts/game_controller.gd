@@ -78,7 +78,7 @@ func on_content_finished_loading(content) -> void:
 	current_3d_scene = content
 	if content is Level:
 		content.call_deferred("enter_level")
-		
+	StatsMan.reset_stats()
 func reload_scene():
 	StatsMan.reset_count += 1
 	Engine.time_scale = 1.0
