@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://danjfjltsc2ij"]
+
+[ext_resource type="Script" uid="uid://dijjpokw641ib" path="res://ASSETS/controllers/scripts/in_game_gui.gd" id="1_i8xuv"]
+[ext_resource type="PackedScene" uid="uid://d4g848nd0qaex" path="res://ASSETS/scenes/pause_menu.tscn" id="2_f70x8"]
+[ext_resource type="PackedScene" uid="uid://dt11i3fli5afj" path="res://ASSETS/scenes/end_level_menu.tscn" id="3_kugkv"]
+
+[node name="InGameGUI" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -573.0
+offset_top = -324.0
+offset_right = 579.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i8xuv")
+
+[node name="PauseMenu" parent="." instance=ExtResource("2_f70x8")]
+z_as_relative = false
+layout_mode = 1
+
+[node name="EndLevelMenu" parent="." instance=ExtResource("3_kugkv")]
+layout_mode = 1

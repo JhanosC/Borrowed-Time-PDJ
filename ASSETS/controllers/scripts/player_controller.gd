@@ -75,7 +75,6 @@ var input_dir: Vector2
 
 @onready var gui : Control = $InGameGUI
 
-
 signal velocity_update(velocity: Vector3, desired_velocity: float)
 signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool,on_floor:bool,on_wall:bool,direction:Vector3)
 
@@ -137,7 +136,7 @@ func _ready():
 	gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 	camera.fov = camera_default_fov
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	gui.hide()
+	
 
 
 func _push_away_rigid_bodies():
@@ -255,9 +254,9 @@ func handle_controls(delta):
 	
 	if Input.is_action_just_pressed("pause"):
 		gui.pause_game()
-	
-	if Input.is_action_just_pressed("tmpnext"):
-		gui.end_level()
+	#
+	#if Input.is_action_just_pressed("tmpnext"):
+	#	gui.end_level()
 	
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:
