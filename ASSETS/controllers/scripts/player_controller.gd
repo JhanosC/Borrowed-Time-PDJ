@@ -248,7 +248,9 @@ func handle_controls(delta):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_2.tscn")
 	if Input.is_action_just_pressed("3"):
 		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_3.tscn")
-	
+	if Input.is_action_just_pressed("4"):
+		Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/level_2.tscn")
+		
 	if Input.is_action_just_pressed("right_mouse"):
 		if slow_time:
 			Engine.time_scale = 1.0
