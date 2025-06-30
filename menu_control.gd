@@ -6,10 +6,9 @@ extends Control
 
 func _on_start_button_pressed() -> void:
 	#get_tree().change_scene_to_file('res://ASSETS/scenes/levels/test_level_1.tscn')
-	Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/test_level_1.tscn")
+	Global.game_controller.load_new_scene("res://ASSETS/scenes/levels/tutorial_level.tscn")
 	click_button.play()
-	print('game has started')
-	pass # Replace with function body.
+	pass
 
 
 func _on_start_button_mouse_entered() -> void:
