@@ -98,19 +98,15 @@ script = ExtResource("1_fu7sn")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -565.0
-offset_top = -325.0
-offset_right = 590.0
-offset_bottom = 324.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 10.8149
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_qe12f")
 theme_override_styles/panel = SubResource("StyleBoxTexture_8qtwp")
+metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1

@@ -1,6 +1,7 @@
 extends Control
 
 @onready var main = $".."
+@onready var options_menu = $OptionsMenu
 
 func _ready() -> void:
 	hide()
@@ -16,3 +17,7 @@ func _on_quit_pressed() -> void:
 func _on_restart_pressed() -> void:
 	main.pause_game()
 	Global.game_controller.reload_scene()
+
+
+func _on_options_pressed():
+	options_menu.show()

@@ -3,5 +3,6 @@
 [ext_resource type="AudioStream" uid="uid://c7o8h1gh74atq" path="res://ASSETS/songs/12 - Hidden Power.mp3" id="1_6plok"]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer"]
+process_mode = 3
 stream = ExtResource("1_6plok")
 volume_db = -25.0

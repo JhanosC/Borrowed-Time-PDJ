@@ -2,6 +2,7 @@ extends Control
 
 @onready var pause_menu: Control = $PauseMenu
 @onready var end_level_menu: Control = $EndLevelMenu
+@onready var text_on_screen: Control = $TextOnScreen
 
 var has_ended = false
 var is_paused = false
@@ -16,6 +17,7 @@ func end_level(path_to_new_scene):
 	if !has_ended:
 		end_level_menu.get_stats()
 		end_level_menu.set_next_path(path_to_new_scene)
+		StatsMan.reset_stats()
 		self.show()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		has_ended = true
@@ -43,3 +45,7 @@ func pause_game():
 		is_paused = false
 		get_tree().paused = false
 		pause_menu.hide()
+
+func display_text_on_screen(text : String, time : float):
+	show()
+	text_on_screen.display_text(text, time)

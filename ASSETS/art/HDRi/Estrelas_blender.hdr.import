@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bq11hhgiw3wrd"
 path.bptc="res://.godot/imported/Estrelas_blender.hdr-efb4c0f4cf3695ed4b6c336778170e76.bptc.ctex"
+path.astc="res://.godot/imported/Estrelas_blender.hdr-efb4c0f4cf3695ed4b6c336778170e76.astc.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://ASSETS/art/HDRi/Estrelas_blender.hdr"
-dest_files=["res://.godot/imported/Estrelas_blender.hdr-efb4c0f4cf3695ed4b6c336778170e76.bptc.ctex"]
+dest_files=["res://.godot/imported/Estrelas_blender.hdr-efb4c0f4cf3695ed4b6c336778170e76.bptc.ctex", "res://.godot/imported/Estrelas_blender.hdr-efb4c0f4cf3695ed4b6c336778170e76.astc.ctex"]
 
 [params]
 

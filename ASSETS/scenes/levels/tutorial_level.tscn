@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ic8jnxws8nbd"]
+[gd_scene load_steps=26 format=3 uid="uid://ic8jnxws8nbd"]
 
 [ext_resource type="Script" uid="uid://cdjifp8dcfcok" path="res://ASSETS/controllers/scripts/level.gd" id="1_7dgdu"]
 [ext_resource type="PackedScene" uid="uid://cvxhpcjp06g8f" path="res://ASSETS/scenes/map_assets/spawn_point.tscn" id="2_wjua2"]
@@ -22,6 +22,13 @@
 [ext_resource type="PackedScene" uid="uid://cwctckq2jehxw" path="res://ASSETS/scenes/map_assets/ship-tiles/catwalk_colapsed.tscn" id="17_61pd4"]
 [ext_resource type="PackedScene" uid="uid://n5n3fl8ip7df" path="res://ASSETS/scenes/map_assets/ship-tiles/big_wall.tscn" id="18_nqssx"]
 [ext_resource type="PackedScene" uid="uid://dyqq5xrvv6x0c" path="res://ASSETS/scenes/map_assets/corridor_borders.tscn" id="20_6b15w"]
+[ext_resource type="Script" uid="uid://bwn7ei7dhlgii" path="res://ASSETS/controllers/scripts/display_text_area.gd" id="23_g20pi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qwb2d"]
+size = Vector3(6.275, 4.815, 5.315)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g20pi"]
+size = Vector3(6.275, 4.815, 13.065)
 
 [node name="TutorialLevel" type="Node3D" node_paths=PackedStringArray("player", "door")]
 script = ExtResource("1_7dgdu")
@@ -49,6 +56,66 @@ light_color = Color(1, 1, 0.878431, 1)
 light_angular_distance = 1.0
 shadow_enabled = true
 shadow_bias = 0.07
+
+[node name="JumpTip" type="Area3D" parent="." node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.5375, 0, -57.3545)
+script = ExtResource("23_g20pi")
+text = "Pressione espaço para pular"
+time = 5.0
+player = NodePath("../CharacterBody3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="JumpTip"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.503841, 3.44033, -3.5823)
+shape = SubResource("BoxShape3D_qwb2d")
+debug_color = Color(2.69532e-06, 0.791304, 0.92051, 0.42)
+
+[node name="JumpDashTip" type="Area3D" parent="." node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.5375, 0, -82.8355)
+script = ExtResource("23_g20pi")
+text = "Pressione Shift para fazer um dash"
+time = 5.0
+player = NodePath("../CharacterBody3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="JumpDashTip"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.503841, 3.44033, -3.5823)
+shape = SubResource("BoxShape3D_qwb2d")
+debug_color = Color(2.69532e-06, 0.791304, 0.92051, 0.42)
+
+[node name="DeslizarTip" type="Area3D" parent="." node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.5375, 0, -138.654)
+script = ExtResource("23_g20pi")
+text = "Segure CTRL para deslizar"
+time = 5.0
+player = NodePath("../CharacterBody3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeslizarTip"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.503841, 3.44033, -3.5823)
+shape = SubResource("BoxShape3D_qwb2d")
+debug_color = Color(2.69532e-06, 0.791304, 0.92051, 0.42)
+
+[node name="ParedeTip" type="Area3D" parent="." node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.5375, 0, -164.812)
+script = ExtResource("23_g20pi")
+text = "Você pode correr e pular de paredes verdes"
+time = 5.0
+player = NodePath("../CharacterBody3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeTip"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.503841, 3.44033, -3.5823)
+shape = SubResource("BoxShape3D_qwb2d")
+debug_color = Color(2.69532e-06, 0.791304, 0.92051, 0.42)
+
+[node name="RestartTip" type="Area3D" parent="." node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.5375, -7.57978, -76.6929)
+script = ExtResource("23_g20pi")
+text = "Pressione R para reiniciar"
+time = 5.0
+player = NodePath("../CharacterBody3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RestartTip"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.503841, 3.44033, -3.5823)
+shape = SubResource("BoxShape3D_g20pi")
+debug_color = Color(2.69532e-06, 0.791304, 0.92051, 0.42)
 
 [node name="Level" type="Node" parent="."]
 
@@ -950,3 +1017,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 2, -183.7)
 
 [node name="CorridorBorders" parent="Level" instance=ExtResource("20_6b15w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 3, -167.7)
+
+[connection signal="body_entered" from="JumpTip" to="JumpTip" method="_on_body_entered"]
+[connection signal="body_entered" from="JumpDashTip" to="JumpDashTip" method="_on_body_entered"]
+[connection signal="body_entered" from="DeslizarTip" to="DeslizarTip" method="_on_body_entered"]
+[connection signal="body_entered" from="ParedeTip" to="ParedeTip" method="_on_body_entered"]
+[connection signal="body_entered" from="RestartTip" to="RestartTip" method="_on_body_entered"]

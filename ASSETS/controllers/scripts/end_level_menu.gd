@@ -33,6 +33,7 @@ func _on_next_level_pressed() -> void:
 func _on_reset_pressed():
 	main.resume_level()
 	Global.game_controller.reload_scene()
+	StatsMan.reset_stats()
 
 func _on_quit_pressed() -> void:
 	main.resume_level()

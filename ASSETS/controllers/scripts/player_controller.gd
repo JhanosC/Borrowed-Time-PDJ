@@ -98,8 +98,8 @@ signal states_update(can_crouch:bool,slaming:bool,sliding:bool,wall_running:bool
 @onready var gui : Control = $CanvasLayer/InGameGUI
 
 @onready var landind: AudioStreamPlayer3D = $sounds/landing
-@onready var slow_motion_sound: AudioStreamPlayer3D = $sounds/slow_motion_sound
 @onready var slow_motion_stop_sound: AudioStreamPlayer3D = $sounds/slow_motion_stop_sound
+@onready var slow_motion: AudioStreamPlayer = $"sounds/Slow-motion2"
 @onready var running_sound: AudioStreamPlayer3D = $sounds/running_sound
 @onready var jump_voice_sound: AudioStreamPlayer3D = $sounds/jump_voice 
 @onready var dash_sound_effect: AudioStreamPlayer3D = $sounds/dash_sound_effect 
@@ -264,13 +264,12 @@ func handle_controls(delta):
 		if slow_time:
 			Engine.time_scale = 1.0
 			slow_time = false
-			slow_motion_sound.playing = false
-			slow_motion_stop_sound.play()
+			slow_motion_stop_sound.play(3.5)
 
 		else:
 			Engine.time_scale /= slow_speed_multiplier
+			slow_motion.play(0.7)
 			slow_time = true
-			slow_motion_sound.playing = true
 			
 	if slow_time:
 		_slow_bar(delta)
@@ -377,8 +376,7 @@ func move(delta):
 	# Apply direction based on state
 	if on_floor:
 		if direction:
-			var speed = self.direction.x + self.direction.z
-			if speed != 0 and on_floor and !sliding:
+			if on_floor and !sliding:
 				if not running_sound.playing:
 					running_sound.play()
 					running_sound.pitch_scale = get_move_speed() * 0.03
@@ -402,6 +400,8 @@ func move(delta):
 					desired_velocity -= ground_decel * delta * 5
 		# Smooth slow down when not giving an input
 		else:
+			if running_sound.playing:
+				running_sound.stop()
 			self.velocity.x = lerp(velocity.x, 0.0, ground_decel * delta)
 			self.velocity.z = lerp(velocity.z, 0.0, ground_decel * delta)
 			desired_velocity = velocity.length()
@@ -503,6 +503,7 @@ func _slow_bar(delta):
 	if slow_time_amount > 0:
 		slow_time_amount -= 10.0 * delta
 	else:
+		slow_motion_stop_sound.play(3.5)
 		Engine.time_scale = 1.0
 		slow_time = false
 
@@ -593,5 +594,5 @@ func _distort_camera(delta):
 		camera_distortion = -1.0
 	camera.fov = lerp(camera.fov, camera_new_fov, delta * lerp_speed)
 
-		
-	
+func display_text_on_screen(text : String, time : float):
+	gui.display_text_on_screen(text, time)

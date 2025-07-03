@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://danjfjltsc2ij"]
+[gd_scene load_steps=5 format=3 uid="uid://danjfjltsc2ij"]
 
 [ext_resource type="Script" uid="uid://dijjpokw641ib" path="res://ASSETS/controllers/scripts/in_game_gui.gd" id="1_i8xuv"]
 [ext_resource type="PackedScene" uid="uid://d4g848nd0qaex" path="res://ASSETS/scenes/pause_menu.tscn" id="2_f70x8"]
 [ext_resource type="PackedScene" uid="uid://dt11i3fli5afj" path="res://ASSETS/scenes/end_level_menu.tscn" id="3_kugkv"]
+[ext_resource type="PackedScene" uid="uid://3pj3si8ljoc7" path="res://ASSETS/scenes/text_on_screen.tscn" id="4_f70x8"]
 
 [node name="InGameGUI" type="Control"]
 layout_mode = 3
@@ -17,13 +18,21 @@ offset_right = 579.0
 offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_i8xuv")
 
 [node name="PauseMenu" parent="." instance=ExtResource("2_f70x8")]
 process_mode = 2
+visible = false
 z_as_relative = false
 layout_mode = 1
 
 [node name="EndLevelMenu" parent="." instance=ExtResource("3_kugkv")]
 process_mode = 2
+visible = false
 layout_mode = 1
+
+[node name="TextOnScreen" parent="." instance=ExtResource("4_f70x8")]
+visible = false
+layout_mode = 1
+mouse_filter = 1

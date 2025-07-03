@@ -5,6 +5,8 @@ signal content_invalid(content_path:String)
 signal content_failed_to_load(content_path:String)
 
 @onready var world_3d: Node3D = $World3D
+@onready var audio = $AudioStreamPlayer
+
 
 var current_3d_scene
 
@@ -12,6 +14,7 @@ var _content_path:String
 var _load_progress_timer:Timer
 
 func _ready() -> void:
+	audio.play()
 	current_3d_scene = $World3D/Level1
 	Global.game_controller = self
 	content_invalid.connect(on_content_invalid)
@@ -78,9 +81,13 @@ func on_content_finished_loading(content) -> void:
 	current_3d_scene = content
 	if content is Level:
 		content.call_deferred("enter_level")
-	StatsMan.reset_stats()
 func reload_scene():
 	StatsMan.reset_count += 1
 	Engine.time_scale = 1.0
 	load_new_scene(current_3d_scene.scene_file_path)
 	
+func mute():
+	audio.stream_paused = true
+
+func play():
+	audio.stream_paused = false
